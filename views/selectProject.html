@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Admin Experience</title>
+    <link rel="stylesheet" href="../lib/salesforce-lightning-design-system-2.4.6/assets/styles/salesforce-lightning-design-system.css" />
+    <style>
+      .main-body {
+        margin-top: 50px;
+      }
+
+      .create-project {
+        display: none;
+      }
+
+      .create-project.body {
+        margin: 60px 20px 20px 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="slds-global-header_container"><a href="javascript:void(0);" class="slds-assistive-text slds-assistive-text_focus">Skip to Navigation</a><a href="javascript:void(0);" class="slds-assistive-text slds-assistive-text_focus">Skip to Main Content</a>
+      <div class="slds-global-header slds-grid slds-grid_align-spread">
+        <div class="slds-global-header__item">
+          <div class="slds-global-header__logo">
+            <img src="../lib/salesforce-lightning-design-system-2.4.6/assets/images/logo-noname.svg" alt="" />
+          </div>
+        </div>
+        <div class="slds-global-header__item slds-grid_vertical-align-center">
+          Admin Experience
+        </div>
+        <ul class="slds-global-header__item slds-grid slds-grid_vertical-align-center">
+          <li class="slds-dropdown-trigger slds-dropdown-trigger_click slds-p-horizontal_xxx-small project-select">
+            <button class="slds-button slds-button_brand" title="Global Actions" id="newProject">
+              New Project
+            </button>
+          </li>
+          <li class="slds-dropdown-trigger slds-dropdown-trigger_click slds-p-horizontal_xxx-small create-project">
+            <button class="slds-button slds-button_brand" title="Global Actions" id="selectFolder">
+              Next
+            </button>
+          </li>
+        </ul>
+      </div>
+    </header>
+    <div class="main-body">
+      <div class="project-select">
+        <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Location</th>
+              </tr>
+            </thead>
+        </table>
+      </div>
+      <div class="create-project body">
+        <div class="slds-form-element">
+          <label class="slds-form-element__label" for="text-input-id-1">Project Repository</label>
+          <div class="slds-form-element__control">
+            <input type="text" id="repositoryLocation" class="slds-input" placeholder="Enter location of repository" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const project = require('../src/client/project')
+      project(document)
+    </script>
+  </body>
+</html>
