@@ -8,5 +8,12 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "nodegit": "^0.20.3",
+    "uuid": "^3.1.0"
+  },
+  "devDependencies": {
+    "electron-rebuild": "^1.6.0"
+  }
 }

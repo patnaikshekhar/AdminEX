@@ -1,6 +1,8 @@
-const {app, BrowserWindow} = require('electron')
+const {app, BrowserWindow, ipcMain} = require('electron')
 const path = require('path')
 const url = require('url')
+const gitHelper = require('./src/main/gitHelper')
+const Storage = require('./src/main/storage')
 
 let win
 
@@ -36,4 +38,22 @@ app.on('activate', () => {
   if (win === null) {
     createProjectWindow()
   }
+})
+
+ipcMain.on('createProject', (event, options) => {
+  console.log('Options', options)
+  const {directory, repositoryURL} = options
+  gitHelper.createProject(directory, repositoryURL)
+    .then(() => Storage.addProject(options))
+    .then(() => {
+      win.hide()
+    })
+    .catch((e) => console.error(e))
+})
+
+ipcMain.on('projects', (event, options) => {
+  Storage.getProjects()
+    .then((projects) => {
+      event.sender.send('projects', projects)
+    })
 })
