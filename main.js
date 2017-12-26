@@ -3,8 +3,10 @@ const path = require('path')
 const url = require('url')
 const gitHelper = require('./src/main/gitHelper')
 const Storage = require('./src/main/storage')
+const TrayHelper = require('./src/main/trayHelper')
 
 let win
+let activeProject
 
 const createProjectWindow = () => {
   win = new BrowserWindow({width: 800, height: 600})
@@ -41,14 +43,21 @@ app.on('activate', () => {
 })
 
 ipcMain.on('createProject', (event, options) => {
-  console.log('Options', options)
   const {directory, repositoryURL} = options
   gitHelper.createProject(directory, repositoryURL)
     .then(() => Storage.addProject(options))
-    .then(() => {
+    .then((data) => {
+      activeProject = data.projects[data.projects.length - 1]
       win.hide()
+      TrayHelper.setupTray(activeProject)
     })
     .catch((e) => console.error(e))
+})
+
+ipcMain.on('setProject', (event, project) => {
+  activeProject = project
+  win.hide()
+  TrayHelper.setupTray(activeProject)
 })
 
 ipcMain.on('projects', (event, options) => {

@@ -45,9 +45,16 @@ const addProject = (projectData) =>
       return writeContents(contents)
     })
 
+const updateProject = (project) => 
+  getContents()
+    .then(contents => writeContents(Object.assign(contents, {
+      projects: contents.projects.map(p => p.Id == project.Id ? project : p)
+    })))
+
 const getProjects = getContents
 
 module.exports = {
   addProject,
-  getProjects
+  getProjects,
+  updateProject
 }

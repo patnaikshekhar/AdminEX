@@ -25,7 +25,6 @@ const setSelectFolderListener = () => {
 
     if (repositoryURL) {
       const directory = dialog.showOpenDialog({properties: ['openDirectory']})
-      console.log(directory)
       createProject(name, directory, repositoryURL)
     } else {
       showError('You must enter a respoitory URL')
@@ -62,7 +61,17 @@ const displayProjects = (projects) => {
     const repoTd = document.createElement('td')
     repoTd.innerText = project.directory
 
+    const actionTd = document.createElement('td')
+    const openButton = document.createElement('button')
+    openButton.innerText = 'Open'
+    openButton.className = 'slds-button'
+    openButton.addEventListener('click', () => {
+      ipcRenderer.send('setProject', project)
+    })
+    actionTd.appendChild(openButton)
+
     tr.appendChild(indexTd)
+    tr.appendChild(actionTd)
     tr.appendChild(locationTd)
     tr.appendChild(repoTd)
 
