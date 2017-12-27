@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Admin Experience</title>
+    <link rel="stylesheet" href="../lib/salesforce-lightning-design-system-2.4.6/assets/styles/salesforce-lightning-design-system.css" />
+    <style>
+      .main-body {
+        margin-top: 50px;
+      }
+
+      .slds-form-element {
+        margin-top: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="slds-global-header_container"><a href="javascript:void(0);" class="slds-assistive-text slds-assistive-text_focus">Skip to Navigation</a><a href="javascript:void(0);" class="slds-assistive-text slds-assistive-text_focus">Skip to Main Content</a>
+      <div class="slds-global-header slds-grid slds-grid_align-spread">
+        <div class="slds-global-header__item">
+          <div class="slds-global-header__logo">
+            <img src="../lib/salesforce-lightning-design-system-2.4.6/assets/images/logo-noname.svg" alt="" />
+          </div>
+        </div>
+        <div class="slds-global-header__item slds-grid_vertical-align-center">
+          Admin Experience
+        </div>
+        <ul class="slds-global-header__item slds-grid slds-grid_vertical-align-center">
+          <li class="slds-dropdown-trigger slds-dropdown-trigger_click slds-p-horizontal_xxx-small">
+            <button class="slds-button slds-button_brand" title="Global Actions" onclick="createSO()">
+              Create
+            </button>
+          </li>
+        </ul>
+      </div>
+    </header>
+    <div class="main-body">
+      <div class="body">
+        <div class="slds-form-element">
+          <label class="slds-form-element__label" for="text-input-id-1">Scratch Org Name</label>
+          <div class="slds-form-element__control">
+            <input type="text" id="alias" class="slds-input" placeholder="Name of scratch org" />
+          </div>
+        </div>
+        <div class="slds-form-element">
+          <label class="slds-form-element__label" for="text-input-id-1">Template File Location</label>
+          <div class="slds-form-element__control">
+            <input type="text" id="location" class="slds-input" placeholder="Enter location of template" value="/config/project-scratch-def.json"/>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const {ipcRenderer} = require('electron')
+
+      function createSO() {
+        const alias = document.getElementById('alias').value
+        const location = document.getElementById('location').value
+
+        ipcRenderer.send('createScratchOrg', {
+          alias,
+          location
+        })
+      }
+    </script>
+  </body>
+</html>

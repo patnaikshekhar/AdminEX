@@ -34,15 +34,7 @@ app.on('window-all-closed', () => {
   }
 })
 
-app.on('activate', () => {
-  // On macOS it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  if (win === null) {
-    createProjectWindow()
-  }
-})
-
-ipcMain.on('createProject', (event, options) => {
+ipcMain.once('createProject', (event, options) => {
   const {directory, repositoryURL} = options
   gitHelper.createProject(directory, repositoryURL)
     .then(() => Storage.addProject(options))
@@ -54,7 +46,7 @@ ipcMain.on('createProject', (event, options) => {
     .catch((e) => console.error(e))
 })
 
-ipcMain.on('setProject', (event, project) => {
+ipcMain.once('setProject', (event, project) => {
   activeProject = project
   win.hide()
   TrayHelper.setupTray(activeProject)
