@@ -1,7 +1,7 @@
 const {app, Tray, Menu} = require('electron')
 const sfdx = require('./sfdx')
 const Storage = require('./Storage')
-const {handleError, alert} = require('./utilities')
+const {handleError, alert, log} = require('./utilities')
 const WindowManager = require('./windowManager')
 
 let tray = null
@@ -9,14 +9,15 @@ let tray = null
 const setupTray = (project) => {
   tray = new Tray(`${__dirname}/../../assets/icons/tray_icon.png`)
   refreshMenu(project)
+    .catch(e => handleError('Could not generate project', e))
 }
 
-const refreshMenu = (project) => {
+const refreshMenu = (project, options) => 
   createContextMenu(project)
     .then(menu => Menu.buildFromTemplate(menu))
     .then(contextMenu => tray.setContextMenu(contextMenu))
-    .catch(e => handleError(e))
-}
+    .then(() => options)
+    .catch(e => handleError('Could not generate project', e))
 
 const getConnectToDevOrgItem = (project) => new Promise((resolve, reject) => {
   if (project.devHubAlias) {
@@ -31,7 +32,7 @@ const getConnectToDevOrgItem = (project) => new Promise((resolve, reject) => {
           return Storage.updateProject(project)
         })
         .then(() => alert('Dev Hub Org Added'))
-        .catch((e) => handleError(e))
+        .catch(e => handleError('Could not connect to DevHub', e))
     }])
   }
 })
@@ -45,19 +46,34 @@ const getScratchOrgItems = (project) =>
         click: () => 
           WindowManager.selectScratchOrgDetails()
             .then(options => sfdx.createScratchOrg(project, options))
-            .then(options => sfdx.pushSource(options))
-            .then(options => sfdx.openScratchOrg(options))
+            .then((options) => { log('Finished createScratchOrg', 'Info'); return options })
+            .then(options => sfdx.pushSource(project, options))
+            .then((options) => { log('Finished pushSource', 'Info'); return options })
+            // .then(options => sfdx.openScratchOrg(options))
+            // .then((options) => { log('Finished openScratchOrg'); return options })
+            .then(options => refreshMenu(project, options))
+            .then((options) => { log('Finished refreshMenu', 'Info'); return options })
             .then(options => alert(`${options.alias} is now ready`))
-            .catch((e) => handleError(e))
+            .catch(e => handleError('Error creating scratch org', e))
       }]
-      
+
       if (orgs.length > 0) {
         return items.concat({
-          label: 'Open',
+          label: 'Open Org',
           submenu: orgs.map((alias => ({
             label: alias,
             click: () => 
               sfdx.openScratchOrg({ alias })
+              .catch(e => handleError('Error creating scratch org', e))
+          })))
+        }, {
+          label: 'Delete Org',
+          submenu: orgs.map((alias => ({
+            label: alias,
+            click: () => 
+              sfdx.deleteScratchOrg({ alias })
+                  .then(() => refreshMenu(project))
+                  .catch(e => handleError('Delete Org Failed', e))
           })))
         })
       } else {

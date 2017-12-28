@@ -23,10 +23,19 @@ const openScratchOrg = (options) =>
     targetusername: options.alias
   }).then(() => options)
 
-const pushSource = (options) => 
-  sfdx.source.push({
+const deleteScratchOrg = (options) => 
+  sfdx.org.delete({
+    targetusername: options.alias,
+    noprompt: true
+  }).then(() => options)
+
+const pushSource = (project, options) => {
+  process.chdir(project.directory)
+  return sfdx.source.push({
     targetusername: options.alias
-  })
+  }).then(() => options)
+}
+  
 
 const getOrgList = (project) =>
   sfdx.org.list()
@@ -46,5 +55,6 @@ module.exports = {
   createScratchOrg,
   openScratchOrg,
   pushSource,
-  getOrgList
+  getOrgList,
+  deleteScratchOrg
 }

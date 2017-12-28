@@ -2,3 +2,4 @@
 node_modules
 .DS_Store
 adminex_data.json
+main.log
