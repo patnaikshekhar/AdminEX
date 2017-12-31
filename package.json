@@ -12,6 +12,7 @@
   "dependencies": {
     "nodegit": "^0.20.3",
     "sfdx-node": "0.0.1",
+    "simple-git": "^1.85.0",
     "util.promisify": "^1.0.0",
     "uuid": "^3.1.0"
   },

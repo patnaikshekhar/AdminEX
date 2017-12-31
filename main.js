@@ -1,30 +1,18 @@
 const {app, BrowserWindow, ipcMain} = require('electron')
 const path = require('path')
 const url = require('url')
-const gitHelper = require('./src/main/gitHelper')
-const Storage = require('./src/main/storage')
 const TrayHelper = require('./src/main/trayHelper')
+const WindowManager = require('./src/main/windowManager')
+const {handleError} = require('./src/main/utilities')
 
-let win
-let activeProject
-
-const createProjectWindow = () => {
-  win = new BrowserWindow({width: 800, height: 600})
-  
-  win.loadURL(url.format({
-    pathname: path.join(__dirname, 'views', 'selectProject.html'),
-    protocol: 'file:',
-    slashes: true
-  }))
-
-  win.webContents.openDevTools()
-  
-  win.on('closed', () => {
-    win = null
-  })
-}
-
-app.on('ready', createProjectWindow)
+app.on('ready', () => {
+  WindowManager.selectProject()
+    .then(project => TrayHelper.setupTray(project))
+    .catch(e => {
+      handleError('Could not generate project', e)
+      app.quit()
+    })
+})
 
 app.on('window-all-closed', () => {
   // On macOS it is common for applications and their menu bar
@@ -32,29 +20,4 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
-})
-
-ipcMain.once('createProject', (event, options) => {
-  const {directory, repositoryURL} = options
-  gitHelper.createProject(directory, repositoryURL)
-    .then(() => Storage.addProject(options))
-    .then((data) => {
-      activeProject = data.projects[data.projects.length - 1]
-      win.hide()
-      TrayHelper.setupTray(activeProject)
-    })
-    .catch((e) => console.error(e))
-})
-
-ipcMain.once('setProject', (event, project) => {
-  activeProject = project
-  win.hide()
-  TrayHelper.setupTray(activeProject)
-})
-
-ipcMain.on('projects', (event, options) => {
-  Storage.getProjects()
-    .then((projects) => {
-      event.sender.send('projects', projects)
-    })
 })
