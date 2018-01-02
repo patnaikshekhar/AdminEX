@@ -20,7 +20,28 @@ const openProject = ({directory}) => {
   return currentRepo.checkout(developBranch)
 }
 
+const createFeatureBranch = (branchName) => {
+  const developBranch = Settings().developBranch
+
+  return currentRepo.checkout(developBranch)
+                    .then(() => currentRepo.pull('origin', developBranch))
+                    .then(() => currentRepo.checkoutLocalBranch(branchName))
+}
+
+const switchBranch = (branchName) => currentRepo.checkout(branchName)
+
+const deleteBranch = (branchName) => {
+  const developBranch = Settings().developBranch
+
+  return currentRepo.checkout(developBranch)
+    .then(() => currentRepo.deleteLocalBranch(branchName))
+}
+  
+
 module.exports = {
   createProject,
-  openProject
+  openProject,
+  createFeatureBranch,
+  switchBranch,
+  deleteBranch
 }

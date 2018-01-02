@@ -1,6 +1,6 @@
 const fs = require('fs')
 const uuid = require('uuid')
-const STORAGE_FILENAME = './adminex_data.json'
+const STORAGE_FILENAME = `${__dirname}/../../adminex_data.json`
 const BASIC_OBJECT = {
   projects: []
 }
@@ -51,10 +51,21 @@ const updateProject = (project) =>
       projects: contents.projects.map(p => p.Id == project.Id ? project : p)
     })))
 
+const getProject = (project) => {
+  return getContents()
+    .then(contents => {
+      return contents.projects.filter(p => {
+        return p.Id == project.Id
+      })[0]
+    })
+}
+    
+
 const getProjects = getContents
 
 module.exports = {
   addProject,
   getProjects,
-  updateProject
+  updateProject,
+  getProject
 }

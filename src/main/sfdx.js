@@ -35,7 +35,14 @@ const pushSource = (project, options) => {
     targetusername: options.alias
   }).then(() => options)
 }
-  
+ 
+const pullSource = (project, options) => {
+  process.chdir(project.directory)
+  return sfdx.source.pull({
+    targetusername: options.alias,
+    forceoverwrite: true
+  })
+}
 
 const getOrgList = (project) =>
   sfdx.org.list()
@@ -56,5 +63,6 @@ module.exports = {
   openScratchOrg,
   pushSource,
   getOrgList,
-  deleteScratchOrg
+  deleteScratchOrg,
+  pullSource
 }
