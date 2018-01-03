@@ -36,12 +36,23 @@ const deleteBranch = (branchName) => {
   return currentRepo.checkout(developBranch)
     .then(() => currentRepo.deleteLocalBranch(branchName))
 }
-  
+
+const removeChanges = () => {
+  return currentRepo.raw('checkout -- .')
+}
+
+const addCommitAndPush = (branchName, message) => {
+  return currentRepo.add('./*')
+      .then(() => currentRepo.commit(message))
+      .then(() => currentRepo.push('origin', branchName))
+}
 
 module.exports = {
   createProject,
   openProject,
   createFeatureBranch,
   switchBranch,
-  deleteBranch
+  deleteBranch,
+  removeChanges,
+  addCommitAndPush
 }

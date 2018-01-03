@@ -144,11 +144,19 @@ const showPullDifferences = (project, data) => new Promise((resolve, reject) => 
   
   showPullDifferencesWin.on('closed', () => {
     showPullDifferencesWin = null
-    resolve()
+    resolve({
+      action: 'Cancel'
+    })
   })
 
   ipcMain.once('diffs', (event, options) => {
     event.sender.send('diffs', {data, project})
+  })
+
+  ipcMain.once('diffResult', (event, result) => {
+    showPullDifferencesWin.hide()
+    showPullDifferencesWin = null
+    resolve(result)
   })
 })
 

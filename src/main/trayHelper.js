@@ -192,7 +192,7 @@ const getFeatures = (project) => new Promise((resolve, reject) => {
               .then(() => sfdx.pullSource(project, { alias: feature.scratchOrg }))
               .then(data => logp(`Data from pull`, 'Info', data))
               .then(data => WindowManager.showPullDifferences(project, data))
-              .then(() => logp(`Pull for ${feature.name} to ${project.directory} completed`, 'Info'))
+              .then(({action, message}) => action == 'Cancel' ? GitHelper.removeChanges() : GitHelper.addCommitAndPush(feature, message))
               .catch(e => handleError(e))
           }
         },

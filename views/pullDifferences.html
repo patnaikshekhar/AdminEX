@@ -21,6 +21,10 @@
         font-weight: bolder;
       }
 
+      .message-body {
+        padding: 50px;
+      }
+
       .Add {
         background-color: rgb(75, 202, 129) !important;
       }
@@ -52,12 +56,24 @@
         </div>
         <ul class="slds-global-header__item slds-grid slds-grid_vertical-align-center">
           <li class="slds-dropdown-trigger slds-dropdown-trigger_click slds-p-horizontal_xxx-small">
+              <button class="slds-button slds-button_neutral" title="Cancel" onclick="cancel()">
+                Cancel
+              </button>
+              <button class="slds-button slds-button_brand" title="Commit" onclick="pushToServer()">
+                Commit
+              </button>
           </li>
         </ul>
       </div>
     </header>
     <div class="main-body">
       <div id="mainTable">
+        <div class="slds-form-element message-body">
+          <label class="slds-form-element__label" for="message">Commit Message</label>
+          <div class="slds-form-element__control">
+            <input type="text" id="message" class="slds-input" placeholder="Enter Message here...." />
+          </div>
+        </div>
         <table class="slds-table slds-table_bordered slds-table_cell-buffer">
             <thead class="thead-dark">
               <tr>
@@ -129,6 +145,19 @@
       const displayNoDiffs = () => {
         document.getElementById('mainTable').style.display = 'none'
         document.getElementById('noChanges').style.display = 'block'
+      }
+
+      const pushToServer = () => {
+        ipcRenderer.send('diffResult', {
+          action: 'Commit',
+          message: document.getElementById('message').value
+        })
+      }
+
+      const cancel = () => {
+        ipcRenderer.send('diffResult', {
+          action: 'Cancel'
+        })
       }
     </script>
   </body>
