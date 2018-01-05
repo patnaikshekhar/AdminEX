@@ -56,10 +56,7 @@
         </div>
         <ul class="slds-global-header__item slds-grid slds-grid_vertical-align-center">
           <li class="slds-dropdown-trigger slds-dropdown-trigger_click slds-p-horizontal_xxx-small">
-              <button class="slds-button slds-button_neutral" title="Cancel" onclick="cancel()">
-                Cancel
-              </button>
-              <button class="slds-button slds-button_brand" title="Commit" onclick="pushToServer()">
+              <button class="slds-button slds-button_brand" title="Commit" onclick="pushToServer()" id="commitButton">
                 Commit
               </button>
           </li>
@@ -104,7 +101,12 @@
       const path = require('path')
 
       ipcRenderer.send('diffs')
-      ipcRenderer.once('diffs', (event, {project, data}) => {
+      ipcRenderer.once('diffs', (event, {project, feature, data}) => {
+        
+        if (feature.name) {
+          document.getElementById('message').value = feature.name + ' - Updated'
+        }
+
         if (data) {
           if (data.length > 0) {
             data.forEach(row => {
@@ -144,20 +146,12 @@
 
       const displayNoDiffs = () => {
         document.getElementById('mainTable').style.display = 'none'
+        document.getElementById('commitButton').style.display = 'none'
         document.getElementById('noChanges').style.display = 'block'
       }
 
       const pushToServer = () => {
-        ipcRenderer.send('diffResult', {
-          action: 'Commit',
-          message: document.getElementById('message').value
-        })
-      }
-
-      const cancel = () => {
-        ipcRenderer.send('diffResult', {
-          action: 'Cancel'
-        })
+        ipcRenderer.send('diffResult', document.getElementById('message').value)
       }
     </script>
   </body>

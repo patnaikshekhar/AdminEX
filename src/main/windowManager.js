@@ -128,8 +128,9 @@ const createFeature = (project) => new Promise((resolve, reject) => {
 /*
 [{"state":"Changed","fullName":"Account.Test1__c","type":"CustomField","filePath":"force-app/main/default/objects/Account/fields/Test1__c.field-meta.xml"}]
 */
-const showPullDifferences = (project, data) => new Promise((resolve, reject) => {
+const showPullDifferences = (project, feature, data) => new Promise((resolve, reject) => {
   const debug = Settings().debugMode
+  let resolved = false
 
   showPullDifferencesWin = new BrowserWindow({width: 800, height: 600})
   
@@ -144,18 +145,18 @@ const showPullDifferences = (project, data) => new Promise((resolve, reject) => 
   
   showPullDifferencesWin.on('closed', () => {
     showPullDifferencesWin = null
-    resolve({
-      action: 'Cancel'
-    })
+    if (!resolved) {
+      resolve(`${feature} - Updated`)
+    }
   })
 
   ipcMain.once('diffs', (event, options) => {
-    event.sender.send('diffs', {data, project})
+    event.sender.send('diffs', {data, feature, project})
   })
 
   ipcMain.once('diffResult', (event, result) => {
     showPullDifferencesWin.hide()
-    showPullDifferencesWin = null
+    resolved = true
     resolve(result)
   })
 })

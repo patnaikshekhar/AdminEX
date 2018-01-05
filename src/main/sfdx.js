@@ -17,11 +17,13 @@ const createScratchOrg = (project, options) =>
     setalias: options.alias,
     definitionfile: `${project.directory}/${options.location}`
   }).then(result => options)
+  
 
 const openScratchOrg = (options) => 
   sfdx.org.open({
     targetusername: options.alias
   }).then(() => options)
+
 
 const deleteScratchOrg = (options) => 
   sfdx.org.delete({

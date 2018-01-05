@@ -132,13 +132,13 @@ const getStartFeature = (project) => new Promise((resolve, reject) => {
                 .then(() => activeFeature = feature.name)
                 .then(() => 
                   GitHelper.createFeatureBranch(feature.name)
-                    .then(() => log(`Finished creating feature branch for ${feature.name}`, 'Info'))
+                    .then(() => logp(`Finished creating feature branch for ${feature.name}`, 'Info'))
                     .then(() => {
                       if (!feature.existingOrg) {
                         return sfdx.createScratchOrg(project, {
                           location: feature.location, 
                           alias: feature.scratchOrg
-                        }).then(options => { log('Finished createScratchOrg', 'Info'); return options })
+                        }).then(options => logp(`Finished createScratchOrg ${JSON.stringify(options)}`, 'Info', options))
                       } else {
                         log(`Returning existing org for ${feature.name}`, 'Info')
                         return {
@@ -147,13 +147,13 @@ const getStartFeature = (project) => new Promise((resolve, reject) => {
                       }
                     })
                     .then(options => sfdx.pushSource(project, options))
-                    .then(options => { log('Finished pushSource', 'Info'); return options })
+                    .then(options => logp('Finished pushSource', 'Info', options))
                     .then(options => sfdx.openScratchOrg(options))
-                    .then(options => { log('Finished openScratchOrg', 'Info'); return options })
+                    .then(options => logp('Finished openScratchOrg', 'Info', options))
                     .then(options => refreshMenu(project, options))
-                    .then(options => { log('Finished refreshMenu', 'Info'); return options }))
+                    .then(options => logp('Finished refreshMenu', 'Info', options)))
                     .then(() => alert(`${feature.name} is now ready`)))
-          .catch(e => handleError(e))
+          .catch(e => handleError('Error creating feature', e))
       }
     }])
   } else {
@@ -191,9 +191,19 @@ const getFeatures = (project) => new Promise((resolve, reject) => {
             GitHelper.switchBranch(feature.name)
               .then(() => sfdx.pullSource(project, { alias: feature.scratchOrg }))
               .then(data => logp(`Data from pull`, 'Info', data))
-              .then(data => WindowManager.showPullDifferences(project, data))
-              .then(({action, message}) => action == 'Cancel' ? GitHelper.removeChanges() : GitHelper.addCommitAndPush(feature, message))
-              .catch(e => handleError(e))
+              .then(data => 
+                WindowManager.showPullDifferences(project, feature, data)
+                  .then(message => logp(`Commiting for ${feature.name}`, 'Info', message))
+                  .then(message => {
+                    if (data) {
+                      if (data.length > 0) {
+                        return GitHelper.addCommitAndPush(feature.name, message)
+                      } else {
+                        return logp(`Nothing to commit `, 'Info', data)
+                      }
+                    }
+                  }))
+              .catch(e => handleError('Pull Changes from Scratch Org Failed', e))
           }
         },
         {

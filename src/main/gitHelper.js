@@ -38,7 +38,7 @@ const deleteBranch = (branchName) => {
 }
 
 const removeChanges = () => {
-  return currentRepo.raw('checkout -- .')
+  return currentRepo.raw(['clean', '-f', '-d'])
 }
 
 const addCommitAndPush = (branchName, message) => {
