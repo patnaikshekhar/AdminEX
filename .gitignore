@@ -3,3 +3,5 @@ node_modules
 .DS_Store
 adminex_data.json
 main.log
+test_*.js
+release-builds

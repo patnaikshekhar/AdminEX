@@ -1,5 +1,7 @@
 const sfdx = require('sfdx-node')
+const fs = require('fs')
 require('util.promisify').shim()
+const { exec } = require('child_process')
 
 const authDevHub = (project) => new Promise((resolve, reject) => {
   const devHubAlias = `${project.name + 'DevHub'}`
@@ -11,13 +13,26 @@ const authDevHub = (project) => new Promise((resolve, reject) => {
     .catch(e => reject(e))
 }) 
 
-const createScratchOrg = (project, options) => 
-  sfdx.org.create({
+const createScratchOrg = (project, options) => {
+  console.log('createScratchOrg called with settings = ', {
     targetdevhubusername: project.devHubAlias,
     setalias: options.alias,
-    definitionfile: `${project.directory}/${options.location}`
-  }).then(result => options)
-  
+    definitionfile: `${project.directory}${options.location}`
+  })
+
+  return sfdx.org.create({
+    targetdevhubusername: project.devHubAlias,
+    setalias: options.alias,
+    definitionfile: `${project.directory}${options.location}`
+  })
+  .then(result => {
+    console.log('createScratchOrg result', result)
+    if (!result) {
+      throw('Could not create scratch org. Please check settings.')
+    }
+  })
+  .then(() => options)
+}  
 
 const openScratchOrg = (options) => 
   sfdx.org.open({
@@ -37,13 +52,41 @@ const pushSource = (project, options) => {
     targetusername: options.alias
   }).then(() => options)
 }
- 
+
+const createProjectDirectory = (project) => new Promise((resolve, reject) => {
+  fs.readFile(`${project.directory}/sfdx-project.json`, (err, data) => {
+    if (err) {
+      reject(err)
+    } else {
+      try {
+        const settings = JSON.parse(data.toString())
+        settings.packageDirectories.forEach(setting => {
+          if (setting.default == true) {
+            if(!fs.existsSync(`${project.directory}/${setting.path}`)) {
+              fs.mkdir(`${project.directory}/${setting.path}`, err => {
+                if (err) {
+                  reject(err)
+                } else {
+                  resolve(err)
+                }
+              })
+            }
+          }
+        })
+      } catch(e) {
+        reject(e)
+      }
+    }
+  })
+})
+
 const pullSource = (project, options) => {
   process.chdir(project.directory)
-  return sfdx.source.pull({
-    targetusername: options.alias,
-    forceoverwrite: true
-  })
+  return createProjectDirectory(project)
+    .then(() => sfdx.source.pull({
+      targetusername: options.alias,
+      forceoverwrite: true
+    }))
 }
 
 const getOrgList = (project) =>

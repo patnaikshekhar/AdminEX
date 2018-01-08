@@ -9,7 +9,7 @@ app.on('ready', () => {
   WindowManager.selectProject()
     .then(project => TrayHelper.setupTray(project))
     .catch(e => {
-      handleError('Could not generate project', e)
+      console.log(e)
       app.quit()
     })
 })

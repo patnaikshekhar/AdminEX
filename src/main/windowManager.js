@@ -1,4 +1,4 @@
-const {BrowserWindow, ipcMain} = require('electron')
+const {app, BrowserWindow, ipcMain} = require('electron')
 
 const Settings = require('./settings')
 const Storage = require('./storage')
@@ -15,11 +15,19 @@ let showPullDifferencesWin
 
 let activeProject
 
+const createWindow = () => 
+  new BrowserWindow({
+    width: 800, 
+    height: 600,
+    resizable: false,
+    titleBarStyle:'hidden'
+  })
+
 const selectScratchOrgDetails = () => new Promise((resolve, reject) => {
 
   const debug = Settings().debugMode
 
-  scratchOrgWindow = new BrowserWindow({width: 800, height: 600})
+  scratchOrgWindow = createWindow()
   
   scratchOrgWindow.loadURL(url.format({
     pathname: path.join(__dirname, '../../views/createScratchOrg.html'),
@@ -45,7 +53,7 @@ const selectProject = () => new Promise((resolve, reject) => {
 
   const debug = Settings().debugMode
 
-  selectProjectWin = new BrowserWindow({width: 800, height: 600})
+  selectProjectWin = createWindow()
   
   selectProjectWin.loadURL(url.format({
     pathname: path.join(__dirname, '../../views/selectProject.html'),
@@ -66,10 +74,11 @@ const selectProject = () => new Promise((resolve, reject) => {
     GitHelper.createProject(project)
       .then(() => Storage.addProject(project))
       .then(data => {
-        activeProject = data.projects[data.projects.length - 1]
         selectProjectWin.hide()
         selectProjectWin = null
-        resolve(activeProject)
+        app.relaunch()
+        app.exit()
+        //resolve(activeProject)
       })
       .catch((e) => console.error(e))
   })
@@ -96,7 +105,7 @@ const createFeature = (project) => new Promise((resolve, reject) => {
 
   const debug = Settings().debugMode
 
-  createFeatureWin = new BrowserWindow({width: 800, height: 600})
+  createFeatureWin = createWindow()
   
   createFeatureWin.loadURL(url.format({
     pathname: path.join(__dirname, '../../views/createFeature.html'),
@@ -132,7 +141,7 @@ const showPullDifferences = (project, feature, data) => new Promise((resolve, re
   const debug = Settings().debugMode
   let resolved = false
 
-  showPullDifferencesWin = new BrowserWindow({width: 800, height: 600})
+  showPullDifferencesWin = createWindow()
   
   showPullDifferencesWin.loadURL(url.format({
     pathname: path.join(__dirname, '../../views/pullDifferences.html'),

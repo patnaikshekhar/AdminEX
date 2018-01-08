@@ -10,7 +10,7 @@ let activeFeature
 
 const setupTray = (project) => {
   if (!tray) {
-    tray = new Tray(`${__dirname}/../../assets/icons/tray_icon.png`)
+    tray = new Tray(`${__dirname}/../../assets/icons/dxicon_tray.png`)
   }
   
   refreshMenu(project)
@@ -38,8 +38,12 @@ const getConnectToDevOrgItem = (project) => new Promise((resolve, reject) => {
             project.devHubAlias = alias
             return Storage.updateProject(project)
           })
-          .then(() => refreshMenu(project))
-          .then(() => alert('Dev Hub Org Added'))
+          // .then(() => refreshMenu(project))
+          .then(() => alert('Dev Hub Org Added. Relaunching application.'))
+          .then(() => {
+            app.relaunch()
+            app.exit()
+          })
           .catch(e => handleError('Could not connect to DevHub', e))
       }
     }])
@@ -106,7 +110,7 @@ const getStartFeature = (project) => new Promise((resolve, reject) => {
       type: undefined,
       click() {
         WindowManager.createFeature(project)
-          .then(feature => { log(`New Work for ${JSON.stringify(feature)}`, 'Info'); return feature; })
+          .then(feature => logp(`New Work for ${JSON.stringify(feature)}`, 'Info', feature))
           .then(feature => {
             if (!feature.existingOrg) {
               feature.scratchOrg = feature.name
@@ -179,11 +183,7 @@ const getFeatures = (project) => new Promise((resolve, reject) => {
           }
         },
         {
-          label: 'Push Work to Server',
-          type: undefined
-        },
-        {
-          label: 'Pull Changes from Scratch Org',
+          label: 'Commit Changes from Scratch Org',
           type: undefined,
           click() {
             activeFeature = feature.name
@@ -255,7 +255,15 @@ const createContextMenu = (project) => {
     getQuitItem()]
 
   return Promise.all(template)
-          .then((items) => items.reduce((acc, item) => item ? acc.concat(item) : acc, []))
+          .then(items => items.reduce((acc, item) => {
+            if (acc.length > 0) {
+              if (acc[acc.length - 1].type == 'separator' && item.type == 'separator') {
+                return acc
+              }
+            }
+            
+            return item ? acc.concat(item) : acc
+          }, []))
 }
 
 module.exports = {

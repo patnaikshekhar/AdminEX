@@ -1,22 +1,27 @@
 {
   "name": "sfdx_admin_experience",
+  "productName": "Admin Experience",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "electron main.js",
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/dxicon.icns --prune=true --out=release-builds --ignore adminex_data.json",
+    "package-win": "electron-packager . --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets/icons/win/dxicon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Admin Experience\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "nodegit": "^0.20.3",
+    "diff2html": "^2.3.2",
     "sfdx-node": "0.0.1",
     "simple-git": "^1.85.0",
     "util.promisify": "^1.0.0",
     "uuid": "^3.1.0"
   },
   "devDependencies": {
+    "electron": "^1.7.10",
+    "electron-packager": "^10.1.1",
     "electron-rebuild": "^1.6.0"
   }
 }
