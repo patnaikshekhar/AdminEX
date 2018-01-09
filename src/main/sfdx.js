@@ -67,9 +67,11 @@ const createProjectDirectory = (project) => new Promise((resolve, reject) => {
                 if (err) {
                   reject(err)
                 } else {
-                  resolve(err)
+                  resolve()
                 }
               })
+            } else {
+              resolve()
             }
           }
         })
@@ -83,6 +85,7 @@ const createProjectDirectory = (project) => new Promise((resolve, reject) => {
 const pullSource = (project, options) => {
   process.chdir(project.directory)
   return createProjectDirectory(project)
+    .then(() => console.log('Dir created'))
     .then(() => sfdx.source.pull({
       targetusername: options.alias,
       forceoverwrite: true

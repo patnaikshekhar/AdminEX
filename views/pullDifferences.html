@@ -62,6 +62,9 @@
         </div>
         <ul class="slds-global-header__item slds-grid slds-grid_vertical-align-center">
           <li class="slds-dropdown-trigger slds-dropdown-trigger_click slds-p-horizontal_xxx-small">
+              <button class="slds-button slds-button_neutral" title="Cancel" onclick="cancel()" id="cancelButton">
+                Cancel
+              </button>
               <button class="slds-button slds-button_brand" title="Commit" onclick="pushToServer()" id="commitButton">
                 Commit
               </button>
@@ -82,7 +85,7 @@
               <tr>
                 <th scope="col">State</th>
                 <th scope="col">Name</th>
-                <th scope="col">Type</th>
+                <!-- <th scope="col">Type</th> -->
                 <th scope="col">File Location</th>
               </tr>
             </thead>
@@ -125,8 +128,8 @@
               const nameTd = document.createElement('td')
               nameTd.innerText = row.fullName
               
-              const typeTd = document.createElement('td')
-              typeTd.innerText = row.type
+              // const typeTd = document.createElement('td')
+              // typeTd.innerText = row.type
               
               const locationTd = document.createElement('td')
               locationTd.innerHTML = `<a href="#">${row.filePath}</a>`
@@ -137,7 +140,7 @@
 
               tr.appendChild(stateTd)
               tr.appendChild(nameTd)
-              tr.appendChild(typeTd)
+              // tr.appendChild(typeTd)
               tr.appendChild(locationTd)
 
               document.getElementById('changesList').appendChild(tr)
@@ -157,7 +160,16 @@
       }
 
       const pushToServer = () => {
-        ipcRenderer.send('diffResult', document.getElementById('message').value)
+        ipcRenderer.send('diffResult', {
+          status: 'commit',
+          message: document.getElementById('message').value
+        })
+      }
+
+      const cancel = () => {
+        ipcRenderer.send('diffResult', {
+          status: 'cancel'
+        })
       }
     </script>
   </body>

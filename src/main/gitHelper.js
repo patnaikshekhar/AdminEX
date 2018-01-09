@@ -1,10 +1,11 @@
 const SimpleGit = require("simple-git/promise")
 const Settings = require('./settings')
 var currentRepo = null
+const Path = require('path')
 
 const createProject = ({directory, repositoryURL}) => {
   const developBranch = Settings().developBranch
-
+  console.log('In clone')
   return SimpleGit().clone(repositoryURL, directory)
                     .then(() => {
                       currentRepo = SimpleGit(directory)
@@ -57,7 +58,6 @@ const restoreStash = (branchName) => {
           return message.indexOf(stashName) > -1
         })
 
-      console.log('Stash is ', stash)
       if (stash.length > 0) {
         return currentRepo.stash(['pop', `stash@{${stash[0].index}}`])
       } else {
@@ -66,9 +66,24 @@ const restoreStash = (branchName) => {
     })
 }
 
+const changeSummary = () => {
+  return currentRepo.status()
+    .then(data => { console.log(data); return data })
+    .then(data => data.files ? data.files.map(({index, path}) => ({
+      state: index == 'D' ? 'Deleted' : (index == 'A' ? 'Add' : 'Changed' ),
+      fullName: Path.basename(path),
+      filePath: path
+    })): [])
+}
+
 const stash = (branchName) => {
   return currentRepo.stash([`save`, `${branchName}stash`])
 }
+
+const add = () => {
+  return currentRepo.add('./*')
+}
+
 
 module.exports = {
   createProject,
@@ -79,5 +94,7 @@ module.exports = {
   removeChanges,
   addCommitAndPush,
   restoreStash,
-  stash
+  stash,
+  changeSummary,
+  add
 }

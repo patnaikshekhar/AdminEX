@@ -144,4 +144,46 @@ describe('gitHelper', () => {
         })
     })
   })
+
+  describe('changeSummary', () => {
+    it('should summarise the changes in a dir', done => {
+      const testDir = `/Users/spatnaik/Downloads/testchangesummary1`
+  
+      cleanDir(testDir)
+      fs.mkdirSync(testDir)
+      const git = simpleGit(testDir)
+
+      git.init()
+        .then(() => fs.writeFileSync(`${testDir}/test.txt`, 'contents1'))
+        .then(() => git.add('./*'))
+        .then(() => git.commit('First Commit'))
+        .then(() => git.checkoutLocalBranch('develop'))
+        .then(() => fs.writeFileSync(`${testDir}/test.txt`, 'contents2'))
+        .then(() => fs.writeFileSync(`${testDir}/test1.txt`, 'contents'))
+        .then(() => git.add('./*'))
+        .then(() => gitHelper.openProject({ directory: testDir }))
+        .then(() => gitHelper.changeSummary())
+        .then(summary => {
+
+          expect(summary.length).toBe(2)
+          
+          const modifiedFile = summary.filter(o => o.state == 'Changed')[0]
+          expect(modifiedFile.fullName).toBe('test.txt')
+          expect(modifiedFile.filePath).toBe('test.txt')
+
+          const addedFile = summary.filter(o => o.state == 'Add')[0]
+          expect(addedFile.fullName).toBe('test1.txt')
+          expect(addedFile.filePath).toBe('test1.txt')
+
+          cleanDir(testDir)
+          done()
+        })
+        .catch(e => {
+          console.error(e)
+          expect(e.toString()).toBe(null)
+          cleanDir(testDir)
+          done()
+        })
+    })
+  })
 })

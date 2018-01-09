@@ -155,7 +155,9 @@ const showPullDifferences = (project, feature, data) => new Promise((resolve, re
   showPullDifferencesWin.on('closed', () => {
     showPullDifferencesWin = null
     if (!resolved) {
-      resolve(`${feature} - Updated`)
+      resolve({
+        status: 'cancel'
+      })
     }
   })
 
