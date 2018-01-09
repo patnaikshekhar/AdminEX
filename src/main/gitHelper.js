@@ -47,6 +47,29 @@ const addCommitAndPush = (branchName, message) => {
       .then(() => currentRepo.push('origin', branchName))
 }
 
+const restoreStash = (branchName) => {
+  const stashName = `${branchName}stash`
+  return currentRepo.stashList()
+    .then(({ all }) => {
+      const stash = all
+        .map((o, index) => Object.assign(o, { index }))
+        .filter(({ message }) => {
+          return message.indexOf(stashName) > -1
+        })
+
+      console.log('Stash is ', stash)
+      if (stash.length > 0) {
+        return currentRepo.stash(['pop', `stash@{${stash[0].index}}`])
+      } else {
+        return null;
+      }
+    })
+}
+
+const stash = (branchName) => {
+  return currentRepo.stash([`save`, `${branchName}stash`])
+}
+
 module.exports = {
   createProject,
   openProject,
@@ -54,5 +77,7 @@ module.exports = {
   switchBranch,
   deleteBranch,
   removeChanges,
-  addCommitAndPush
+  addCommitAndPush,
+  restoreStash,
+  stash
 }

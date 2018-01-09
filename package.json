@@ -5,10 +5,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "electron main.js",
+    "start": "electron index.js",
+    "test-watch": "jasmine-node --autotest --verbose --captureExceptions --color .",
+    "test": "jasmine-node --verbose --color .",
     "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/dxicon.icns --prune=true --out=release-builds --ignore adminex_data.json",
     "package-win": "electron-packager . --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets/icons/win/dxicon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Admin Experience\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "coverage": "istanbul cover jasmine-node ."
   },
   "author": "",
   "license": "ISC",

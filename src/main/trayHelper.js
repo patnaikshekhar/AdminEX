@@ -182,30 +182,30 @@ const getFeatures = (project) => new Promise((resolve, reject) => {
               .catch(e => handleError(e))
           }
         },
-        {
-          label: 'Commit Changes from Scratch Org',
-          type: undefined,
-          click() {
-            activeFeature = feature.name
-            log(`Pull Changes for feature ${feature.name}`, 'Info')
-            GitHelper.switchBranch(feature.name)
-              .then(() => sfdx.pullSource(project, { alias: feature.scratchOrg }))
-              .then(data => logp(`Data from pull`, 'Info', data))
-              .then(data => 
-                WindowManager.showPullDifferences(project, feature, data)
-                  .then(message => logp(`Commiting for ${feature.name}`, 'Info', message))
-                  .then(message => {
-                    if (data) {
-                      if (data.length > 0) {
-                        return GitHelper.addCommitAndPush(feature.name, message)
-                      } else {
-                        return logp(`Nothing to commit `, 'Info', data)
-                      }
-                    }
-                  }))
-              .catch(e => handleError('Pull Changes from Scratch Org Failed', e))
-          }
-        },
+        // {
+        //   label: 'Commit Changes from Scratch Org',
+        //   type: undefined,
+        //   click() {
+        //     activeFeature = feature.name
+        //     log(`Pull Changes for feature ${feature.name}`, 'Info')
+        //     GitHelper.switchBranch(feature.name)
+        //       .then(() => sfdx.pullSource(project, { alias: feature.scratchOrg }))
+        //       .then(data => logp(`Data from pull`, 'Info', data))
+        //       .then(data => 
+        //         WindowManager.showPullDifferences(project, feature, data)
+        //           .then(message => logp(`Commiting for ${feature.name}`, 'Info', message))
+        //           .then(message => {
+        //             if (data) {
+        //               if (data.length > 0) {
+        //                 return GitHelper.addCommitAndPush(feature.name, message)
+        //               } else {
+        //                 return logp(`Nothing to commit `, 'Info', data)
+        //               }
+        //             }
+        //           }))
+        //       .catch(e => handleError('Pull Changes from Scratch Org Failed', e))
+        //   }
+        // },
         {
           label: 'Delete',
           type: undefined,
