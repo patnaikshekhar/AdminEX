@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="../lib/salesforce-lightning-design-system-2.4.6/assets/styles/salesforce-lightning-design-system.css" />
+    <link rel="stylesheet" href="../node_modules/diff2html/dist/diff2html.css" />
+    <style>
+      
+      .slds-global-header {
+        padding-top: 50px;
+        padding-bottom: 40px;
+      }
+
+      #main {
+        margin-top: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="slds-global-header_container"><a href="javascript:void(0);" class="slds-assistive-text slds-assistive-text_focus">Skip to Navigation</a><a href="javascript:void(0);" class="slds-assistive-text slds-assistive-text_focus">Skip to Main Content</a>
+      <div class="slds-global-header slds-grid slds-grid_align-spread">
+        <div class="slds-global-header__item">
+          <div class="slds-global-header__logo">
+            <img src="../lib/salesforce-lightning-design-system-2.4.6/assets/images/logo-noname.svg" alt="" />
+          </div>
+        </div>
+        <div class="slds-global-header__item slds-grid_vertical-align-center">
+          Admin Experience
+        </div>
+        <ul class="slds-global-header__item slds-grid slds-grid_vertical-align-center">
+          <li class="slds-dropdown-trigger slds-dropdown-trigger_click slds-p-horizontal_xxx-small">
+          </li>
+        </ul>
+      </div>
+    </header>
+    <div id="main">
+    </div>
+    <script>
+      const {ipcRenderer} = require('electron')
+
+      ipcRenderer.send('getDiff')
+      ipcRenderer.on('diff', (event, diff) => {
+        if (diff)
+          document.getElementById('main').innerHTML = diff
+      })
+    </script>
+  </body>
+</html>

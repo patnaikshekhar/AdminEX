@@ -4,6 +4,7 @@ const Settings = require('./settings')
 const Storage = require('./storage')
 const GitHelper = require('./gitHelper')
 const SFDX = require('./sfdx')
+const { handleError } = require('./utilities')
 
 const url = require('url')
 const path = require('path')
@@ -165,12 +166,45 @@ const showPullDifferences = (project, feature, data) => new Promise((resolve, re
     event.sender.send('diffs', {data, feature, project})
   })
 
+  ipcMain.on('getHTMLDiff', (event, data) => {
+    console.log('In getHTMLDiff')
+    if (data) {
+      GitHelper.getDiffHTML(data)
+        .then(diff => diff ? showHTMLDiff(diff) : null)
+        .catch(e => handleError("Couldn't show diff", e))
+    }
+    
+  })
+
   ipcMain.once('diffResult', (event, result) => {
     showPullDifferencesWin.hide()
     resolved = true
     resolve(result)
   })
 })
+
+const showHTMLDiff = (diff) => {
+  const debug = Settings().debugMode
+  let diffWindow = createWindow()
+
+  if (debug)
+    diffWindow.webContents.openDevTools()
+
+  diffWindow.loadURL(url.format({
+    pathname: path.join(__dirname, '../../views/showDiff.html'),
+    protocol: 'file:',
+    slashes: true
+  }))
+  console.log('In showHTMLDiff')
+  ipcMain.once('getDiff', (event, options) => {
+    console.log('In showHTMLDiff got getDiff sending', diff)
+    event.sender.send('diff', diff)
+  })
+
+  diffWindow.on('closed', () => {
+    diffWindow = null
+  })
+}
 
 module.exports = {
   selectScratchOrgDetails,

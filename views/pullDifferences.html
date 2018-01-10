@@ -87,6 +87,7 @@
                 <th scope="col">Name</th>
                 <!-- <th scope="col">Type</th> -->
                 <th scope="col">File Location</th>
+                <th scope="col"></th>
               </tr>
             </thead>
             <tbody id="changesList">
@@ -106,71 +107,8 @@
       </div>
     </div>
     <script>
-      const {ipcRenderer, shell} = require('electron')
-      const path = require('path')
-
-      ipcRenderer.send('diffs')
-      ipcRenderer.once('diffs', (event, {project, feature, data}) => {
-        
-        if (feature.name) {
-          document.getElementById('message').value = feature.name + ' - Updated'
-        }
-
-        if (data) {
-          if (data.length > 0) {
-            data.forEach(row => {
-              const tr = document.createElement('tr')
-              
-              const stateTd = document.createElement('td')
-              stateTd.className = 'badge'
-              stateTd.innerHTML = `<div class="slds-badge ${row.state}">${row.state}</div>`
-
-              const nameTd = document.createElement('td')
-              nameTd.innerText = row.fullName
-              
-              // const typeTd = document.createElement('td')
-              // typeTd.innerText = row.type
-              
-              const locationTd = document.createElement('td')
-              locationTd.innerHTML = `<a href="#">${row.filePath}</a>`
-              locationTd.addEventListener('click', (e) => {
-                e.preventDefault()
-                shell.openItem(path.join(project.directory, row.filePath))
-              })
-
-              tr.appendChild(stateTd)
-              tr.appendChild(nameTd)
-              // tr.appendChild(typeTd)
-              tr.appendChild(locationTd)
-
-              document.getElementById('changesList').appendChild(tr)
-            })
-          } else {
-            displayNoDiffs()
-          }
-        } else {
-          displayNoDiffs()
-        }
-      })
-
-      const displayNoDiffs = () => {
-        document.getElementById('mainTable').style.display = 'none'
-        document.getElementById('commitButton').style.display = 'none'
-        document.getElementById('noChanges').style.display = 'block'
-      }
-
-      const pushToServer = () => {
-        ipcRenderer.send('diffResult', {
-          status: 'commit',
-          message: document.getElementById('message').value
-        })
-      }
-
-      const cancel = () => {
-        ipcRenderer.send('diffResult', {
-          status: 'cancel'
-        })
-      }
+      const commit = require('../src/client/commit')
+      commit.run()
     </script>
   </body>
 </html>

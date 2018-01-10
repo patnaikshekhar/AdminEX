@@ -2,10 +2,10 @@ const SimpleGit = require("simple-git/promise")
 const Settings = require('./settings')
 var currentRepo = null
 const Path = require('path')
+const diff2html = require("diff2html").Diff2Html
 
 const createProject = ({directory, repositoryURL}) => {
   const developBranch = Settings().developBranch
-  console.log('In clone')
   return SimpleGit().clone(repositoryURL, directory)
                     .then(() => {
                       currentRepo = SimpleGit(directory)
@@ -84,6 +84,13 @@ const add = () => {
   return currentRepo.add('./*')
 }
 
+const getDiffHTML = (data) => {
+  console.log('getDiffHTML for', data.filePath)
+  return currentRepo.diff(['--cached', data.filePath])
+    .then(difference => {
+      return diff2html.getPrettySideBySideHtmlFromDiff(difference)
+    })
+}
 
 module.exports = {
   createProject,
@@ -96,5 +103,6 @@ module.exports = {
   restoreStash,
   stash,
   changeSummary,
-  add
+  add,
+  getDiffHTML
 }
