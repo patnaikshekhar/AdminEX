@@ -166,21 +166,19 @@ const showPullDifferences = (project, feature, data) => new Promise((resolve, re
     event.sender.send('diffs', {data, feature, project})
   })
 
-  ipcMain.on('getHTMLDiff', (event, data) => {
-    console.log('In getHTMLDiff')
-    if (data) {
-      GitHelper.getDiffHTML(data)
-        .then(diff => diff ? showHTMLDiff(diff) : null)
-        .catch(e => handleError("Couldn't show diff", e))
-    }
-    
-  })
-
   ipcMain.once('diffResult', (event, result) => {
     showPullDifferencesWin.hide()
     resolved = true
     resolve(result)
   })
+})
+
+ipcMain.on('getHTMLDiff', (event, data) => {
+  if (data) {
+    GitHelper.getDiffHTML(data)
+      .then(diff => diff ? showHTMLDiff(diff) : null)
+      .catch(e => handleError("Couldn't show diff", e))
+  }  
 })
 
 const showHTMLDiff = (diff) => {
@@ -195,9 +193,8 @@ const showHTMLDiff = (diff) => {
     protocol: 'file:',
     slashes: true
   }))
-  console.log('In showHTMLDiff')
+
   ipcMain.once('getDiff', (event, options) => {
-    console.log('In showHTMLDiff got getDiff sending', diff)
     event.sender.send('diff', diff)
   })
 
@@ -205,6 +202,7 @@ const showHTMLDiff = (diff) => {
     diffWindow = null
   })
 }
+
 
 module.exports = {
   selectScratchOrgDetails,

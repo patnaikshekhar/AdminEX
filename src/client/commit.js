@@ -43,8 +43,6 @@ ipcRenderer.on('htmlDiffResult', (e, data) => {
 })
 
 ipcRenderer.on('diffs', (event, {project, feature, data}) => {
-  console.log(data)
-
   if (feature.name) {
     document.getElementById('message').value = feature.name + ' - Updated'
   }
