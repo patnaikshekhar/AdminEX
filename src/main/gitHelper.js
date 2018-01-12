@@ -3,14 +3,16 @@ const Settings = require('./settings')
 var currentRepo = null
 const Path = require('path')
 const diff2html = require("diff2html").Diff2Html
+const fs = require('fs')
 
 const createProject = ({directory, repositoryURL}) => {
   const developBranch = Settings().developBranch
-  return SimpleGit().clone(repositoryURL, directory)
-                    .then(() => {
-                      currentRepo = SimpleGit(directory)
-                      return currentRepo.checkout(developBranch)
-                    })
+  return createDirectoryRecursive(directory)
+    .then(() => SimpleGit().clone(repositoryURL, directory))
+    .then(() => {
+      currentRepo = SimpleGit(directory)
+      return currentRepo.checkout(developBranch)
+    })
 }
 
 const openProject = ({directory}) => {
@@ -91,6 +93,24 @@ const getDiffHTML = (data) => {
       return diff2html.getPrettySideBySideHtmlFromDiff(difference)
     })
 }
+
+const createDirectoryRecursive = (targetDir) => new Promise((resolve, reject) => {
+  const sep = Path.sep
+  const initDir = Path.isAbsolute(targetDir) ? sep : ''
+  targetDir.split(sep).reduce((parentDir, childDir) => {
+    const curDir = Path.resolve(parentDir, childDir);
+    try {
+      fs.mkdirSync(curDir);
+    } catch (err) {
+      if (err.code !== 'EEXIST' && err.code !== 'EISDIR') { 
+        reject(err)
+      }
+    }
+    return curDir;
+  }, initDir)
+
+  resolve()
+})
 
 module.exports = {
   createProject,
