@@ -11,31 +11,8 @@
         -ms-overflow-style: scrollbar;
       }
 
-      .slds-global-header {
-        padding-top: 50px;
-        padding-bottom: 40px;
-      }
-
-      .main-body {
-        margin-top: 90px;
-      }
-
-      .create-project {
-        display: none;
-      }
-
       .create-project.body {
         margin: 60px 20px 20px 20px;
-      }
-
-      .slds-form-element {
-        margin-bottom: 25px;
-        padding: 20px;
-        margin-top: 20px;
-      }
-
-      #noProjects {
-        display: none;
       }
 
       #folderLocation {
@@ -44,87 +21,11 @@
     </style>
   </head>
   <body style="-webkit-app-region: drag">
-    <header class="slds-global-header_container" style="-webkit-app-region: drag"><a href="javascript:void(0);" class="slds-assistive-text slds-assistive-text_focus">Skip to Navigation</a><a href="javascript:void(0);" class="slds-assistive-text slds-assistive-text_focus">Skip to Main Content</a>
-      <div class="slds-global-header slds-grid slds-grid_align-spread">
-        <div class="slds-global-header__item">
-          <div class="slds-global-header__logo">
-            <img src="../lib/salesforce-lightning-design-system-2.4.6/assets/images/logo-noname.svg" alt="" />
-          </div>
-        </div>
-        <div class="slds-global-header__item slds-grid_vertical-align-center">
-          Admin Experience
-        </div>
-        <ul class="slds-global-header__item slds-grid slds-grid_vertical-align-center">
-          <li class="slds-dropdown-trigger slds-dropdown-trigger_click slds-p-horizontal_xxx-small project-select">
-            <button class="slds-button slds-button_brand" title="Global Actions" id="newProject">
-              New Project
-            </button>
-          </li>
-          <li class="slds-dropdown-trigger slds-dropdown-trigger_click slds-p-horizontal_xxx-small create-project">
-            <button class="slds-button slds-button_brand" title="Global Actions" id="authDevHub">
-              Authorise Dev Hub
-            </button>
-          </li>
-        </ul>
-      </div>
-    </header>
-    <div class="main-body">
-      <div class="project-select">
-        <div id="noProjects">
-          <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_warning" role="alert">
-            <span class="slds-assistive-text">warning</span>
-            <span class="slds-icon_container slds-icon-utility-warning slds-m-right_x-small" title="Description of icon when needed">
-              <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="../lib/salesforce-lightning-design-system-2.4.6/assets/icons/utility-sprite/svg/symbols.svg#warning" />
-              </svg>
-            </span>
-            <h2>You don't seem to have any projects at the moment.<a href="javascript:void(0);" id="noProjectsClick">Click here</a> to create one.</h2>
-          </div>
-        </div>
-        <table class="slds-table slds-table_bordered slds-table_cell-buffer" id="projectsTable">
-            <thead class="thead-dark">
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col"></th>
-                <th scope="col">Name</th>
-                <th scope="col">Location</th>
-              </tr>
-            </thead>
-            <tbody id="projectList">
-
-            </tbody>
-        </table>
-      </div>
-      <div class="create-project body">
-        <div class="slds-form-element">
-          <label class="slds-form-element__label" for="text-input-id-1">Project Name</label>
-          <div class="slds-form-element__control">
-            <input type="text" id="projectName" class="slds-input" placeholder="Name of project" />
-          </div>
-        </div>
-        <div class="slds-form-element">
-          <label class="slds-form-element__label" for="text-input-id-1">Project Repository</label>
-          <div class="slds-form-element__control">
-            <input type="text" id="repositoryLocation" class="slds-input" placeholder="Enter location of repository" />
-          </div>
-        </div>
-        <div class="slds-form-element">
-            <label class="slds-form-element__label" for="text-input-id-1">Project Folder</label>
-            <div class="slds-form-element__control">
-              <input type="text" id="folderLocation" class="slds-input" placeholder="Enter location of the folder" />
-              <button class="slds-button slds-button_icon slds-button_icon-border-filled" title="Open Folder" id="selectFolder">
-                <svg class="slds-button__icon" aria-hidden="true">
-                  <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="../lib/salesforce-lightning-design-system-2.4.6/assets/icons/utility-sprite/svg/symbols.svg#opened_folder" />
-                </svg>
-                <span class="slds-assistive-text">Open Folder</span>
-              </button>
-            </div>
-          </div>
-      </div>
-    </div>
-    <script>
+    <div id="root"></div>
+    <script src="./js/projects.js"></script>
+    <!-- <script>
       const project = require('../src/client/project')
       project(document)
-    </script>
+    </script> -->
   </body>
 </html>
