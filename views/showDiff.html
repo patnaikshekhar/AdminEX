@@ -3,20 +3,9 @@
   <head>
     <link rel="stylesheet" href="../lib/salesforce-lightning-design-system-2.4.6/assets/styles/salesforce-lightning-design-system.css" />
     <link rel="stylesheet" href="../node_modules/diff2html/dist/diff2html.css" />
-    <style>
-      
-      .slds-global-header {
-        padding-top: 50px;
-        padding-bottom: 40px;
-      }
-
-      #main {
-        margin-top: 50px;
-      }
-    </style>
   </head>
   <body>
-    <header class="slds-global-header_container"><a href="javascript:void(0);" class="slds-assistive-text slds-assistive-text_focus">Skip to Navigation</a><a href="javascript:void(0);" class="slds-assistive-text slds-assistive-text_focus">Skip to Main Content</a>
+    <!-- <header class="slds-global-header_container"><a href="javascript:void(0);" class="slds-assistive-text slds-assistive-text_focus">Skip to Navigation</a><a href="javascript:void(0);" class="slds-assistive-text slds-assistive-text_focus">Skip to Main Content</a>
       <div class="slds-global-header slds-grid slds-grid_align-spread">
         <div class="slds-global-header__item">
           <div class="slds-global-header__logo">
@@ -33,8 +22,10 @@
       </div>
     </header>
     <div id="main">
-    </div>
-    <script>
+    </div> -->
+    <div id="root"></div>
+    <script src="./js/diff.js"></script>
+    <!-- <script>
       const {ipcRenderer} = require('electron')
 
       ipcRenderer.send('getDiff')
@@ -42,6 +33,6 @@
         if (diff)
           document.getElementById('main').innerHTML = diff
       })
-    </script>
+    </script> -->
   </body>
 </html>

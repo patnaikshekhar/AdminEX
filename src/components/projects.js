@@ -15,8 +15,8 @@ class ProjectPage extends React.Component {
     super()
     this.state = {
       createProject: false,
-      projects: [],
-      project: {}
+      project: {},
+      projects: []
     }
   }
 
@@ -35,6 +35,12 @@ class ProjectPage extends React.Component {
 
   projectDetailsChanged(project) {
     this.setState({ project })
+  }
+
+  navCreateProject() {
+    this.setState({
+      createProject: true
+    })
   }
 
   createProject() {
@@ -60,11 +66,7 @@ class ProjectPage extends React.Component {
           { !this.state.createProject ? 
             <button 
               className="slds-button slds-button_brand" 
-              onClick={() => {
-                this.setState({
-                  createProject: true
-                })
-            }}>New Project</button> :
+              onClick={this.navCreateProject.bind(this)}>New Project</button> :
             <button 
               className="slds-button slds-button_brand"
               onClick={this.createProject.bind(this)}
@@ -77,7 +79,8 @@ class ProjectPage extends React.Component {
               projectDetailsChanged={this.projectDetailsChanged.bind(this)} /> : 
             <ViewProjects 
               projects={this.state.projects} 
-              openProject={this.openProject.bind(this)} />
+              openProject={this.openProject.bind(this)} 
+              createProject={this.navCreateProject.bind(this)}/>
           }
         </ElectronBody>
       </div>

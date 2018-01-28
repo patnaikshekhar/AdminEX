@@ -1,19 +1,13 @@
 import React from 'react'
 const {dialog} = require('electron').remote
 
-const styles = {
-  marginBottom: '25px',
-  padding: '20px',
-  marginTop: '20px'
-}
-
 const inputStyle = {
   width: '92%',
   marginLeft: '4px'
 }
 
 export default (props) => 
-  <div className="slds-form-element" style={styles}>
+  <div className="slds-form-element" style={props.style}>
     <label className="slds-form-element__label">{ props.label }</label>
     <div className="slds-form-element__control">
       <input 

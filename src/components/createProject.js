@@ -11,6 +11,12 @@ class CreateProject extends React.Component {
       repositoryURL: '',
       directory: ''
     }
+
+    this.inputStyles = {
+      marginBottom: '25px',
+      padding: '20px',
+      marginTop: '20px'
+    }    
   }
 
   render() {
@@ -23,6 +29,7 @@ class CreateProject extends React.Component {
             this.setState({ name: value })
             this.props.projectDetailsChanged(this.state)
           }} 
+          style={this.inputStyles}
           value={this.state.name} />
 
         <InputText 
@@ -32,6 +39,7 @@ class CreateProject extends React.Component {
             this.setState({ repositoryURL: value })
             this.props.projectDetailsChanged(this.state)
           }} 
+          style={this.inputStyles}
           value={this.state.repositoryURL} />
 
         <InputFile 
@@ -42,6 +50,7 @@ class CreateProject extends React.Component {
             this.setState({ directory: value })
             this.props.projectDetailsChanged(this.state)
           }} 
+          style={this.inputStyles}
           value={this.state.directory} />
       </div>
     )

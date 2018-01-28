@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 32);
+/******/ 	return __webpack_require__(__webpack_require__.s = 44);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -7787,98 +7787,22 @@ exports.default = function (props) {
 };
 
 /***/ }),
-/* 29 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = function (props) {
-  return _react2.default.createElement(
-    "div",
-    { className: "slds-form-element", style: props.style },
-    _react2.default.createElement(
-      "label",
-      { className: "slds-form-element__label" },
-      props.label
-    ),
-    _react2.default.createElement(
-      "div",
-      { className: "slds-form-element__control" },
-      _react2.default.createElement("input", {
-        type: "text",
-        className: "slds-input",
-        value: props.value,
-        placeholder: props.placeholder,
-        onChange: function onChange(e) {
-          return props.onChange(e.target.value);
-        } })
-    )
-  );
-};
-
-/***/ }),
-/* 30 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var iconMapping = {
-  warning: 'warning',
-  offline: 'offline',
-  error: 'ban'
-};
-
-exports.default = function (props) {
-  return _react2.default.createElement(
-    'div',
-    {
-      className: 'slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_' + props.type,
-      role: 'alert' },
-    _react2.default.createElement(
-      'span',
-      { className: 'slds-assistive-text' },
-      props.type
-    ),
-    _react2.default.createElement(
-      'span',
-      { className: 'slds-icon_container slds-icon-utility-warning slds-m-right_x-small', title: 'Description of icon when needed' },
-      _react2.default.createElement(
-        'svg',
-        { className: 'slds-icon slds-icon_x-small', 'aria-hidden': 'true' },
-        _react2.default.createElement('use', {
-          xmlnsXlink: 'http://www.w3.org/1999/xlink',
-          xlinkHref: '../lib/salesforce-lightning-design-system-2.4.6/assets/icons/utility-sprite/svg/symbols.svg#' + iconMapping[props.type] })
-      )
-    ),
-    props.children
-  );
-};
-
-/***/ }),
+/* 29 */,
+/* 30 */,
 /* 31 */,
-/* 32 */
+/* 32 */,
+/* 33 */,
+/* 34 */,
+/* 35 */,
+/* 36 */,
+/* 37 */,
+/* 38 */,
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */,
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7898,14 +7822,6 @@ var _header = __webpack_require__(27);
 
 var _header2 = _interopRequireDefault(_header);
 
-var _createProject = __webpack_require__(33);
-
-var _createProject2 = _interopRequireDefault(_createProject);
-
-var _viewProjects = __webpack_require__(35);
-
-var _viewProjects2 = _interopRequireDefault(_viewProjects);
-
 var _electronBody = __webpack_require__(28);
 
 var _electronBody2 = _interopRequireDefault(_electronBody);
@@ -7921,417 +7837,54 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var _require = __webpack_require__(14),
     ipcRenderer = _require.ipcRenderer;
 
-var _require2 = __webpack_require__(36),
-    authDevHub = _require2.authDevHub;
-
 var root = document.getElementById('root');
 
-var ProjectPage = function (_React$Component) {
-  _inherits(ProjectPage, _React$Component);
+var DiffPage = function (_React$Component) {
+  _inherits(DiffPage, _React$Component);
 
-  function ProjectPage() {
-    _classCallCheck(this, ProjectPage);
+  function DiffPage() {
+    _classCallCheck(this, DiffPage);
 
-    var _this = _possibleConstructorReturn(this, (ProjectPage.__proto__ || Object.getPrototypeOf(ProjectPage)).call(this));
+    var _this = _possibleConstructorReturn(this, (DiffPage.__proto__ || Object.getPrototypeOf(DiffPage)).call(this));
 
     _this.state = {
-      createProject: false,
-      project: {},
-      projects: []
+      diff: null
     };
     return _this;
   }
 
-  _createClass(ProjectPage, [{
+  _createClass(DiffPage, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(_header2.default, null),
+        _react2.default.createElement(
+          _electronBody2.default,
+          null,
+          _react2.default.createElement('div', { dangerouslySetInnerHTML: { __html: this.state.diff } })
+        )
+      );
+    }
+  }, {
     key: 'componentWillMount',
     value: function componentWillMount() {
       var _this2 = this;
 
-      ipcRenderer.send('projects');
-      ipcRenderer.on('projects', function (event, _ref) {
-        var projects = _ref.projects;
-
+      ipcRenderer.send('getDiff');
+      ipcRenderer.on('diff', function (event, diff) {
         _this2.setState({
-          projects: projects
+          diff: diff
         });
       });
     }
-  }, {
-    key: 'openProject',
-    value: function openProject(project) {
-      ipcRenderer.send('setProject', project);
-    }
-  }, {
-    key: 'projectDetailsChanged',
-    value: function projectDetailsChanged(project) {
-      this.setState({ project: project });
-    }
-  }, {
-    key: 'navCreateProject',
-    value: function navCreateProject() {
-      this.setState({
-        createProject: true
-      });
-    }
-  }, {
-    key: 'createProject',
-    value: function createProject() {
-      var _state$project = this.state.project,
-          name = _state$project.name,
-          directory = _state$project.directory,
-          repositoryURL = _state$project.repositoryURL;
-
-
-      authDevHub({
-        name: name
-      }).then(function (devHubAlias) {
-        ipcRenderer.send('createProject', {
-          name: name,
-          directory: directory,
-          repositoryURL: repositoryURL,
-          devHubAlias: devHubAlias
-        });
-      }).catch(function (e) {
-        return console.error(e);
-      });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(
-          _header2.default,
-          null,
-          !this.state.createProject ? _react2.default.createElement(
-            'button',
-            {
-              className: 'slds-button slds-button_brand',
-              onClick: this.navCreateProject.bind(this) },
-            'New Project'
-          ) : _react2.default.createElement(
-            'button',
-            {
-              className: 'slds-button slds-button_brand',
-              onClick: this.createProject.bind(this)
-            },
-            'Create'
-          )
-        ),
-        _react2.default.createElement(
-          _electronBody2.default,
-          null,
-          this.state.createProject ? _react2.default.createElement(_createProject2.default, {
-            projectDetailsChanged: this.projectDetailsChanged.bind(this) }) : _react2.default.createElement(_viewProjects2.default, {
-            projects: this.state.projects,
-            openProject: this.openProject.bind(this),
-            createProject: this.navCreateProject.bind(this) })
-        )
-      );
-    }
   }]);
 
-  return ProjectPage;
+  return DiffPage;
 }(_react2.default.Component);
 
-_reactDom2.default.render(_react2.default.createElement(ProjectPage, null), root);
-
-/***/ }),
-/* 33 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _inputText = __webpack_require__(29);
-
-var _inputText2 = _interopRequireDefault(_inputText);
-
-var _inputFile = __webpack_require__(34);
-
-var _inputFile2 = _interopRequireDefault(_inputFile);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var CreateProject = function (_React$Component) {
-  _inherits(CreateProject, _React$Component);
-
-  function CreateProject() {
-    _classCallCheck(this, CreateProject);
-
-    var _this = _possibleConstructorReturn(this, (CreateProject.__proto__ || Object.getPrototypeOf(CreateProject)).call(this));
-
-    _this.state = {
-      name: '',
-      repositoryURL: '',
-      directory: ''
-    };
-
-    _this.inputStyles = {
-      marginBottom: '25px',
-      padding: '20px',
-      marginTop: '20px'
-    };
-    return _this;
-  }
-
-  _createClass(CreateProject, [{
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
-
-      return _react2.default.createElement(
-        'div',
-        { className: 'create-project body' },
-        _react2.default.createElement(_inputText2.default, {
-          label: 'Project Name',
-          placeholder: 'Name of project',
-          onChange: function onChange(value) {
-            _this2.setState({ name: value });
-            _this2.props.projectDetailsChanged(_this2.state);
-          },
-          style: this.inputStyles,
-          value: this.state.name }),
-        _react2.default.createElement(_inputText2.default, {
-          label: 'Project Repository',
-          placeholder: 'Enter git URL of repository',
-          onChange: function onChange(value) {
-            _this2.setState({ repositoryURL: value });
-            _this2.props.projectDetailsChanged(_this2.state);
-          },
-          style: this.inputStyles,
-          value: this.state.repositoryURL }),
-        _react2.default.createElement(_inputFile2.default, {
-          label: 'Project Folder',
-          placeholder: 'Select project folder',
-          type: 'openDirectory',
-          onChange: function onChange(value) {
-            _this2.setState({ directory: value });
-            _this2.props.projectDetailsChanged(_this2.state);
-          },
-          style: this.inputStyles,
-          value: this.state.directory })
-      );
-    }
-  }]);
-
-  return CreateProject;
-}(_react2.default.Component);
-
-exports.default = CreateProject;
-
-/***/ }),
-/* 34 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var dialog = __webpack_require__(14).remote.dialog;
-
-var inputStyle = {
-  width: '92%',
-  marginLeft: '4px'
-};
-
-exports.default = function (props) {
-  return _react2.default.createElement(
-    'div',
-    { className: 'slds-form-element', style: props.style },
-    _react2.default.createElement(
-      'label',
-      { className: 'slds-form-element__label' },
-      props.label
-    ),
-    _react2.default.createElement(
-      'div',
-      { className: 'slds-form-element__control' },
-      _react2.default.createElement('input', {
-        type: 'text',
-        className: 'slds-input',
-        onChange: function onChange(e) {
-          return props.onChange(e.target.value);
-        },
-        placeholder: props.placeholder,
-        value: props.value,
-        style: inputStyle }),
-      _react2.default.createElement(
-        'button',
-        { className: 'slds-button slds-button_icon slds-button_icon-border-filled', title: 'Open Folder', onClick: function onClick() {
-            var directory = dialog.showOpenDialog({ properties: [props.type] });
-            props.onChange(directory);
-          } },
-        _react2.default.createElement(
-          'svg',
-          { className: 'slds-button__icon', 'aria-hidden': 'true' },
-          _react2.default.createElement('use', { xmlnsXlink: 'http://www.w3.org/1999/xlink', xlinkHref: '../lib/salesforce-lightning-design-system-2.4.6/assets/icons/utility-sprite/svg/symbols.svg#opened_folder' })
-        ),
-        _react2.default.createElement(
-          'span',
-          { className: 'slds-assistive-text' },
-          'Open Folder'
-        )
-      )
-    )
-  );
-};
-
-/***/ }),
-/* 35 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _alert = __webpack_require__(30);
-
-var _alert2 = _interopRequireDefault(_alert);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var NoProjects = function NoProjects(props) {
-  return _react2.default.createElement(
-    'div',
-    null,
-    _react2.default.createElement(
-      _alert2.default,
-      { type: 'warning' },
-      _react2.default.createElement(
-        'h2',
-        null,
-        'You don\'t seem to have any projects at the moment.',
-        _react2.default.createElement(
-          'a',
-          { href: 'javascript:void(0);', onClick: props.createProject },
-          'Click here'
-        ),
-        ' to create one.'
-      )
-    )
-  );
-};
-
-var SelectProject = function SelectProject(props) {
-  return _react2.default.createElement(
-    'table',
-    { className: 'slds-table slds-table_bordered slds-table_cell-buffer', id: 'projectsTable' },
-    _react2.default.createElement(
-      'thead',
-      { className: 'thead-dark' },
-      _react2.default.createElement(
-        'tr',
-        null,
-        _react2.default.createElement(
-          'th',
-          { scope: 'col' },
-          '#'
-        ),
-        _react2.default.createElement('th', { scope: 'col' }),
-        _react2.default.createElement(
-          'th',
-          { scope: 'col' },
-          'Name'
-        ),
-        _react2.default.createElement(
-          'th',
-          { scope: 'col' },
-          'Location'
-        )
-      )
-    ),
-    _react2.default.createElement(
-      'tbody',
-      { id: 'projectList' },
-      props.projects.map(function (proj, index) {
-        return _react2.default.createElement(
-          'tr',
-          { key: proj.Id },
-          _react2.default.createElement(
-            'td',
-            null,
-            index + 1
-          ),
-          _react2.default.createElement(
-            'td',
-            null,
-            _react2.default.createElement(
-              'button',
-              {
-                className: 'slds-button',
-                onClick: function onClick() {
-                  return props.openProject(proj);
-                } },
-              'Open'
-            )
-          ),
-          _react2.default.createElement(
-            'td',
-            null,
-            proj.name
-          ),
-          _react2.default.createElement(
-            'td',
-            null,
-            proj.directory
-          )
-        );
-      })
-    )
-  );
-};
-
-var ViewProjects = function ViewProjects(props) {
-  return _react2.default.createElement(
-    'div',
-    { className: 'project-select' },
-    props.projects.length == 0 ? _react2.default.createElement(NoProjects, { createProject: props.createProject }) : _react2.default.createElement(SelectProject, {
-      projects: props.projects,
-      openProject: props.openProject })
-  );
-};
-
-exports.default = ViewProjects;
-
-/***/ }),
-/* 36 */
-/***/ (function(module, exports) {
-
-module.exports = require('../src/main/sfdx');
+_reactDom2.default.render(_react2.default.createElement(DiffPage, null), root);
 
 /***/ })
 /******/ ]);

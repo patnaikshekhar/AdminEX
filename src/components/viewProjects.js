@@ -1,16 +1,11 @@
 import React from 'react'
+import Alert from './alert'
 
 const NoProjects = (props) => 
   <div>
-    <div className="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_warning" role="alert">
-      <span className="slds-assistive-text">warning</span>
-      <span className="slds-icon_container slds-icon-utility-warning slds-m-right_x-small" title="Description of icon when needed">
-        <svg className="slds-icon slds-icon_x-small" aria-hidden="true">
-          <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref="../lib/salesforce-lightning-design-system-2.4.6/assets/icons/utility-sprite/svg/symbols.svg#warning" />
-        </svg>
-      </span>
-      <h2>You don't seem to have any projects at the moment.<a href="javascript:void(0);" id="noProjectsClick">Click here</a> to create one.</h2>
-    </div>
+    <Alert type="warning">
+      <h2>You don't seem to have any projects at the moment.<a href="javascript:void(0);" onClick={props.createProject}>Click here</a> to create one.</h2>
+    </Alert>
   </div>
 
 const SelectProject = (props) => 
@@ -42,7 +37,7 @@ const SelectProject = (props) =>
 const ViewProjects = (props) =>
   <div className="project-select">
     { props.projects.length == 0 ? 
-      <NoProjects /> : 
+      <NoProjects createProject={props.createProject} /> : 
       <SelectProject 
         projects={props.projects} 
         openProject={props.openProject} />}

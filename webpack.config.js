@@ -4,7 +4,11 @@ const RestartElectronPlugin = require('restart-electron-webpack-plugin')
 module.exports = {
   
   entry: {
-    projects: './src/components/projects.js' 
+    projects: './src/components/projects.js',
+    createScratchOrg: './src/components/createScratchOrg.js',
+    createFeature: './src/components/createFeature.js',
+    pullDifferences: './src/components/pullDifferences.js',
+    diff: './src/components/diff.js'
   },
   
   output: {
@@ -33,7 +37,8 @@ module.exports = {
         'electron',
         'child_process',
         'sfdx-node',
-        '../src/main/sfdx'
+        '../src/main/sfdx',
+        'path'
       ]
       return function (context, request, callback) {
         if (IGNORES.indexOf(request) >= 0) {
