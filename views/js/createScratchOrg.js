@@ -7810,7 +7810,12 @@ exports.default = function (props) {
     _react2.default.createElement(
       "label",
       { className: "slds-form-element__label" },
-      props.label
+      props.label,
+      props.required ? _react2.default.createElement(
+        "abbr",
+        { className: "slds-required", title: "required" },
+        "*"
+      ) : ''
     ),
     _react2.default.createElement(
       "div",
@@ -7828,7 +7833,55 @@ exports.default = function (props) {
 };
 
 /***/ }),
-/* 30 */,
+/* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var iconMapping = {
+  warning: 'warning',
+  offline: 'offline',
+  error: 'ban'
+};
+
+exports.default = function (props) {
+  return _react2.default.createElement(
+    'div',
+    {
+      className: 'slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_' + props.type,
+      role: 'alert' },
+    _react2.default.createElement(
+      'span',
+      { className: 'slds-assistive-text' },
+      props.type
+    ),
+    _react2.default.createElement(
+      'span',
+      { className: 'slds-icon_container slds-icon-utility-warning slds-m-right_x-small', title: 'Description of icon when needed' },
+      _react2.default.createElement(
+        'svg',
+        { className: 'slds-icon slds-icon_x-small', 'aria-hidden': 'true' },
+        _react2.default.createElement('use', {
+          xmlnsXlink: 'http://www.w3.org/1999/xlink',
+          xlinkHref: '../lib/salesforce-lightning-design-system-2.4.6/assets/icons/utility-sprite/svg/symbols.svg#' + iconMapping[props.type] })
+      )
+    ),
+    props.children
+  );
+};
+
+/***/ }),
 /* 31 */,
 /* 32 */,
 /* 33 */,
@@ -7863,6 +7916,10 @@ var _inputText = __webpack_require__(29);
 
 var _inputText2 = _interopRequireDefault(_inputText);
 
+var _alert = __webpack_require__(30);
+
+var _alert2 = _interopRequireDefault(_alert);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -7886,7 +7943,8 @@ var CreateScratchOrgPage = function (_React$Component) {
 
     _this.state = {
       alias: '',
-      location: '/config/project-scratch-def.json'
+      location: '/config/project-scratch-def.json',
+      error: ''
     };
 
     _this.inputStyles = {
@@ -7900,7 +7958,21 @@ var CreateScratchOrgPage = function (_React$Component) {
   _createClass(CreateScratchOrgPage, [{
     key: 'create',
     value: function create() {
-      ipcRenderer.send('createScratchOrg', this.state);
+      var _state = this.state,
+          alias = _state.alias,
+          location = _state.location;
+
+
+      if (alias && location) {
+        ipcRenderer.send('createScratchOrg', {
+          alias: alias,
+          location: location
+        });
+      } else {
+        this.setState({
+          error: 'Please fill in required fields'
+        });
+      }
     }
   }, {
     key: 'render',
@@ -7924,9 +7996,15 @@ var CreateScratchOrgPage = function (_React$Component) {
         _react2.default.createElement(
           _electronBody2.default,
           null,
+          this.state.error ? _react2.default.createElement(
+            _alert2.default,
+            { type: 'error' },
+            this.state.error
+          ) : '',
           _react2.default.createElement(_inputText2.default, {
             label: 'Scratch Org Name',
             placeholder: 'Name of scratch org',
+            required: 'true',
             onChange: function onChange(alias) {
               _this2.setState({ alias: alias });
             },
@@ -7935,6 +8013,7 @@ var CreateScratchOrgPage = function (_React$Component) {
           _react2.default.createElement(_inputText2.default, {
             label: 'Template File Location',
             placeholder: 'Enter location of template',
+            required: 'true',
             onChange: function onChange(location) {
               _this2.setState({ location: location });
             },

@@ -7810,7 +7810,12 @@ exports.default = function (props) {
     _react2.default.createElement(
       "label",
       { className: "slds-form-element__label" },
-      props.label
+      props.label,
+      props.required ? _react2.default.createElement(
+        "abbr",
+        { className: "slds-required", title: "required" },
+        "*"
+      ) : ''
     ),
     _react2.default.createElement(
       "div",
@@ -7828,7 +7833,55 @@ exports.default = function (props) {
 };
 
 /***/ }),
-/* 30 */,
+/* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var iconMapping = {
+  warning: 'warning',
+  offline: 'offline',
+  error: 'ban'
+};
+
+exports.default = function (props) {
+  return _react2.default.createElement(
+    'div',
+    {
+      className: 'slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_' + props.type,
+      role: 'alert' },
+    _react2.default.createElement(
+      'span',
+      { className: 'slds-assistive-text' },
+      props.type
+    ),
+    _react2.default.createElement(
+      'span',
+      { className: 'slds-icon_container slds-icon-utility-warning slds-m-right_x-small', title: 'Description of icon when needed' },
+      _react2.default.createElement(
+        'svg',
+        { className: 'slds-icon slds-icon_x-small', 'aria-hidden': 'true' },
+        _react2.default.createElement('use', {
+          xmlnsXlink: 'http://www.w3.org/1999/xlink',
+          xlinkHref: '../lib/salesforce-lightning-design-system-2.4.6/assets/icons/utility-sprite/svg/symbols.svg#' + iconMapping[props.type] })
+      )
+    ),
+    props.children
+  );
+};
+
+/***/ }),
 /* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7900,6 +7953,10 @@ var _inputSelect = __webpack_require__(40);
 
 var _inputSelect2 = _interopRequireDefault(_inputSelect);
 
+var _alert = __webpack_require__(30);
+
+var _alert2 = _interopRequireDefault(_alert);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -7926,7 +7983,8 @@ var CreateFeaturePage = function (_React$Component) {
       name: '',
       location: '/config/project-scratch-def.json',
       existingOrg: '',
-      orgs: []
+      orgs: [],
+      error: ''
     };
 
     _this.inputStyles = {
@@ -7945,15 +8003,6 @@ var CreateFeaturePage = function (_React$Component) {
       ipcRenderer.send('getScratchOrgs');
       ipcRenderer.once('orgs', function (event, orgs) {
         _this2.setState({ orgs: orgs });
-      });
-    }
-  }, {
-    key: 'create',
-    value: function create() {
-      ipcRenderer.send('createFeature', {
-        name: this.state.name,
-        location: this.state.location,
-        existingOrg: this.state.existingOrg
       });
     }
   }, {
@@ -7978,12 +8027,18 @@ var CreateFeaturePage = function (_React$Component) {
         _react2.default.createElement(
           _electronBody2.default,
           null,
+          this.state.error ? _react2.default.createElement(
+            _alert2.default,
+            { type: 'error' },
+            this.state.error
+          ) : '',
           _react2.default.createElement(_inputText2.default, {
             label: 'Feature Name',
             placeholder: 'Work Item Number',
             onChange: function onChange(name) {
               _this3.setState({ name: name });
             },
+            required: 'true',
             style: this.inputStyles,
             value: this.state.name }),
           _react2.default.createElement(
@@ -7998,6 +8053,7 @@ var CreateFeaturePage = function (_React$Component) {
                 onChange: function onChange(location) {
                   _this3.setState({ location: location });
                 },
+                required: 'true',
                 style: this.inputStyles,
                 value: this.state.location })
             ),
@@ -8009,6 +8065,7 @@ var CreateFeaturePage = function (_React$Component) {
                 onChange: function onChange(existingOrg) {
                   _this3.setState({ existingOrg: existingOrg });
                 },
+                required: 'true',
                 style: this.inputStyles,
                 value: this.state.existingOrg,
                 options: this.state.orgs })
@@ -8016,6 +8073,27 @@ var CreateFeaturePage = function (_React$Component) {
           )
         )
       );
+    }
+  }, {
+    key: 'create',
+    value: function create() {
+      var _state = this.state,
+          name = _state.name,
+          location = _state.location,
+          existingOrg = _state.existingOrg;
+
+
+      if (name && (location || existingOrg)) {
+        ipcRenderer.send('createFeature', {
+          name: name,
+          location: location,
+          existingOrg: existingOrg
+        });
+      } else {
+        this.setState({
+          error: 'Please fill in required fields'
+        });
+      }
     }
   }]);
 
@@ -8146,7 +8224,12 @@ exports.default = function (props) {
     _react2.default.createElement(
       "label",
       { className: "slds-form-element__label" },
-      props.label
+      props.label,
+      props.required ? _react2.default.createElement(
+        "abbr",
+        { className: "slds-required", title: "required" },
+        "*"
+      ) : ''
     ),
     _react2.default.createElement(
       "div",

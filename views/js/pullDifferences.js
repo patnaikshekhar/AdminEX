@@ -7810,7 +7810,12 @@ exports.default = function (props) {
     _react2.default.createElement(
       "label",
       { className: "slds-form-element__label" },
-      props.label
+      props.label,
+      props.required ? _react2.default.createElement(
+        "abbr",
+        { className: "slds-required", title: "required" },
+        "*"
+      ) : ''
     ),
     _react2.default.createElement(
       "div",

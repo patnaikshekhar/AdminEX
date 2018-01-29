@@ -8,7 +8,9 @@ const inputStyle = {
 
 export default (props) => 
   <div className="slds-form-element" style={props.style}>
-    <label className="slds-form-element__label">{ props.label }</label>
+    <label className="slds-form-element__label">{ props.label }
+      {props.required ? <abbr className="slds-required" title="required">*</abbr> : '' }
+    </label>
     <div className="slds-form-element__control">
       <input 
         type="text" 

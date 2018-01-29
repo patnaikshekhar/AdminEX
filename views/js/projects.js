@@ -7810,7 +7810,12 @@ exports.default = function (props) {
     _react2.default.createElement(
       "label",
       { className: "slds-form-element__label" },
-      props.label
+      props.label,
+      props.required ? _react2.default.createElement(
+        "abbr",
+        { className: "slds-required", title: "required" },
+        "*"
+      ) : ''
     ),
     _react2.default.createElement(
       "div",
@@ -7910,6 +7915,10 @@ var _electronBody = __webpack_require__(28);
 
 var _electronBody2 = _interopRequireDefault(_electronBody);
 
+var _alert = __webpack_require__(30);
+
+var _alert2 = _interopRequireDefault(_alert);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -7937,7 +7946,8 @@ var ProjectPage = function (_React$Component) {
     _this.state = {
       createProject: false,
       project: {},
-      projects: []
+      projects: [],
+      error: ''
     };
     return _this;
   }
@@ -7954,45 +7964,6 @@ var ProjectPage = function (_React$Component) {
         _this2.setState({
           projects: projects
         });
-      });
-    }
-  }, {
-    key: 'openProject',
-    value: function openProject(project) {
-      ipcRenderer.send('setProject', project);
-    }
-  }, {
-    key: 'projectDetailsChanged',
-    value: function projectDetailsChanged(project) {
-      this.setState({ project: project });
-    }
-  }, {
-    key: 'navCreateProject',
-    value: function navCreateProject() {
-      this.setState({
-        createProject: true
-      });
-    }
-  }, {
-    key: 'createProject',
-    value: function createProject() {
-      var _state$project = this.state.project,
-          name = _state$project.name,
-          directory = _state$project.directory,
-          repositoryURL = _state$project.repositoryURL;
-
-
-      authDevHub({
-        name: name
-      }).then(function (devHubAlias) {
-        ipcRenderer.send('createProject', {
-          name: name,
-          directory: directory,
-          repositoryURL: repositoryURL,
-          devHubAlias: devHubAlias
-        });
-      }).catch(function (e) {
-        return console.error(e);
       });
     }
   }, {
@@ -8016,12 +7987,17 @@ var ProjectPage = function (_React$Component) {
               className: 'slds-button slds-button_brand',
               onClick: this.createProject.bind(this)
             },
-            'Create'
+            'Authorise DevHub'
           )
         ),
         _react2.default.createElement(
           _electronBody2.default,
           null,
+          this.state.error ? _react2.default.createElement(
+            _alert2.default,
+            { type: 'error' },
+            this.state.error
+          ) : '',
           this.state.createProject ? _react2.default.createElement(_createProject2.default, {
             projectDetailsChanged: this.projectDetailsChanged.bind(this) }) : _react2.default.createElement(_viewProjects2.default, {
             projects: this.state.projects,
@@ -8029,6 +8005,55 @@ var ProjectPage = function (_React$Component) {
             createProject: this.navCreateProject.bind(this) })
         )
       );
+    }
+  }, {
+    key: 'openProject',
+    value: function openProject(project) {
+      ipcRenderer.send('setProject', project);
+    }
+  }, {
+    key: 'projectDetailsChanged',
+    value: function projectDetailsChanged(project) {
+      this.setState({ project: project });
+    }
+  }, {
+    key: 'navCreateProject',
+    value: function navCreateProject() {
+      this.setState({
+        createProject: true
+      });
+    }
+  }, {
+    key: 'createProject',
+    value: function createProject() {
+      var _this3 = this;
+
+      var _state$project = this.state.project,
+          name = _state$project.name,
+          directory = _state$project.directory,
+          repositoryURL = _state$project.repositoryURL;
+
+
+      if (name && directory && repositoryURL) {
+        authDevHub({
+          name: name
+        }).then(function (devHubAlias) {
+          ipcRenderer.send('createProject', {
+            name: name,
+            directory: directory,
+            repositoryURL: repositoryURL,
+            devHubAlias: devHubAlias
+          });
+        }).catch(function (e) {
+          return _this3.setState({
+            error: e.toString()
+          });
+        });
+      } else {
+        this.setState({
+          error: 'Please fill in required fields.'
+        });
+      }
     }
   }]);
 
@@ -8103,6 +8128,7 @@ var CreateProject = function (_React$Component) {
         _react2.default.createElement(_inputText2.default, {
           label: 'Project Name',
           placeholder: 'Name of project',
+          required: 'true',
           onChange: function onChange(value) {
             _this2.setState({ name: value });
             _this2.props.projectDetailsChanged(_this2.state);
@@ -8112,6 +8138,7 @@ var CreateProject = function (_React$Component) {
         _react2.default.createElement(_inputText2.default, {
           label: 'Project Repository',
           placeholder: 'Enter git URL of repository',
+          required: 'true',
           onChange: function onChange(value) {
             _this2.setState({ repositoryURL: value });
             _this2.props.projectDetailsChanged(_this2.state);
@@ -8121,6 +8148,7 @@ var CreateProject = function (_React$Component) {
         _react2.default.createElement(_inputFile2.default, {
           label: 'Project Folder',
           placeholder: 'Select project folder',
+          required: 'true',
           type: 'openDirectory',
           onChange: function onChange(value) {
             _this2.setState({ directory: value });
@@ -8168,7 +8196,12 @@ exports.default = function (props) {
     _react2.default.createElement(
       'label',
       { className: 'slds-form-element__label' },
-      props.label
+      props.label,
+      props.required ? _react2.default.createElement(
+        'abbr',
+        { className: 'slds-required', title: 'required' },
+        '*'
+      ) : ''
     ),
     _react2.default.createElement(
       'div',

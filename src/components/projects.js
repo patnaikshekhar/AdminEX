@@ -4,6 +4,8 @@ import Header from './header.js'
 import CreateProject from './createProject'
 import ViewProjects from './viewProjects'
 import ElectronBody from './electronBody'
+import Alert from './alert'
+
 const {ipcRenderer} = require('electron')
 const { authDevHub } = require('../src/main/sfdx')
 
@@ -16,7 +18,8 @@ class ProjectPage extends React.Component {
     this.state = {
       createProject: false,
       project: {},
-      projects: []
+      projects: [],
+      error: ''
     }
   }
 
@@ -27,6 +30,39 @@ class ProjectPage extends React.Component {
         projects
       })
     })
+  }
+
+  render() {
+    return (
+      <div>
+        <Header>
+          { !this.state.createProject ? 
+            <button 
+              className="slds-button slds-button_brand" 
+              onClick={this.navCreateProject.bind(this)}>New Project</button> :
+            <button 
+              className="slds-button slds-button_brand"
+              onClick={this.createProject.bind(this)}
+              >Authorise DevHub</button>
+          }
+        </Header>
+        <ElectronBody>
+          { this.state.error ?
+            <Alert type="error">{ this.state.error }</Alert> :
+            ''
+          }
+
+          { this.state.createProject ? 
+            <CreateProject 
+              projectDetailsChanged={this.projectDetailsChanged.bind(this)} /> : 
+            <ViewProjects 
+              projects={this.state.projects} 
+              openProject={this.openProject.bind(this)} 
+              createProject={this.navCreateProject.bind(this)}/>
+          }
+        </ElectronBody>
+      </div>
+    )
   }
 
   openProject(project) {
@@ -47,44 +83,24 @@ class ProjectPage extends React.Component {
 
     const {name, directory, repositoryURL} = this.state.project
 
-    authDevHub({
-      name
-    }).then(devHubAlias => {
-      ipcRenderer.send('createProject', {
-        name,
-        directory,
-        repositoryURL,
-        devHubAlias
+    if (name && directory && repositoryURL) {
+      authDevHub({
+        name
+      }).then(devHubAlias => {
+        ipcRenderer.send('createProject', {
+          name,
+          directory,
+          repositoryURL,
+          devHubAlias
+        })
+      }).catch(e => this.setState({
+        error: e.toString()
+      }))
+    } else {
+      this.setState({
+        error: 'Please fill in required fields.'
       })
-    }).catch(e => console.error(e))
-  }
-
-  render() {
-    return (
-      <div>
-        <Header>
-          { !this.state.createProject ? 
-            <button 
-              className="slds-button slds-button_brand" 
-              onClick={this.navCreateProject.bind(this)}>New Project</button> :
-            <button 
-              className="slds-button slds-button_brand"
-              onClick={this.createProject.bind(this)}
-              >Create</button>
-          }
-        </Header>
-        <ElectronBody>
-          { this.state.createProject ? 
-            <CreateProject 
-              projectDetailsChanged={this.projectDetailsChanged.bind(this)} /> : 
-            <ViewProjects 
-              projects={this.state.projects} 
-              openProject={this.openProject.bind(this)} 
-              createProject={this.navCreateProject.bind(this)}/>
-          }
-        </ElectronBody>
-      </div>
-    )
+    }
   }
 }
 

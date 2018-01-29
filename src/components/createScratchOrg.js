@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import Header from './header.js'
 import ElectronBody from './electronBody'
 import InputText from './inputText'
+import Alert from './alert'
 
 const {ipcRenderer} = require('electron')
 
@@ -14,7 +15,8 @@ class CreateScratchOrgPage extends React.Component {
     super()
     this.state = {
       alias: '',
-      location: '/config/project-scratch-def.json'
+      location: '/config/project-scratch-def.json',
+      error: ''
     }
 
     this.inputStyles = {
@@ -25,7 +27,19 @@ class CreateScratchOrgPage extends React.Component {
   }
 
   create() {
-    ipcRenderer.send('createScratchOrg', this.state)
+    
+    const {alias, location} = this.state
+
+    if (alias && location) {
+      ipcRenderer.send('createScratchOrg', {
+        alias,
+        location
+      })
+    } else {
+      this.setState({
+        error: 'Please fill in required fields'
+      })
+    }
   }
 
   render() {
@@ -39,9 +53,15 @@ class CreateScratchOrgPage extends React.Component {
             </button>
         </Header>
         <ElectronBody>
+          { this.state.error ?
+            <Alert type="error">{ this.state.error }</Alert> :
+            ''
+          }
+
           <InputText 
             label="Scratch Org Name" 
             placeholder="Name of scratch org" 
+            required="true"
             onChange={alias => {
               this.setState({ alias })
             }}
@@ -50,6 +70,7 @@ class CreateScratchOrgPage extends React.Component {
           <InputText 
             label="Template File Location" 
             placeholder="Enter location of template" 
+            required="true"
             onChange={location => {
               this.setState({ location })
             }}

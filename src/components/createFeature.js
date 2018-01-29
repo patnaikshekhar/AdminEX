@@ -6,6 +6,7 @@ import InputText from './inputText'
 import Tabs from './tabs'
 import Tab from './tab'
 import InputSelect from './inputSelect'
+import Alert from './alert'
 
 const {ipcRenderer, shell} = require('electron')
 
@@ -19,7 +20,8 @@ class CreateFeaturePage extends React.Component {
       name: '',
       location: '/config/project-scratch-def.json',
       existingOrg: '',
-      orgs: []
+      orgs: [],
+      error: ''
     }
 
     this.inputStyles = {
@@ -36,14 +38,6 @@ class CreateFeaturePage extends React.Component {
     })
   }
 
-  create() {
-    ipcRenderer.send('createFeature', {
-      name: this.state.name,
-      location: this.state.location,
-      existingOrg: this.state.existingOrg
-    })
-  }
-
   render() {
     return (
       <div>
@@ -55,12 +49,17 @@ class CreateFeaturePage extends React.Component {
             </button>
         </Header>
         <ElectronBody>
+          { this.state.error ?
+            <Alert type="error">{ this.state.error }</Alert> :
+            ''
+          }
           <InputText 
             label="Feature Name" 
             placeholder="Work Item Number" 
             onChange={name => {
               this.setState({ name })
             }}
+            required="true"
             style={this.inputStyles}
             value={this.state.name} />
           <Tabs>
@@ -71,6 +70,7 @@ class CreateFeaturePage extends React.Component {
                 onChange={location => {
                   this.setState({ location })
                 }}
+                required="true"
                 style={this.inputStyles}
                 value={this.state.location} />
             </Tab>
@@ -80,6 +80,7 @@ class CreateFeaturePage extends React.Component {
                 onChange={existingOrg => {
                   this.setState({ existingOrg })
                 }}
+                required="true"
                 style={this.inputStyles}
                 value={this.state.existingOrg} 
                 options={ this.state.orgs }/>
@@ -88,6 +89,23 @@ class CreateFeaturePage extends React.Component {
         </ElectronBody>
       </div>
     )
+  }
+
+  create() {
+
+    const {name, location, existingOrg} = this.state
+
+    if (name && (location || existingOrg)) {
+      ipcRenderer.send('createFeature', {
+        name,
+        location,
+        existingOrg
+      })
+    } else {
+      this.setState({
+        error: 'Please fill in required fields'
+      })
+    }
   }
 }
 

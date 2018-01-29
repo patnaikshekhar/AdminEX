@@ -25,6 +25,7 @@ class CreateProject extends React.Component {
         <InputText 
           label="Project Name" 
           placeholder="Name of project" 
+          required="true"
           onChange={(value) => {
             this.setState({ name: value })
             this.props.projectDetailsChanged(this.state)
@@ -34,7 +35,8 @@ class CreateProject extends React.Component {
 
         <InputText 
           label="Project Repository" 
-          placeholder="Enter git URL of repository" 
+          placeholder="Enter git URL of repository"
+          required="true"
           onChange={(value) => {
             this.setState({ repositoryURL: value })
             this.props.projectDetailsChanged(this.state)
@@ -45,6 +47,7 @@ class CreateProject extends React.Component {
         <InputFile 
           label="Project Folder" 
           placeholder="Select project folder"
+          required="true"
           type="openDirectory"
           onChange={(value) => {
             this.setState({ directory: value })
