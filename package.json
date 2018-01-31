@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "electron index.js",
+    "watch": "webpack --watch",
     "test-watch": "jasmine-node --autotest --verbose --captureExceptions --color .",
     "test": "jasmine-node --verbose --color .",
     "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/dxicon.icns --prune=true --out=release-builds --ignore adminex_data.json",

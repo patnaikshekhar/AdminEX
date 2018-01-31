@@ -37,7 +37,8 @@ const deleteBranch = (branchName) => {
   const developBranch = Settings().developBranch
 
   return currentRepo.checkout(developBranch)
-    .then(() => currentRepo.deleteLocalBranch(branchName))
+    // .then(() => currentRepo.deleteLocalBranch(branchName))
+    .then(() => currentRepo.raw(['branch', '-D', branchName]))
 }
 
 const removeChanges = () => {
@@ -112,6 +113,10 @@ const createDirectoryRecursive = (targetDir) => new Promise((resolve, reject) =>
   resolve()
 })
 
+const undoFileChanges = (file) => new Promise((resolve, reject) => {
+  resolve()
+})
+
 module.exports = {
   createProject,
   openProject,
@@ -124,5 +129,6 @@ module.exports = {
   stash,
   changeSummary,
   add,
-  getDiffHTML
+  getDiffHTML,
+  undoFileChanges
 }

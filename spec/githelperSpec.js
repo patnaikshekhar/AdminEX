@@ -5,14 +5,14 @@ const fs = require('fs')
 const cleanDir = (dir) => {
   if (fs.existsSync(dir)) {
     fs.readdirSync(dir).forEach(function(file, index){
-      var curdir = dir + "/" + file;
+      var curdir = dir + "/" + file
       if (fs.lstatSync(curdir).isDirectory()) { // recurse
-        cleanDir(curdir);
+        cleanDir(curdir)
       } else { // delete file
-        fs.unlinkSync(curdir);
+        fs.unlinkSync(curdir)
       }
-    });
-    fs.rmdirSync(dir);
+    })
+    fs.rmdirSync(dir)
   }
 }
 
@@ -175,6 +175,43 @@ describe('gitHelper', () => {
           expect(addedFile.fullName).toBe('test1.txt')
           expect(addedFile.filePath).toBe('test1.txt')
 
+          cleanDir(testDir)
+          done()
+        })
+        .catch(e => {
+          console.error(e)
+          expect(e.toString()).toBe(null)
+          cleanDir(testDir)
+          done()
+        })
+    })
+  })
+
+  describe('undoFileChanges', () => {
+
+    it('should undo file changes', (done) => {
+      const testDir = `/Users/spatnaik/Downloads/undoFileChanges`
+  
+      cleanDir(testDir)
+      fs.mkdirSync(testDir)
+      const git = simpleGit(testDir)
+
+      git.init()
+        .then(() => fs.writeFileSync(`${testDir}/test.txt`, 'contents1'))
+        .then(() => git.add('./*'))
+        .then(() => git.commit('First Commit'))
+        .then(() => git.checkoutLocalBranch('develop'))
+        .then(() => fs.writeFileSync(`${testDir}/test.txt`, 'contents2'))
+        .then(() => git.add('./*'))
+        .then(() => git.commit('Second Commit'))
+        .then(() => git.checkoutLocalBranch('feature1'))
+        .then(() => fs.writeFileSync(`${testDir}/test.txt`, 'contents3'))
+        .then(() => git.add('./*'))
+        .then(() => gitHelper.openProject({ directory: testDir }))
+        .then(() => gitHelper.undoFileChanges(`${testDir}/test.txt`))
+        .then(() => {
+          const contents = fs.readFileSync(`${testDir}/test.txt`).toString()
+          expect(contents).toBe('contents2')
           cleanDir(testDir)
           done()
         })

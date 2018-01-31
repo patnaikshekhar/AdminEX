@@ -173,13 +173,21 @@ const showPullDifferences = (project, feature, data) => new Promise((resolve, re
   })
 })
 
-ipcMain.on('getHTMLDiff', (event, data) => {
-  if (data) {
-    GitHelper.getDiffHTML(data)
-      .then(diff => diff ? showHTMLDiff(diff) : null)
-      .catch(e => handleError("Couldn't show diff", e))
-  }  
-})
+if (ipcMain) {
+  ipcMain.on('getHTMLDiff', (event, data) => {
+    if (data) {
+      GitHelper.getDiffHTML(data)
+        .then(diff => diff ? showHTMLDiff(diff) : null)
+        .catch(e => handleError("Couldn't show diff", e))
+    }  
+  })
+  
+  ipcMain.on('undoFileChanges', (event, data) => {
+    if (data) {
+      console.log(data)
+    }  
+  })
+}
 
 const showHTMLDiff = (diff) => {
   const debug = Settings().debugMode

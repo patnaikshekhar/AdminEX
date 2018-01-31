@@ -5,6 +5,7 @@ import ElectronBody from './electronBody'
 import Alert from './alert'
 import Badge from './badge'
 import InputText from './inputText'
+import Button from './button'
 
 const {ipcRenderer, shell} = require('electron')
 const path = require('path')
@@ -85,11 +86,14 @@ class PullDifferencesPage extends React.Component {
                     <tr key={row.filePath}>
                       <td><Badge style={this.styles[row.state]}>{row.state}</Badge></td>
                       <td>{row.fullName}</td>
-                      <td onClick={() => this.openFile(row)}><a href="#">{row.filePath}</a></td>
+                      <td onClick={() => this.openFile(row)}>
+                        <div className="slds-truncate">
+                          <a href="#">{this.truncate(row.filePath)}</a>
+                        </div>
+                      </td>
                       <td>
-                        <button 
-                          className="slds-button slds-button_neutral"
-                          onClick={() => this.openDiff(row)}>Diff</button>
+                        <Button icon="utility:copy" onClick={() => this.openDiff(row)} />
+                        <Button icon="utility:undo" onClick={() => this.undoFile(row)} />
                       </td>
                     </tr>
                   )}
@@ -132,6 +136,14 @@ class PullDifferencesPage extends React.Component {
 
   openDiff(item) {
     ipcRenderer.send('getHTMLDiff', item)
+  }
+
+  truncate(value) {
+    return value.length > 50 ? `...${value.substring(value.length - 50)}` : value
+  }
+
+  undoFile(item) {
+    ipcRenderer.send('undoFileChanges', item)
   }
 }
 

@@ -7803,52 +7803,6 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = function (props) {
-  return _react2.default.createElement(
-    "div",
-    { className: "slds-form-element", style: props.style },
-    _react2.default.createElement(
-      "label",
-      { className: "slds-form-element__label" },
-      props.label,
-      props.required ? _react2.default.createElement(
-        "abbr",
-        { className: "slds-required", title: "required" },
-        "*"
-      ) : ''
-    ),
-    _react2.default.createElement(
-      "div",
-      { className: "slds-form-element__control" },
-      _react2.default.createElement("input", {
-        type: "text",
-        className: "slds-input",
-        value: props.value,
-        placeholder: props.placeholder,
-        onChange: function onChange(e) {
-          return props.onChange(e.target.value);
-        } })
-    )
-  );
-};
-
-/***/ }),
-/* 30 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 var iconMapping = {
   warning: 'warning',
   offline: 'offline',
@@ -7878,6 +7832,52 @@ exports.default = function (props) {
       )
     ),
     props.children
+  );
+};
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (props) {
+  return _react2.default.createElement(
+    "div",
+    { className: "slds-form-element", style: props.style },
+    _react2.default.createElement(
+      "label",
+      { className: "slds-form-element__label" },
+      props.label,
+      props.required ? _react2.default.createElement(
+        "abbr",
+        { className: "slds-required", title: "required" },
+        "*"
+      ) : ''
+    ),
+    _react2.default.createElement(
+      "div",
+      { className: "slds-form-element__control" },
+      _react2.default.createElement("input", {
+        type: "text",
+        className: "slds-input",
+        value: props.value,
+        placeholder: props.placeholder,
+        onChange: function onChange(e) {
+          return props.onChange(e.target.value);
+        } })
+    )
   );
 };
 
@@ -7937,7 +7937,7 @@ var _electronBody = __webpack_require__(28);
 
 var _electronBody2 = _interopRequireDefault(_electronBody);
 
-var _inputText = __webpack_require__(29);
+var _inputText = __webpack_require__(30);
 
 var _inputText2 = _interopRequireDefault(_inputText);
 
@@ -7953,7 +7953,7 @@ var _inputSelect = __webpack_require__(40);
 
 var _inputSelect2 = _interopRequireDefault(_inputSelect);
 
-var _alert = __webpack_require__(30);
+var _alert = __webpack_require__(29);
 
 var _alert2 = _interopRequireDefault(_alert);
 

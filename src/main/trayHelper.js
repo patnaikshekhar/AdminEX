@@ -4,9 +4,16 @@ const Storage = require('./storage')
 const {handleError, alert, log, logp} = require('./utilities')
 const WindowManager = require('./windowManager')
 const GitHelper = require('./gitHelper')
+const createScratchOrg = require('./tasks/createScratchOrg')
+const openScratchOrg = require('./tasks/openScratchOrg')
+const deleteScratchOrg = require('./tasks/deleteScratchOrg')
+const authDevHub = require('./tasks/authDevHub')
+const createWork = require('./tasks/createWork')
+const startWork = require('./tasks/startWork')
+const deleteWork = require('./tasks/deleteWork')
+const pullChanges = require('./tasks/pullChanges')
 
 let tray = null
-let activeFeature
 
 const setupTray = (project) => {
   if (!tray) {
@@ -33,17 +40,7 @@ const getConnectToDevOrgItem = (project) => new Promise((resolve, reject) => {
       label: 'Connect Dev Hub',
       type: undefined,
       click() { 
-        sfdx.authDevHub(project)
-          .then((alias) => {
-            project.devHubAlias = alias
-            return Storage.updateProject(project)
-          })
-          // .then(() => refreshMenu(project))
-          .then(() => alert('Dev Hub Org Added. Relaunching application.'))
-          .then(() => {
-            app.relaunch()
-            app.exit()
-          })
+        authDevHub(project)
           .catch(e => handleError('Could not connect to DevHub', e))
       }
     }])
@@ -58,16 +55,7 @@ const getScratchOrgItems = (project) => {
           label: 'Create Scratch Org',
           type: undefined,
           click() { 
-            WindowManager.selectScratchOrgDetails()
-              .then(options => sfdx.createScratchOrg(project, options))
-              .then(options => { log('Finished createScratchOrg', 'Info'); return options })
-              .then(options => sfdx.pushSource(project, options))
-              .then(options => { log('Finished pushSource', 'Info'); return options })
-              .then(options => sfdx.openScratchOrg(options))
-              .then(options => { log('Finished openScratchOrg', 'Info'); return options })
-              .then(options => refreshMenu(project, options))
-              .then(options => { log('Finished refreshMenu', 'Info'); return options })
-              .then(options => alert(`${options.alias} is now ready`))
+            createScratchOrg(project, refreshMenu)
               .catch(e => handleError('Error creating scratch org', e))
           }
         }]
@@ -78,8 +66,7 @@ const getScratchOrgItems = (project) => {
             submenu: orgs.map((alias => ({
               label: alias,
               click() {
-                sfdx.openScratchOrg({ alias })
-                  .then(options => { log('Finished openScratchOrg', 'Info'); return options })
+                openScratchOrg(alias)
                   .catch(e => handleError('Error creating scratch org', e))
               }
             })))
@@ -88,10 +75,8 @@ const getScratchOrgItems = (project) => {
             submenu: orgs.map((alias => ({
               label: alias,
               click: () => 
-                sfdx.deleteScratchOrg({ alias })
-                    .then(options => { log('Finished deleteScratchOrg', 'Info'); return options })
-                    .then(() => refreshMenu(project))
-                    .catch(e => handleError('Delete Org Failed', e))
+                deleteScratchOrg(alias, project, refreshMenu)
+                  .catch(e => handleError('Delete Org Failed', e))
             })))
           })
         } else {
@@ -109,54 +94,7 @@ const getStartFeature = (project) => new Promise((resolve, reject) => {
       label: 'New Work',
       type: undefined,
       click() {
-        WindowManager.createFeature(project)
-          .then(feature => logp(`New Work for ${JSON.stringify(feature)}`, 'Info', feature))
-          .then(feature => {
-            if (!feature.existingOrg) {
-              feature.scratchOrg = feature.name
-            } else {
-              feature.scratchOrg = feature.existingOrg
-            }
-
-            return feature
-          })
-          .then(feature => 
-              Storage.getProject(project)
-                .then(project => {
-                  if (project.features) {
-                    return Object.assign(project, { features: project.features.concat(feature) })
-                  } else {
-                    return Object.assign(project, { features: [feature] })
-                  }
-                })
-                .then(updatedProject => {
-                  project = updatedProject
-                  return Storage.updateProject(project)
-                })
-                .then(() => activeFeature = feature.name)
-                .then(() => 
-                  GitHelper.createFeatureBranch(feature.name)
-                    .then(() => logp(`Finished creating feature branch for ${feature.name}`, 'Info'))
-                    .then(() => {
-                      if (!feature.existingOrg) {
-                        return sfdx.createScratchOrg(project, {
-                          location: feature.location, 
-                          alias: feature.scratchOrg
-                        }).then(options => logp(`Finished createScratchOrg ${JSON.stringify(options)}`, 'Info', options))
-                      } else {
-                        log(`Returning existing org for ${feature.name}`, 'Info')
-                        return {
-                          alias: feature.scratchOrg  
-                        }
-                      }
-                    })
-                    .then(options => sfdx.pushSource(project, options))
-                    .then(options => logp('Finished pushSource', 'Info', options))
-                    .then(options => sfdx.openScratchOrg(options))
-                    .then(options => logp('Finished openScratchOrg', 'Info', options))
-                    .then(options => refreshMenu(project, options))
-                    .then(options => logp('Finished refreshMenu', 'Info', options)))
-                    .then(() => alert(`${feature.name} is now ready`)))
+        createWork(project, refreshMenu)
           .catch(e => handleError('Error creating feature', e))
       }
     }])
@@ -168,77 +106,24 @@ const getStartFeature = (project) => new Promise((resolve, reject) => {
 const getFeatures = (project) => new Promise((resolve, reject) => {
   if (project.features && project.devHubAlias) {
     resolve(project.features.map(feature => ({
-      label: `${feature.name} ${activeFeature == feature.name ? '(Active)' : ''}`,
+      label: feature.name,
       type: undefined,
       submenu: [
         {
           label: 'Start Work',
           type: undefined,
           click() {
-            activeFeature = feature.name
             log(`Start work for feature ${feature.name}`, 'Info')
-            GitHelper.switchBranch(feature.name)
-              .then(() => sfdx.openScratchOrg({ alias: feature.scratchOrg }))
+            startWork(feature)
               .catch(e => handleError(e))
           }
         },
-        // {
-        //   label: 'Commit Changes from Scratch Org',
-        //   type: undefined,
-        //   click() {
-        //     activeFeature = feature.name
-        //     log(`Pull Changes for feature ${feature.name}`, 'Info')
-        //     GitHelper.switchBranch(feature.name)
-        //       .then(() => sfdx.pullSource(project, { alias: feature.scratchOrg }))
-        //       .then(data => logp(`Data from pull`, 'Info', data))
-        //       .then(data => 
-        //         WindowManager.showPullDifferences(project, feature, data)
-        //           .then(message => logp(`Commiting for ${feature.name}`, 'Info', message))
-        //           .then(message => {
-        //             if (data) {
-        //               if (data.length > 0) {
-        //                 return GitHelper.addCommitAndPush(feature.name, message)
-        //               } else {
-        //                 return logp(`Nothing to commit `, 'Info', data)
-        //               }
-        //             }
-        //           }))
-        //       .catch(e => handleError('Pull Changes from Scratch Org Failed', e))
-        //   }
-        // },
         {
           label: 'Pull Changes from Scratch Org',
           type: undefined,
           click() {
-            activeFeature = feature.name
             log(`Pull Changes for feature ${feature.name}`, 'Info')
-            GitHelper.switchBranch(feature.name)
-              .then(() => logp(`Switched branch to`, 'Info', feature.name))
-              .then(() => GitHelper.restoreStash(feature.name))
-              .then(() => logp(`Finished restore stash. Started pull from ${feature.scratchOrg}`, 'Info'))
-              .then(() => sfdx.pullSource(project, { alias: feature.scratchOrg }))
-              .then(data => logp(`Data from pull`, 'Info', data))
-              .then(() => GitHelper.add())
-              .then(() => GitHelper.changeSummary())
-              .then(data => logp(`Data from GitHelper.changeSummary`, 'Info', data))
-              .then(data => 
-                WindowManager.showPullDifferences(project, feature, data)
-                  .then(message => logp(`Commiting for ${feature.name}`, 'Info', message))
-                  .then(({status, message}) => {
-                    if (status == 'commit') {
-                      if (data) {
-                        if (data.length > 0) {
-                          return GitHelper.addCommitAndPush(feature.name, message)
-                          .then(() => logp(`Changes for ${feature.name} committed with message ${message}`, 'Info', data))    
-                        } else {
-                          return logp(`Nothing to commit `, 'Info', data)
-                        }
-                      }
-                    } else {
-                      return GitHelper.stash(feature.name)
-                        .then(() => logp(`Stashing changes for the future for ${feature.name}`, 'Info', data))
-                    }
-                  }))
+            pullChanges(project, feature)
               .catch(e => handleError('Pull Changes from Scratch Org Failed', e))
           }
         },
@@ -246,18 +131,7 @@ const getFeatures = (project) => new Promise((resolve, reject) => {
           label: 'Delete',
           type: undefined,
           click() {
-            Storage.getProject(project)
-              // .then(project => { console.log(project); return project; })
-              .then(project => Object.assign(project, {
-                features: project.features.filter(f => f.name != feature.name)
-              }))
-              .then(project => Storage.updateProject(project))
-              .then(() => GitHelper.deleteBranch(feature.name))
-              .then(() => { log('Finished deleteBranch', 'Info') })
-              .then(() => sfdx.deleteScratchOrg({ alias: feature.scratchOrg }))
-              .then(() => { log('Finished deleteScratchOrg', 'Info') })
-              .then(() => refreshMenu(project))
-              .then(() => alert(`Finished deleting ${feature.name}`))
+            deleteWork(project, feature, refreshMenu)
               .catch(e => handleError('Delete Org Failed', e))
           }
         }

@@ -7803,52 +7803,6 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = function (props) {
-  return _react2.default.createElement(
-    "div",
-    { className: "slds-form-element", style: props.style },
-    _react2.default.createElement(
-      "label",
-      { className: "slds-form-element__label" },
-      props.label,
-      props.required ? _react2.default.createElement(
-        "abbr",
-        { className: "slds-required", title: "required" },
-        "*"
-      ) : ''
-    ),
-    _react2.default.createElement(
-      "div",
-      { className: "slds-form-element__control" },
-      _react2.default.createElement("input", {
-        type: "text",
-        className: "slds-input",
-        value: props.value,
-        placeholder: props.placeholder,
-        onChange: function onChange(e) {
-          return props.onChange(e.target.value);
-        } })
-    )
-  );
-};
-
-/***/ }),
-/* 30 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 var iconMapping = {
   warning: 'warning',
   offline: 'offline',
@@ -7878,6 +7832,52 @@ exports.default = function (props) {
       )
     ),
     props.children
+  );
+};
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (props) {
+  return _react2.default.createElement(
+    "div",
+    { className: "slds-form-element", style: props.style },
+    _react2.default.createElement(
+      "label",
+      { className: "slds-form-element__label" },
+      props.label,
+      props.required ? _react2.default.createElement(
+        "abbr",
+        { className: "slds-required", title: "required" },
+        "*"
+      ) : ''
+    ),
+    _react2.default.createElement(
+      "div",
+      { className: "slds-form-element__control" },
+      _react2.default.createElement("input", {
+        type: "text",
+        className: "slds-input",
+        value: props.value,
+        placeholder: props.placeholder,
+        onChange: function onChange(e) {
+          return props.onChange(e.target.value);
+        } })
+    )
   );
 };
 
@@ -7916,7 +7916,7 @@ var _electronBody = __webpack_require__(28);
 
 var _electronBody2 = _interopRequireDefault(_electronBody);
 
-var _alert = __webpack_require__(30);
+var _alert = __webpack_require__(29);
 
 var _alert2 = _interopRequireDefault(_alert);
 
@@ -7924,9 +7924,13 @@ var _badge = __webpack_require__(42);
 
 var _badge2 = _interopRequireDefault(_badge);
 
-var _inputText = __webpack_require__(29);
+var _inputText = __webpack_require__(30);
 
 var _inputText2 = _interopRequireDefault(_inputText);
+
+var _button = __webpack_require__(43);
+
+var _button2 = _interopRequireDefault(_button);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7940,7 +7944,7 @@ var _require = __webpack_require__(14),
     ipcRenderer = _require.ipcRenderer,
     shell = _require.shell;
 
-var path = __webpack_require__(43);
+var path = __webpack_require__(44);
 
 var root = document.getElementById('root');
 
@@ -8082,23 +8086,24 @@ var PullDifferencesPage = function (_React$Component) {
                           return _this2.openFile(row);
                         } },
                       _react2.default.createElement(
-                        'a',
-                        { href: '#' },
-                        row.filePath
+                        'div',
+                        { className: 'slds-truncate' },
+                        _react2.default.createElement(
+                          'a',
+                          { href: '#' },
+                          _this2.truncate(row.filePath)
+                        )
                       )
                     ),
                     _react2.default.createElement(
                       'td',
                       null,
-                      _react2.default.createElement(
-                        'button',
-                        {
-                          className: 'slds-button slds-button_neutral',
-                          onClick: function onClick() {
-                            return _this2.openDiff(row);
-                          } },
-                        'Diff'
-                      )
+                      _react2.default.createElement(_button2.default, { icon: 'utility:copy', onClick: function onClick() {
+                          return _this2.openDiff(row);
+                        } }),
+                      _react2.default.createElement(_button2.default, { icon: 'utility:undo', onClick: function onClick() {
+                          return _this2.undoFile(row);
+                        } })
                     )
                   );
                 })
@@ -8151,6 +8156,16 @@ var PullDifferencesPage = function (_React$Component) {
     value: function openDiff(item) {
       ipcRenderer.send('getHTMLDiff', item);
     }
+  }, {
+    key: 'truncate',
+    value: function truncate(value) {
+      return value.length > 50 ? '...' + value.substring(value.length - 50) : value;
+    }
+  }, {
+    key: 'undoFile',
+    value: function undoFile(item) {
+      ipcRenderer.send('undoFileChanges', item);
+    }
   }]);
 
   return PullDifferencesPage;
@@ -8187,6 +8202,50 @@ exports.default = Badge;
 
 /***/ }),
 /* 43 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Button = function Button(props) {
+
+  var type = 'neutral';
+
+  if (props.type) {
+    type = props.type;
+  }
+
+  var classes = 'slds-button ' + (props.icon ? 'slds-button_icon slds-button_icon-border-filled' : 'slds-button_' + type);
+
+  var iconCategory = props.icon ? props.icon.split(':')[0] : null;
+  var iconName = props.icon ? props.icon.split(':')[1] : null;
+
+  return _react2.default.createElement(
+    'button',
+    { className: classes, onClick: props.onClick },
+    props.icon ? _react2.default.createElement(
+      'svg',
+      { className: 'slds-button__icon', 'aria-hidden': 'true' },
+      _react2.default.createElement('use', { xmlnsXlink: 'http://www.w3.org/1999/xlink', xlinkHref: '../lib/salesforce-lightning-design-system-2.4.6/assets/icons/' + iconCategory + '-sprite/svg/symbols.svg#' + iconName })
+    ) : '',
+    props.children
+  );
+};
+
+exports.default = Button;
+
+/***/ }),
+/* 44 */
 /***/ (function(module, exports) {
 
 module.exports = require('path');
