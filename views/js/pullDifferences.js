@@ -7964,15 +7964,18 @@ var PullDifferencesPage = function (_React$Component) {
 
     _this.styles = {
       Add: {
-        backgroundColor: 'rgb(75, 202, 129)'
+        backgroundColor: 'rgb(75, 202, 129)',
+        textAlign: 'center'
       },
 
       Changed: {
-        backgroundColor: '#ffb75d'
+        backgroundColor: '#ffb75d',
+        textAlign: 'center'
       },
 
       Deleted: {
-        backgroundColor: '#c23934'
+        backgroundColor: '#c23934',
+        textAlign: 'center'
       },
 
       input: {

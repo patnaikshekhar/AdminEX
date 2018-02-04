@@ -135,9 +135,6 @@ const createFeature = (project) => new Promise((resolve, reject) => {
   })
 })
 
-/*
-[{"state":"Changed","fullName":"Account.Test1__c","type":"CustomField","filePath":"force-app/main/default/objects/Account/fields/Test1__c.field-meta.xml"}]
-*/
 const showPullDifferences = (project, feature, data) => new Promise((resolve, reject) => {
   const debug = Settings().debugMode
   let resolved = false

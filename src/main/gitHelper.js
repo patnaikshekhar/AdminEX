@@ -123,10 +123,10 @@ const undoFileChanges = (branchName, filename, action) => {
     .then(() => currentRepo.pull('origin', developBranch))
     .then(() => currentRepo.checkout(branchName))
     .then(() => restoreStash(branchName))
-    .then(() => action == 'Changed' ? 
-      currentRepo.raw(['checkout', developBranch, '--', filename]) : 
+    .then(() => action == 'Add' ? 
       currentRepo.reset([filename])
-        .then(() => currentRepo.clean('f', [filename]))
+        .then(() => currentRepo.clean('f', [filename])) :
+      currentRepo.raw(['checkout', developBranch, '--', filename])
     )
 }
 

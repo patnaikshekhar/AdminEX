@@ -49,7 +49,7 @@ const deleteScratchOrg = (options) =>
 const pushSource = (project, options) => {
   process.chdir(project.directory)
   return sfdx.source.push({
-    targetusername: options.alias,
+    targetusername: options.alias || options.scratchOrg,
     forceoverwrite: true,
     ignorewarnings: true
   })
