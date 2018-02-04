@@ -4,7 +4,7 @@ const Settings = require('./settings')
 const Storage = require('./storage')
 const GitHelper = require('./gitHelper')
 const SFDX = require('./sfdx')
-const { handleError } = require('./utilities')
+const { handleError, logp, log } = require('./utilities')
 
 const url = require('url')
 const path = require('path')
@@ -182,9 +182,14 @@ if (ipcMain) {
     }  
   })
   
-  ipcMain.on('undoFileChanges', (event, data) => {
-    if (data) {
-      console.log(data)
+  ipcMain.on('undoFileChanges', (event, file, project, feature) => {
+    if (file) {
+      log('Starting undoFileChanges', 'Info', file)
+      GitHelper.undoFileChanges(feature.name, file.filePath, file.state)
+        .then(() => logp('Finished undoFileChanges', 'Info'))
+        .then(() => SFDX.pushSource(project, feature))
+        .then(() => logp('Finished pushSource', 'Info'))
+        .catch(e => handleError('Could not Undo changes', e))
     }  
   })
 }

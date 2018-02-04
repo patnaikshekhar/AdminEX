@@ -112,7 +112,8 @@ class PullDifferencesPage extends React.Component {
       this.setState({
         message: `${feature.name} - Updated`,
         project: project,
-        data: data
+        data: data,
+        feature: feature
       })
     })
   }
@@ -143,7 +144,10 @@ class PullDifferencesPage extends React.Component {
   }
 
   undoFile(item) {
-    ipcRenderer.send('undoFileChanges', item)
+    this.setState({
+      data: this.state.data.filter((change) => change != item)
+    })
+    ipcRenderer.send('undoFileChanges', item, this.state.project, this.state.feature)
   }
 }
 

@@ -8127,7 +8127,8 @@ var PullDifferencesPage = function (_React$Component) {
         _this3.setState({
           message: feature.name + ' - Updated',
           project: project,
-          data: data
+          data: data,
+          feature: feature
         });
       });
     }
@@ -8164,7 +8165,12 @@ var PullDifferencesPage = function (_React$Component) {
   }, {
     key: 'undoFile',
     value: function undoFile(item) {
-      ipcRenderer.send('undoFileChanges', item);
+      this.setState({
+        data: this.state.data.filter(function (change) {
+          return change != item;
+        })
+      });
+      ipcRenderer.send('undoFileChanges', item, this.state.project, this.state.feature);
     }
   }]);
 

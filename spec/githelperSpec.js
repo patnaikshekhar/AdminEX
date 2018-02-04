@@ -48,7 +48,6 @@ describe('gitHelper', () => {
           done()
         })
         .catch(e => {
-          console.error(e)
           expect(e.toString()).toBe(null)
           cleanDir(testDir)
           done()
@@ -93,7 +92,6 @@ describe('gitHelper', () => {
           done()
         })
         .catch(e => {
-          console.error(e)
           expect(e.toString()).toBe(null)
           cleanDir(testDir)
           done()
@@ -137,7 +135,6 @@ describe('gitHelper', () => {
           done()
         })
         .catch(e => {
-          console.error(e)
           expect(e.toString()).toBe(null)
           cleanDir(testDir)
           done()
@@ -179,7 +176,6 @@ describe('gitHelper', () => {
           done()
         })
         .catch(e => {
-          console.error(e)
           expect(e.toString()).toBe(null)
           cleanDir(testDir)
           done()
@@ -216,7 +212,6 @@ describe('gitHelper', () => {
           done()
         })
         .catch(e => {
-          console.error(e)
           expect(e.toString()).toBe(null)
           cleanDir(testDir)
           done()

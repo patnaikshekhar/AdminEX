@@ -49,8 +49,12 @@ const deleteScratchOrg = (options) =>
 const pushSource = (project, options) => {
   process.chdir(project.directory)
   return sfdx.source.push({
-    targetusername: options.alias
-  }).then(() => options)
+    targetusername: options.alias,
+    forceoverwrite: true,
+    ignorewarnings: true
+  })
+  .then((result) => console.log('pushSource', result))
+  .then(() => options)
 }
 
 const createProjectDirectory = (project) => new Promise((resolve, reject) => {

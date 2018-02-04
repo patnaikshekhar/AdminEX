@@ -20,7 +20,9 @@ const openProject = ({directory}) => {
   const developBranch = Settings().developBranch
 
   currentRepo = SimpleGit(directory)
-  return currentRepo.checkout(developBranch)
+  return currentRepo.branch()
+    .then(result => stash(result.current))
+    .then(() => currentRepo.checkout(developBranch))
 }
 
 const createFeatureBranch = (branchName) => {
@@ -113,9 +115,20 @@ const createDirectoryRecursive = (targetDir) => new Promise((resolve, reject) =>
   resolve()
 })
 
-const undoFileChanges = (file) => new Promise((resolve, reject) => {
-  resolve()
-})
+const undoFileChanges = (branchName, filename, action) => {
+  const developBranch = Settings().developBranch
+  console.log('Action', action)
+  return stash(branchName)
+    .then(() => currentRepo.checkout(developBranch))
+    .then(() => currentRepo.pull('origin', developBranch))
+    .then(() => currentRepo.checkout(branchName))
+    .then(() => restoreStash(branchName))
+    .then(() => action == 'Changed' ? 
+      currentRepo.raw(['checkout', developBranch, '--', filename]) : 
+      currentRepo.reset([filename])
+        .then(() => currentRepo.clean('f', [filename]))
+    )
+}
 
 module.exports = {
   createProject,
