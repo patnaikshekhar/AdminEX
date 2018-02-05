@@ -7933,6 +7933,8 @@ var _require = __webpack_require__(14),
 var _require2 = __webpack_require__(36),
     authDevHub = _require2.authDevHub;
 
+var fs = __webpack_require__(46);
+
 var root = document.getElementById('root');
 
 var ProjectPage = function (_React$Component) {
@@ -8034,7 +8036,17 @@ var ProjectPage = function (_React$Component) {
           repositoryURL = _state$project.repositoryURL;
 
 
-      if (name && directory && repositoryURL) {
+      if (!this.directoryIsEmpty(directory)) {
+        this.setState({
+          error: 'The directory selected is not empty'
+        });
+      } else if (name && directory && repositoryURL) {
+
+        // Remove any existing error
+        this.setState({
+          error: null
+        });
+
         authDevHub({
           name: name
         }).then(function (devHubAlias) {
@@ -8053,6 +8065,19 @@ var ProjectPage = function (_React$Component) {
         this.setState({
           error: 'Please fill in required fields.'
         });
+      }
+    }
+  }, {
+    key: 'directoryIsEmpty',
+    value: function directoryIsEmpty(directory) {
+      if (fs.existsSync(directory)) {
+        if (fs.readdirSync(directory).length == 0) {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return true;
       }
     }
   }]);
@@ -8369,6 +8394,21 @@ exports.default = ViewProjects;
 /***/ (function(module, exports) {
 
 module.exports = require('../src/main/sfdx');
+
+/***/ }),
+/* 37 */,
+/* 38 */,
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */,
+/* 44 */,
+/* 45 */,
+/* 46 */
+/***/ (function(module, exports) {
+
+module.exports = require('fs');
 
 /***/ })
 /******/ ]);

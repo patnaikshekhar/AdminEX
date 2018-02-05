@@ -8,6 +8,7 @@ import Alert from './alert'
 
 const {ipcRenderer} = require('electron')
 const { authDevHub } = require('../src/main/sfdx')
+const fs = require('fs')
 
 let root = document.getElementById('root')
 
@@ -83,7 +84,17 @@ class ProjectPage extends React.Component {
 
     const {name, directory, repositoryURL} = this.state.project
 
-    if (name && directory && repositoryURL) {
+    if (!this.directoryIsEmpty(directory)) {
+      this.setState({
+        error: 'The directory selected is not empty'
+      })
+    } else if (name && directory && repositoryURL) {
+      
+      // Remove any existing error
+      this.setState({
+        error: null
+      })
+      
       authDevHub({
         name
       }).then(devHubAlias => {
@@ -100,6 +111,18 @@ class ProjectPage extends React.Component {
       this.setState({
         error: 'Please fill in required fields.'
       })
+    }
+  }
+
+  directoryIsEmpty(directory) {
+    if (fs.existsSync(directory)) {
+      if (fs.readdirSync(directory).length == 0) {
+        return true
+      } else {
+        return false
+      }
+    } else {
+      return true
     }
   }
 }

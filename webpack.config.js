@@ -38,7 +38,8 @@ module.exports = {
         'child_process',
         'sfdx-node',
         '../src/main/sfdx',
-        'path'
+        'path',
+        'fs'
       ]
       return function (context, request, callback) {
         if (IGNORES.indexOf(request) >= 0) {
