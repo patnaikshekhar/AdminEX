@@ -7933,7 +7933,7 @@ var _require = __webpack_require__(14),
 var _require2 = __webpack_require__(36),
     authDevHub = _require2.authDevHub;
 
-var fs = __webpack_require__(46);
+var fs = __webpack_require__(37);
 
 var root = document.getElementById('root');
 
@@ -8396,16 +8396,7 @@ exports.default = ViewProjects;
 module.exports = require('../src/main/sfdx');
 
 /***/ }),
-/* 37 */,
-/* 38 */,
-/* 39 */,
-/* 40 */,
-/* 41 */,
-/* 42 */,
-/* 43 */,
-/* 44 */,
-/* 45 */,
-/* 46 */
+/* 37 */
 /***/ (function(module, exports) {
 
 module.exports = require('fs');

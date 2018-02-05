@@ -21,6 +21,9 @@ const writeContents = (data) => new Promise((resolve, reject) => {
   })
 })
 
+const cleanProjects = (projects) => 
+  projects.filter(proj => fs.existsSync(proj.directory))
+
 const getContents = () => new Promise((resolve, reject) => {
   fs.readFile(STORAGE_FILENAME, (err, data) => {
     if (err) {
@@ -32,7 +35,16 @@ const getContents = () => new Promise((resolve, reject) => {
         }
       })
     } else {
-      resolve(JSON.parse(data.toString()))
+      const result = JSON.parse(data.toString())
+      const projects = cleanProjects(result.projects)
+      const store = Object.assign(result, {
+        projects
+      })
+      writeContents(store)
+        .then(() => {
+          resolve(store)
+        })
+      resolve(store)
     }
   })
 })

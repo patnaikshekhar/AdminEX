@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 38);
+/******/ 	return __webpack_require__(__webpack_require__.s = 39);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -7913,7 +7913,8 @@ exports.default = function (props) {
 /* 35 */,
 /* 36 */,
 /* 37 */,
-/* 38 */
+/* 38 */,
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7941,7 +7942,7 @@ var _inputText = __webpack_require__(30);
 
 var _inputText2 = _interopRequireDefault(_inputText);
 
-var _tabs = __webpack_require__(39);
+var _tabs = __webpack_require__(40);
 
 var _tabs2 = _interopRequireDefault(_tabs);
 
@@ -7949,7 +7950,7 @@ var _tab = __webpack_require__(31);
 
 var _tab2 = _interopRequireDefault(_tab);
 
-var _inputSelect = __webpack_require__(40);
+var _inputSelect = __webpack_require__(41);
 
 var _inputSelect2 = _interopRequireDefault(_inputSelect);
 
@@ -8103,7 +8104,7 @@ var CreateFeaturePage = function (_React$Component) {
 _reactDom2.default.render(_react2.default.createElement(CreateFeaturePage, null), root);
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8201,7 +8202,7 @@ var Tabs = function (_React$Component) {
 exports.default = Tabs;
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
