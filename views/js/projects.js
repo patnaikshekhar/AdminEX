@@ -8131,7 +8131,9 @@ var CreateProject = function (_React$Component) {
           required: 'true',
           onChange: function onChange(value) {
             _this2.setState({ name: value });
-            _this2.props.projectDetailsChanged(_this2.state);
+            _this2.props.projectDetailsChanged(_this2.state, function () {
+              _this2.props.projectDetailsChanged(_this2.state);
+            });
           },
           style: this.inputStyles,
           value: this.state.name }),
@@ -8140,8 +8142,9 @@ var CreateProject = function (_React$Component) {
           placeholder: 'Enter git URL of repository',
           required: 'true',
           onChange: function onChange(value) {
-            _this2.setState({ repositoryURL: value });
-            _this2.props.projectDetailsChanged(_this2.state);
+            _this2.setState({ repositoryURL: value }, function () {
+              _this2.props.projectDetailsChanged(_this2.state);
+            });
           },
           style: this.inputStyles,
           value: this.state.repositoryURL }),
@@ -8151,8 +8154,9 @@ var CreateProject = function (_React$Component) {
           required: 'true',
           type: 'openDirectory',
           onChange: function onChange(value) {
-            _this2.setState({ directory: value });
-            _this2.props.projectDetailsChanged(_this2.state);
+            _this2.setState({ directory: value }, function () {
+              _this2.props.projectDetailsChanged(_this2.state);
+            });
           },
           style: this.inputStyles,
           value: this.state.directory })

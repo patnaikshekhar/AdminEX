@@ -28,7 +28,9 @@ class CreateProject extends React.Component {
           required="true"
           onChange={(value) => {
             this.setState({ name: value })
-            this.props.projectDetailsChanged(this.state)
+            this.props.projectDetailsChanged(this.state, () => {
+              this.props.projectDetailsChanged(this.state)
+            })
           }} 
           style={this.inputStyles}
           value={this.state.name} />
@@ -38,8 +40,9 @@ class CreateProject extends React.Component {
           placeholder="Enter git URL of repository"
           required="true"
           onChange={(value) => {
-            this.setState({ repositoryURL: value })
-            this.props.projectDetailsChanged(this.state)
+            this.setState({ repositoryURL: value }, () => {
+              this.props.projectDetailsChanged(this.state)
+            })
           }} 
           style={this.inputStyles}
           value={this.state.repositoryURL} />
@@ -50,8 +53,9 @@ class CreateProject extends React.Component {
           required="true"
           type="openDirectory"
           onChange={(value) => {
-            this.setState({ directory: value })
-            this.props.projectDetailsChanged(this.state)
+            this.setState({ directory: value }, () => {
+              this.props.projectDetailsChanged(this.state)
+            })
           }} 
           style={this.inputStyles}
           value={this.state.directory} />
