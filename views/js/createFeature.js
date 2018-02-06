@@ -60,11 +60,25 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 39);
+/******/ 	return __webpack_require__(__webpack_require__.s = 49);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+if (process.env.NODE_ENV === 'production') {
+  module.exports = __webpack_require__(15);
+} else {
+  module.exports = __webpack_require__(16);
+}
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+
+/***/ }),
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -257,20 +271,6 @@ process.umask = function () {
 };
 
 /***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-if (process.env.NODE_ENV === 'production') {
-  module.exports = __webpack_require__(15);
-} else {
-  module.exports = __webpack_require__(16);
-}
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -430,7 +430,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 module.exports = emptyObject;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 5 */
@@ -490,7 +490,7 @@ function invariant(condition, format, a, b, c, d, e, f) {
 }
 
 module.exports = invariant;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 6 */
@@ -559,7 +559,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 module.exports = warning;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 7 */
@@ -627,7 +627,7 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
 }
 
 module.exports = checkPropTypes;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 8 */
@@ -747,7 +747,7 @@ var EventListener = {
 };
 
 module.exports = EventListener;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 10 */
@@ -2431,7 +2431,7 @@ if (process.env.NODE_ENV !== "production") {
     module.exports = react;
   })();
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 17 */
@@ -2491,7 +2491,7 @@ if (process.env.NODE_ENV === 'production') {
 } else {
   module.exports = __webpack_require__(22);
 }
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 19 */
@@ -2514,7 +2514,7 @@ if (process.env.NODE_ENV === 'production') {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var aa = __webpack_require__(1),
+var aa = __webpack_require__(0),
     l = __webpack_require__(8),
     B = __webpack_require__(3),
     C = __webpack_require__(2),
@@ -4561,7 +4561,7 @@ module.exports = isNode;
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- */var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol&&obj!==Symbol.prototype?"symbol":typeof obj;};if(process.env.NODE_ENV!=="production"){(function(){'use strict';var React=__webpack_require__(1);var invariant=__webpack_require__(5);var warning=__webpack_require__(6);var ExecutionEnvironment=__webpack_require__(8);var _assign=__webpack_require__(3);var emptyFunction=__webpack_require__(2);var EventListener=__webpack_require__(9);var getActiveElement=__webpack_require__(10);var shallowEqual=__webpack_require__(11);var containsNode=__webpack_require__(12);var focusNode=__webpack_require__(13);var emptyObject=__webpack_require__(4);var checkPropTypes=__webpack_require__(7);var hyphenateStyleName=__webpack_require__(23);var camelizeStyleName=__webpack_require__(25);/**
+ */var _typeof=typeof Symbol==="function"&&typeof Symbol.iterator==="symbol"?function(obj){return typeof obj;}:function(obj){return obj&&typeof Symbol==="function"&&obj.constructor===Symbol&&obj!==Symbol.prototype?"symbol":typeof obj;};if(process.env.NODE_ENV!=="production"){(function(){'use strict';var React=__webpack_require__(0);var invariant=__webpack_require__(5);var warning=__webpack_require__(6);var ExecutionEnvironment=__webpack_require__(8);var _assign=__webpack_require__(3);var emptyFunction=__webpack_require__(2);var EventListener=__webpack_require__(9);var getActiveElement=__webpack_require__(10);var shallowEqual=__webpack_require__(11);var containsNode=__webpack_require__(12);var focusNode=__webpack_require__(13);var emptyObject=__webpack_require__(4);var checkPropTypes=__webpack_require__(7);var hyphenateStyleName=__webpack_require__(23);var camelizeStyleName=__webpack_require__(25);/**
  * WARNING: DO NOT manually require this module.
  * This is a replacement for `invariant(...)` used by the error code system
  * and will _only_ be required by the corresponding babel pass.
@@ -7531,7 +7531,7 @@ if(navigator.userAgent.indexOf('Chrome')>-1&&navigator.userAgent.indexOf('Edge')
 if(/^(https?|file):$/.test(protocol)){console.info('%cDownload the React DevTools '+'for a better development experience: '+'https://fb.me/react-devtools'+(protocol==='file:'?'\nYou might need to use a local HTTP server (instead of file://): '+'https://fb.me/react-devtools-faq':''),'font-weight:bold');}}}}var ReactDOM$2=Object.freeze({default:ReactDOM});var ReactDOM$3=ReactDOM$2&&ReactDOM||ReactDOM$2;// TODO: decide on the top-level export form.
 // This is hacky but makes it work with both Rollup and Jest.
 var reactDom=ReactDOM$3['default']?ReactDOM$3['default']:ReactDOM$3;module.exports=reactDom;})();}
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 23 */
@@ -7700,7 +7700,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _react = __webpack_require__(1);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -7768,7 +7768,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _react = __webpack_require__(1);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -7797,7 +7797,53 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _react = __webpack_require__(1);
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (props) {
+  return _react2.default.createElement(
+    "div",
+    { className: "slds-form-element", style: props.style },
+    _react2.default.createElement(
+      "label",
+      { className: "slds-form-element__label" },
+      props.label,
+      props.required ? _react2.default.createElement(
+        "abbr",
+        { className: "slds-required", title: "required" },
+        "*"
+      ) : ''
+    ),
+    _react2.default.createElement(
+      "div",
+      { className: "slds-form-element__control" },
+      _react2.default.createElement("input", {
+        type: "text",
+        className: "slds-input",
+        value: props.value,
+        placeholder: props.placeholder,
+        onChange: function onChange(e) {
+          return props.onChange(e.target.value);
+        } })
+    )
+  );
+};
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -7836,7 +7882,7 @@ exports.default = function (props) {
 };
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7846,7 +7892,130 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _react = __webpack_require__(1);
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (props) {
+  return _react2.default.createElement(
+    'div',
+    null,
+    'props.children'
+  );
+};
+
+/***/ }),
+/* 32 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _tab = __webpack_require__(31);
+
+var _tab2 = _interopRequireDefault(_tab);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Tabs = function (_React$Component) {
+  _inherits(Tabs, _React$Component);
+
+  function Tabs() {
+    _classCallCheck(this, Tabs);
+
+    var _this = _possibleConstructorReturn(this, (Tabs.__proto__ || Object.getPrototypeOf(Tabs)).call(this));
+
+    _this.state = {
+      active: 0
+    };
+    return _this;
+  }
+
+  _createClass(Tabs, [{
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      var tabs = this.props.children.filter(function (e) {
+        return e.type == _tab2.default;
+      });
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'slds-tabs_default' },
+        _react2.default.createElement(
+          'ul',
+          { className: 'slds-tabs_default__nav', role: 'tablist' },
+          tabs.map(function (tab, index) {
+            return _react2.default.createElement(
+              'li',
+              {
+                key: index,
+                className: 'slds-tabs_default__item ' + (_this2.state.active == index ? 'slds-is-active' : ''),
+                title: tab.props.label, role: 'presentation',
+                onClick: function onClick() {
+                  return _this2.setState({
+                    active: index
+                  });
+                } },
+              _react2.default.createElement(
+                'a',
+                {
+                  className: 'slds-tabs_default__link',
+                  href: 'javascript:void(0);',
+                  role: 'tab',
+                  tabIndex: index },
+                tab.props.label
+              )
+            );
+          })
+        ),
+        _react2.default.createElement(
+          'div',
+          {
+            className: 'slds-tabs_default__content slds-show',
+            role: 'tabpanel' },
+          tabs.length > 0 ? tabs[this.state.active].props.children : ''
+        )
+      );
+    }
+  }]);
+
+  return Tabs;
+}(_react2.default.Component);
+
+exports.default = Tabs;
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -7869,52 +8038,43 @@ exports.default = function (props) {
     _react2.default.createElement(
       "div",
       { className: "slds-form-element__control" },
-      _react2.default.createElement("input", {
-        type: "text",
-        className: "slds-input",
-        value: props.value,
-        placeholder: props.placeholder,
-        onChange: function onChange(e) {
-          return props.onChange(e.target.value);
-        } })
+      _react2.default.createElement(
+        "select",
+        {
+          className: "slds-select",
+          value: props.value,
+          onChange: function onChange(e) {
+            return props.onChange(e.target.value);
+          } },
+        props.options.map(function (option) {
+          return _react2.default.createElement(
+            "option",
+            { key: option },
+            option
+          );
+        })
+      )
     )
   );
 };
 
 /***/ }),
-/* 31 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = function (props) {
-  return _react2.default.createElement(
-    'div',
-    null,
-    'props.children'
-  );
-};
-
-/***/ }),
-/* 32 */,
-/* 33 */,
 /* 34 */,
 /* 35 */,
 /* 36 */,
 /* 37 */,
 /* 38 */,
-/* 39 */
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */,
+/* 44 */,
+/* 45 */,
+/* 46 */,
+/* 47 */,
+/* 48 */,
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7922,7 +8082,7 @@ exports.default = function (props) {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(1);
+var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -7938,11 +8098,11 @@ var _electronBody = __webpack_require__(28);
 
 var _electronBody2 = _interopRequireDefault(_electronBody);
 
-var _inputText = __webpack_require__(30);
+var _inputText = __webpack_require__(29);
 
 var _inputText2 = _interopRequireDefault(_inputText);
 
-var _tabs = __webpack_require__(40);
+var _tabs = __webpack_require__(32);
 
 var _tabs2 = _interopRequireDefault(_tabs);
 
@@ -7950,11 +8110,11 @@ var _tab = __webpack_require__(31);
 
 var _tab2 = _interopRequireDefault(_tab);
 
-var _inputSelect = __webpack_require__(41);
+var _inputSelect = __webpack_require__(33);
 
 var _inputSelect2 = _interopRequireDefault(_inputSelect);
 
-var _alert = __webpack_require__(29);
+var _alert = __webpack_require__(30);
 
 var _alert2 = _interopRequireDefault(_alert);
 
@@ -8102,158 +8262,6 @@ var CreateFeaturePage = function (_React$Component) {
 }(_react2.default.Component);
 
 _reactDom2.default.render(_react2.default.createElement(CreateFeaturePage, null), root);
-
-/***/ }),
-/* 40 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _tab = __webpack_require__(31);
-
-var _tab2 = _interopRequireDefault(_tab);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Tabs = function (_React$Component) {
-  _inherits(Tabs, _React$Component);
-
-  function Tabs() {
-    _classCallCheck(this, Tabs);
-
-    var _this = _possibleConstructorReturn(this, (Tabs.__proto__ || Object.getPrototypeOf(Tabs)).call(this));
-
-    _this.state = {
-      active: 0
-    };
-    return _this;
-  }
-
-  _createClass(Tabs, [{
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
-
-      var tabs = this.props.children.filter(function (e) {
-        return e.type == _tab2.default;
-      });
-
-      return _react2.default.createElement(
-        'div',
-        { className: 'slds-tabs_default' },
-        _react2.default.createElement(
-          'ul',
-          { className: 'slds-tabs_default__nav', role: 'tablist' },
-          tabs.map(function (tab, index) {
-            return _react2.default.createElement(
-              'li',
-              {
-                key: index,
-                className: 'slds-tabs_default__item ' + (_this2.state.active == index ? 'slds-is-active' : ''),
-                title: tab.props.label, role: 'presentation',
-                onClick: function onClick() {
-                  return _this2.setState({
-                    active: index
-                  });
-                } },
-              _react2.default.createElement(
-                'a',
-                {
-                  className: 'slds-tabs_default__link',
-                  href: 'javascript:void(0);',
-                  role: 'tab',
-                  tabIndex: index },
-                tab.props.label
-              )
-            );
-          })
-        ),
-        _react2.default.createElement(
-          'div',
-          {
-            className: 'slds-tabs_default__content slds-show',
-            role: 'tabpanel' },
-          tabs.length > 0 ? tabs[this.state.active].props.children : ''
-        )
-      );
-    }
-  }]);
-
-  return Tabs;
-}(_react2.default.Component);
-
-exports.default = Tabs;
-
-/***/ }),
-/* 41 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = function (props) {
-  return _react2.default.createElement(
-    "div",
-    { className: "slds-form-element", style: props.style },
-    _react2.default.createElement(
-      "label",
-      { className: "slds-form-element__label" },
-      props.label,
-      props.required ? _react2.default.createElement(
-        "abbr",
-        { className: "slds-required", title: "required" },
-        "*"
-      ) : ''
-    ),
-    _react2.default.createElement(
-      "div",
-      { className: "slds-form-element__control" },
-      _react2.default.createElement(
-        "select",
-        {
-          className: "slds-select",
-          value: props.value,
-          onChange: function onChange(e) {
-            return props.onChange(e.target.value);
-          } },
-        props.options.map(function (option) {
-          return _react2.default.createElement(
-            "option",
-            { key: option },
-            option
-          );
-        })
-      )
-    )
-  );
-};
 
 /***/ })
 /******/ ]);

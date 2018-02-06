@@ -4,6 +4,9 @@ import Header from './header.js'
 import ElectronBody from './electronBody'
 import InputText from './inputText'
 import Alert from './alert'
+import Tabs from './tabs'
+import Tab from './tab'
+import NewShape from './newShape'
 
 const {ipcRenderer} = require('electron')
 
@@ -16,7 +19,8 @@ class CreateScratchOrgPage extends React.Component {
     this.state = {
       alias: '',
       location: '/config/project-scratch-def.json',
-      error: ''
+      error: '',
+      shape: {}
     }
 
     this.inputStyles = {
@@ -40,6 +44,12 @@ class CreateScratchOrgPage extends React.Component {
         error: 'Please fill in required fields'
       })
     }
+  }
+
+  onShapeDataChange(shape) {
+    this.setState({
+      shape
+    })
   }
 
   render() {
@@ -67,15 +77,24 @@ class CreateScratchOrgPage extends React.Component {
             }}
             style={this.inputStyles}
             value={this.state.alias} />
-          <InputText 
-            label="Template File Location" 
-            placeholder="Enter location of template" 
-            required="true"
-            onChange={location => {
-              this.setState({ location })
-            }}
-            style={this.inputStyles}
-            value={this.state.location} />
+          <Tabs>
+            <Tab label="Existing Shape">
+              <InputText 
+                label="Template File Location" 
+                placeholder="Enter location of template" 
+                required="true"
+                onChange={location => {
+                  this.setState({ location })
+                }}
+                style={this.inputStyles}
+                value={this.state.location} />
+            </Tab>
+            <Tab label="New Shape">
+              <NewShape 
+                onShapeDataChange={this.onShapeDataChange.bind(this)} 
+                shape={this.state.shape} />
+            </Tab>
+          </Tabs>
         </ElectronBody>
       </div>
     )
