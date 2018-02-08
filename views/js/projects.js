@@ -7883,7 +7883,12 @@ exports.default = function (props) {
 
 /***/ }),
 /* 31 */,
-/* 32 */,
+/* 32 */
+/***/ (function(module, exports) {
+
+module.exports = require('fs');
+
+/***/ }),
 /* 33 */,
 /* 34 */,
 /* 35 */
@@ -7936,7 +7941,7 @@ var _require = __webpack_require__(14),
 var _require2 = __webpack_require__(39),
     authDevHub = _require2.authDevHub;
 
-var fs = __webpack_require__(40);
+var fs = __webpack_require__(32);
 
 var root = document.getElementById('root');
 
@@ -8397,12 +8402,6 @@ exports.default = ViewProjects;
 /***/ (function(module, exports) {
 
 module.exports = require('../src/main/sfdx');
-
-/***/ }),
-/* 40 */
-/***/ (function(module, exports) {
-
-module.exports = require('fs');
 
 /***/ })
 /******/ ]);

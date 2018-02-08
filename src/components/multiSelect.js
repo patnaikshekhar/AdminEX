@@ -10,10 +10,10 @@ const SearchBox = (props) => {
         placeholder={ props.placeholder } 
         onChange={props.onChange} 
         onFocus={props.onFocus}
-        onBlur={props.onBlur} />
+        onBlur={() => setTimeout(props.onBlur, 200)} />
       <span className="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right">
         <svg className="slds-icon slds-icon slds-icon_x-small slds-icon-text-default" >
-          <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref="/lib/salesforce-lightning-design-system-2.4.6/assets/icons/utility-sprite/svg/symbols.svg#search" />
+          <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref="../lib/salesforce-lightning-design-system-2.4.6/assets/icons/utility-sprite/svg/symbols.svg#search" />
         </svg>
       </span>
     </div>
@@ -22,9 +22,12 @@ const SearchBox = (props) => {
 
 class MutiSelect extends React.Component {
 
-  state = {
-    searchText: '',
-    showOptions: false
+  constructor() {
+    super()
+    this.state = {
+      searchText: '',
+      showOptions: false
+    }
   }
 
   onTextFocus() {
@@ -48,11 +51,11 @@ class MutiSelect extends React.Component {
   render() {
 
     const filteredOptions = this.props.options.filter(option => 
-      option.indexOf(this.state.searchText) > -1
+      option.toLowerCase().indexOf(this.state.searchText.toLowerCase()) > -1
     )
 
     return (
-      <div style={{height: '10rem'}}>
+      <div>
         <div className="slds-form-element">
           <label className="slds-form-element__label" htmlFor="combobox-unique-id-5">{ this.props.label }</label>
           <div className="slds-form-element__control">
@@ -70,13 +73,31 @@ class MutiSelect extends React.Component {
                         <MutiSelectOption 
                           key={option}
                           name={option} 
-                          icon={this.props.icon} />
+                          icon={this.props.icon} 
+                          selectOption={() => {
+                            if (this.props.selected.indexOf(option) === -1) {
+                              this.props.onSelectionChanged([...this.props.selected, option])
+                            } 
+                          }} />
                       )
                     })}
                   </ul>
                 </div>
               </div>
             </div>
+            <ul className="slds-listbox slds-listbox_horizontal slds-listbox_inline slds-p-top_xxx-small">
+              {this.props.selected.map(option => {
+                return (
+                  <SelectedOption 
+                    key={option} 
+                    name={option} 
+                    icon={this.props.icon} 
+                    removeItem={() => {
+                      this.props.onSelectionChanged(this.props.selected.filter(o => o != option))
+                    }} />
+                )
+              })}
+            </ul>
           </div>
         </div>
       </div>
@@ -89,20 +110,44 @@ const MutiSelectOption = (props) => {
   const icon = props.icon ? props.icon : 'account'
 
   return (
-    <li className="slds-listbox__item">
-      <div className="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta">
+    <li onClick={props.selectOption}>
+      <div className="slds-media slds-listbox__option slds-listbox__option_entity">
         <span className="slds-media__figure">
           <span className={`slds-icon_container slds-icon-standard-${icon}`} title="Description of icon when needed">
             <svg className="slds-icon slds-icon_small" >
-              <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref={`/lib/salesforce-lightning-design-system-2.4.6/assets/icons/standard-sprite/svg/symbols.svg#${icon}`} />
+              <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref={`../lib/salesforce-lightning-design-system-2.4.6/assets/icons/standard-sprite/svg/symbols.svg#${icon}`} />
             </svg>
             <span className="slds-assistive-text">{ props.name }</span>
           </span>
         </span>
         <span className="slds-media__body">
-          <span className="slds-listbox__option-meta slds-listbox__option-meta_entity">{ props.name }</span>
+          <span >{ props.name }</span>
         </span>
       </div>
+    </li>
+  )
+}
+
+const SelectedOption = (props) => {
+
+  const icon = props.icon ? props.icon : 'account'
+
+  return (
+    <li className="slds-listbox-item">
+      <span className="slds-pill">
+        <span className="slds-icon_container slds-icon-standard-account slds-pill__icon_container" title="Account">
+          <svg className="slds-icon" aria-hidden="true">
+            <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref={`../lib/salesforce-lightning-design-system-2.4.6/assets/icons/standard-sprite/svg/symbols.svg#${icon}`} />
+          </svg>
+          <span className="slds-assistive-text">{props.name}</span>
+        </span>
+        <span className="slds-pill__label" title="Acme">{props.name}</span>
+        <span className="slds-icon_container slds-pill__remove" title="Remove" onClick={props.removeItem} style={{cursor: 'pointer'}}>
+          <svg className="slds-icon slds-icon_x-small slds-icon-text-default" aria-hidden="true">
+            <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref="../lib/salesforce-lightning-design-system-2.4.6/assets/icons/utility-sprite/svg/symbols.svg#close" />
+          </svg>
+        </span>
+      </span>
     </li>
   )
 }

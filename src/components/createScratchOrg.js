@@ -20,7 +20,12 @@ class CreateScratchOrgPage extends React.Component {
       alias: '',
       location: '/config/project-scratch-def.json',
       error: '',
-      shape: {}
+      shape: {
+        edition: '',
+        features: [],
+        enabledPrefs: [],
+        disabledPrefs: []
+      }
     }
 
     this.inputStyles = {
