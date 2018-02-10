@@ -9,6 +9,8 @@ import Tab from './tab'
 import NewShape from './newShape'
 
 const {ipcRenderer} = require('electron')
+const {dialog} = require('electron').remote
+const fs = require('fs')
 
 let root = document.getElementById('root')
 
@@ -20,7 +22,9 @@ class CreateScratchOrgPage extends React.Component {
       alias: '',
       location: '/config/project-scratch-def.json',
       error: '',
+      activeTab: 0,
       shape: {
+        name: '',
         edition: '',
         features: [],
         enabledPrefs: [],
@@ -35,20 +39,56 @@ class CreateScratchOrgPage extends React.Component {
     }
   }
 
+  onTabChange(index) {
+    this.setState({
+      activeTab: index
+    })
+  }
+
   create() {
     
-    const {alias, location} = this.state
+    const {activeTab, alias, location, shape} = this.state
 
-    if (alias && location) {
-      ipcRenderer.send('createScratchOrg', {
-        alias,
-        location
-      })
-    } else {
+    if (!alias) {
       this.setState({
-        error: 'Please fill in required fields'
+        error: 'Please fill in Scratch Org Name'
       })
+
+      return;
     }
+
+    if (activeTab == 0 && !location) {
+      this.setState({
+        error: 'Please fill in location of definition file'
+      })
+
+      return;
+    }
+
+    if (activeTab == 1 && !shape.name) {
+      this.setState({
+        error: 'Please fill in name of the shape'
+      })
+
+      return;
+    }
+
+    if (activeTab == 1) {
+      const fileName = dialog.showSaveDialog({
+        title: `${shape.name}.json`,
+      })
+      fs.writeFileSync(fileName, shape)
+    }
+    // if (alias && location) {
+    //   ipcRenderer.send('createScratchOrg', {
+    //     alias,
+    //     location
+    //   })
+    // } else {
+    //   this.setState({
+    //     error: 'Please fill in required fields'
+    //   })
+    // }
   }
 
   onShapeDataChange(shape) {
@@ -78,11 +118,16 @@ class CreateScratchOrgPage extends React.Component {
             placeholder="Name of scratch org" 
             required="true"
             onChange={alias => {
-              this.setState({ alias })
+              this.setState({ 
+                alias, 
+                shape: Object.assign(this.state.shape, {
+                  name: alias
+                })
+              })
             }}
             style={this.inputStyles}
             value={this.state.alias} />
-          <Tabs>
+          <Tabs onTabChange={this.onTabChange.bind(this)}>
             <Tab label="Existing Shape">
               <InputText 
                 label="Template File Location" 

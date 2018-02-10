@@ -7973,9 +7973,12 @@ var Tabs = function (_React$Component) {
                 className: 'slds-tabs_default__item ' + (_this2.state.active == index ? 'slds-is-active' : ''),
                 title: tab.props.label, role: 'presentation',
                 onClick: function onClick() {
-                  return _this2.setState({
+                  _this2.setState({
                     active: index
                   });
+                  if (_this2.props.onTabChange) {
+                    _this2.props.onTabChange(index);
+                  }
                 } },
               _react2.default.createElement(
                 'a',

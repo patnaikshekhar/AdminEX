@@ -13,13 +13,13 @@ const NewShape = (props) => {
   return (
     <div className="slds-grid slds-grid_pull-padded-medium" style={styles.main}>
 
-      <div className="slds-col slds-p-horizontal_medium">
-        <InputSelect 
-          label="Edition"
-          value={props.shape.edition} 
-          options={['Developer', 'Enterprise', 'Group', 'Professional']}
+      <div className="slds-col slds-size_1-of-2 slds-p-horizontal_medium">
+
+        <InputText 
+          label="Shape Name"
+          value={props.shape.name} 
           onChange={v => props.onShapeDataChange(Object.assign(props.shape, {
-            edition: v 
+            name: v 
           }))} />
 
         <MultiSelect 
@@ -29,10 +29,7 @@ const NewShape = (props) => {
             enabledPrefs 
           }))}
           selected={props.shape.enabledPrefs} />
-      </div>
-      
-      <div className="slds-col slds-p-horizontal_medium">
-        
+
         <MultiSelect 
           label="Features"
           options={features}
@@ -40,6 +37,17 @@ const NewShape = (props) => {
             features 
           }))}
           selected={props.shape.features} />
+      </div>
+      
+      <div className="slds-col slds-size_1-of-2 slds-p-horizontal_medium">
+        
+        <InputSelect 
+          label="Edition"
+          value={props.shape.edition} 
+          options={['Developer', 'Enterprise', 'Group', 'Professional']}
+          onChange={v => props.onShapeDataChange(Object.assign(props.shape, {
+            edition: v 
+          }))} />
 
         <MultiSelect 
           label="Disabled Preferences"

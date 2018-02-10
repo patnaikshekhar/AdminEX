@@ -7978,9 +7978,12 @@ var Tabs = function (_React$Component) {
                 className: 'slds-tabs_default__item ' + (_this2.state.active == index ? 'slds-is-active' : ''),
                 title: tab.props.label, role: 'presentation',
                 onClick: function onClick() {
-                  return _this2.setState({
+                  _this2.setState({
                     active: index
                   });
+                  if (_this2.props.onTabChange) {
+                    _this2.props.onTabChange(index);
+                  }
                 } },
               _react2.default.createElement(
                 'a',
@@ -8125,6 +8128,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var _require = __webpack_require__(14),
     ipcRenderer = _require.ipcRenderer;
 
+var dialog = __webpack_require__(14).remote.dialog;
+
+var fs = __webpack_require__(32);
+
 var root = document.getElementById('root');
 
 var CreateScratchOrgPage = function (_React$Component) {
@@ -8139,7 +8146,9 @@ var CreateScratchOrgPage = function (_React$Component) {
       alias: '',
       location: '/config/project-scratch-def.json',
       error: '',
+      activeTab: 0,
       shape: {
+        name: '',
         edition: '',
         features: [],
         enabledPrefs: [],
@@ -8156,23 +8165,62 @@ var CreateScratchOrgPage = function (_React$Component) {
   }
 
   _createClass(CreateScratchOrgPage, [{
+    key: 'onTabChange',
+    value: function onTabChange(index) {
+      this.setState({
+        activeTab: index
+      });
+    }
+  }, {
     key: 'create',
     value: function create() {
       var _state = this.state,
+          activeTab = _state.activeTab,
           alias = _state.alias,
-          location = _state.location;
+          location = _state.location,
+          shape = _state.shape;
 
 
-      if (alias && location) {
-        ipcRenderer.send('createScratchOrg', {
-          alias: alias,
-          location: location
-        });
-      } else {
+      if (!alias) {
         this.setState({
-          error: 'Please fill in required fields'
+          error: 'Please fill in Scratch Org Name'
         });
+
+        return;
       }
+
+      if (activeTab == 0 && !location) {
+        this.setState({
+          error: 'Please fill in location of definition file'
+        });
+
+        return;
+      }
+
+      if (activeTab == 1 && !shape.name) {
+        this.setState({
+          error: 'Please fill in name of the shape'
+        });
+
+        return;
+      }
+
+      if (activeTab == 1) {
+        var fileName = dialog.showSaveDialog({
+          title: shape.name + '.json'
+        });
+        fs.writeFileSync(fileName, shape);
+      }
+      // if (alias && location) {
+      //   ipcRenderer.send('createScratchOrg', {
+      //     alias,
+      //     location
+      //   })
+      // } else {
+      //   this.setState({
+      //     error: 'Please fill in required fields'
+      //   })
+      // }
     }
   }, {
     key: 'onShapeDataChange',
@@ -8213,13 +8261,18 @@ var CreateScratchOrgPage = function (_React$Component) {
             placeholder: 'Name of scratch org',
             required: 'true',
             onChange: function onChange(alias) {
-              _this2.setState({ alias: alias });
+              _this2.setState({
+                alias: alias,
+                shape: Object.assign(_this2.state.shape, {
+                  name: alias
+                })
+              });
             },
             style: this.inputStyles,
             value: this.state.alias }),
           _react2.default.createElement(
             _tabs2.default,
-            null,
+            { onTabChange: this.onTabChange.bind(this) },
             _react2.default.createElement(
               _tab2.default,
               { label: 'Existing Shape' },
@@ -8292,14 +8345,13 @@ var NewShape = function NewShape(props) {
     { className: 'slds-grid slds-grid_pull-padded-medium', style: styles.main },
     _react2.default.createElement(
       'div',
-      { className: 'slds-col slds-p-horizontal_medium' },
-      _react2.default.createElement(_inputSelect2.default, {
-        label: 'Edition',
-        value: props.shape.edition,
-        options: ['Developer', 'Enterprise', 'Group', 'Professional'],
+      { className: 'slds-col slds-size_1-of-2 slds-p-horizontal_medium' },
+      _react2.default.createElement(_inputText2.default, {
+        label: 'Shape Name',
+        value: props.shape.name,
         onChange: function onChange(v) {
           return props.onShapeDataChange(Object.assign(props.shape, {
-            edition: v
+            name: v
           }));
         } }),
       _react2.default.createElement(_multiSelect2.default, {
@@ -8310,11 +8362,7 @@ var NewShape = function NewShape(props) {
             enabledPrefs: enabledPrefs
           }));
         },
-        selected: props.shape.enabledPrefs })
-    ),
-    _react2.default.createElement(
-      'div',
-      { className: 'slds-col slds-p-horizontal_medium' },
+        selected: props.shape.enabledPrefs }),
       _react2.default.createElement(_multiSelect2.default, {
         label: 'Features',
         options: features,
@@ -8323,7 +8371,20 @@ var NewShape = function NewShape(props) {
             features: features
           }));
         },
-        selected: props.shape.features }),
+        selected: props.shape.features })
+    ),
+    _react2.default.createElement(
+      'div',
+      { className: 'slds-col slds-size_1-of-2 slds-p-horizontal_medium' },
+      _react2.default.createElement(_inputSelect2.default, {
+        label: 'Edition',
+        value: props.shape.edition,
+        options: ['Developer', 'Enterprise', 'Group', 'Professional'],
+        onChange: function onChange(v) {
+          return props.onShapeDataChange(Object.assign(props.shape, {
+            edition: v
+          }));
+        } }),
       _react2.default.createElement(_multiSelect2.default, {
         label: 'Disabled Preferences',
         options: prefs,
