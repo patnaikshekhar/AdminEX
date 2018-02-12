@@ -7774,35 +7774,6 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var styles = {
-  marginTop: '90px'
-};
-
-exports.default = function (props) {
-  return _react2.default.createElement(
-    'div',
-    { style: styles },
-    props.children
-  );
-};
-
-/***/ }),
-/* 29 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 exports.default = function (props) {
   return _react2.default.createElement(
     "div",
@@ -7829,6 +7800,35 @@ exports.default = function (props) {
           return props.onChange(e.target.value);
         } })
     )
+  );
+};
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var styles = {
+  marginTop: '90px'
+};
+
+exports.default = function (props) {
+  return _react2.default.createElement(
+    'div',
+    { style: styles },
+    props.children
   );
 };
 
@@ -7915,7 +7915,7 @@ var _header = __webpack_require__(27);
 
 var _header2 = _interopRequireDefault(_header);
 
-var _electronBody = __webpack_require__(28);
+var _electronBody = __webpack_require__(29);
 
 var _electronBody2 = _interopRequireDefault(_electronBody);
 
@@ -7927,7 +7927,7 @@ var _badge = __webpack_require__(45);
 
 var _badge2 = _interopRequireDefault(_badge);
 
-var _inputText = __webpack_require__(29);
+var _inputText = __webpack_require__(28);
 
 var _inputText2 = _interopRequireDefault(_inputText);
 

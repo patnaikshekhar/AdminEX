@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 40);
+/******/ 	return __webpack_require__(__webpack_require__.s = 42);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -7774,35 +7774,6 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var styles = {
-  marginTop: '90px'
-};
-
-exports.default = function (props) {
-  return _react2.default.createElement(
-    'div',
-    { style: styles },
-    props.children
-  );
-};
-
-/***/ }),
-/* 29 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 exports.default = function (props) {
   return _react2.default.createElement(
     "div",
@@ -7829,6 +7800,35 @@ exports.default = function (props) {
           return props.onChange(e.target.value);
         } })
     )
+  );
+};
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var styles = {
+  marginTop: '90px'
+};
+
+exports.default = function (props) {
+  return _react2.default.createElement(
+    'div',
+    { style: styles },
+    props.children
   );
 };
 
@@ -7883,37 +7883,12 @@ exports.default = function (props) {
 
 /***/ }),
 /* 31 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = function (props) {
-  return _react2.default.createElement(
-    'div',
-    null,
-    'props.children'
-  );
-};
-
-/***/ }),
-/* 32 */
 /***/ (function(module, exports) {
 
 module.exports = require('fs');
 
 /***/ }),
-/* 33 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7990,7 +7965,86 @@ exports.default = function (props) {
 };
 
 /***/ }),
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (props) {
+  return _react2.default.createElement(
+    'div',
+    null,
+    'props.children'
+  );
+};
+
+/***/ }),
 /* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (props) {
+  return _react2.default.createElement(
+    "div",
+    { className: "slds-form-element", style: props.style },
+    _react2.default.createElement(
+      "label",
+      { className: "slds-form-element__label" },
+      props.label,
+      props.required ? _react2.default.createElement(
+        "abbr",
+        { className: "slds-required", title: "required" },
+        "*"
+      ) : ''
+    ),
+    _react2.default.createElement(
+      "div",
+      { className: "slds-form-element__control" },
+      _react2.default.createElement(
+        "select",
+        {
+          className: "slds-select",
+          value: props.value,
+          onChange: function onChange(e) {
+            return props.onChange(e.target.value);
+          } },
+        props.options.map(function (option) {
+          return _react2.default.createElement(
+            "option",
+            { key: option },
+            option
+          );
+        })
+      )
+    )
+  );
+};
+
+/***/ }),
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8006,7 +8060,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _tab = __webpack_require__(31);
+var _tab = __webpack_require__(33);
 
 var _tab2 = _interopRequireDefault(_tab);
 
@@ -8091,7 +8145,7 @@ var Tabs = function (_React$Component) {
 exports.default = Tabs;
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8105,368 +8159,21 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = function (props) {
-  return _react2.default.createElement(
-    "div",
-    { className: "slds-form-element", style: props.style },
-    _react2.default.createElement(
-      "label",
-      { className: "slds-form-element__label" },
-      props.label,
-      props.required ? _react2.default.createElement(
-        "abbr",
-        { className: "slds-required", title: "required" },
-        "*"
-      ) : ''
-    ),
-    _react2.default.createElement(
-      "div",
-      { className: "slds-form-element__control" },
-      _react2.default.createElement(
-        "select",
-        {
-          className: "slds-select",
-          value: props.value,
-          onChange: function onChange(e) {
-            return props.onChange(e.target.value);
-          } },
-        props.options.map(function (option) {
-          return _react2.default.createElement(
-            "option",
-            { key: option },
-            option
-          );
-        })
-      )
-    )
-  );
-};
-
-/***/ }),
-/* 36 */,
-/* 37 */,
-/* 38 */,
-/* 39 */,
-/* 40 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = __webpack_require__(18);
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-var _header = __webpack_require__(27);
-
-var _header2 = _interopRequireDefault(_header);
-
-var _electronBody = __webpack_require__(28);
-
-var _electronBody2 = _interopRequireDefault(_electronBody);
-
-var _inputText = __webpack_require__(29);
-
-var _inputText2 = _interopRequireDefault(_inputText);
-
-var _inputFile = __webpack_require__(33);
-
-var _inputFile2 = _interopRequireDefault(_inputFile);
-
-var _alert = __webpack_require__(30);
-
-var _alert2 = _interopRequireDefault(_alert);
-
-var _tabs = __webpack_require__(34);
-
-var _tabs2 = _interopRequireDefault(_tabs);
-
-var _tab = __webpack_require__(31);
-
-var _tab2 = _interopRequireDefault(_tab);
-
-var _newShape = __webpack_require__(41);
-
-var _newShape2 = _interopRequireDefault(_newShape);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var _require = __webpack_require__(14),
-    ipcRenderer = _require.ipcRenderer;
-
-var dialog = __webpack_require__(14).remote.dialog;
-
-var fs = __webpack_require__(32);
-
-var root = document.getElementById('root');
-
-var CreateScratchOrgPage = function (_React$Component) {
-  _inherits(CreateScratchOrgPage, _React$Component);
-
-  function CreateScratchOrgPage() {
-    _classCallCheck(this, CreateScratchOrgPage);
-
-    var _this = _possibleConstructorReturn(this, (CreateScratchOrgPage.__proto__ || Object.getPrototypeOf(CreateScratchOrgPage)).call(this));
-
-    _this.state = {
-      alias: '',
-      location: '',
-      error: '',
-      activeTab: 0,
-      project: null,
-      shape: {
-        orgName: '',
-        edition: 'Enterprise',
-        features: [],
-        orgPreferences: {
-          enabled: [],
-          disabled: []
-        }
-      },
-      listOfFeatures: [],
-      listOfPrefs: []
-    };
-
-    _this.styles = {
-      inputName: {
-        marginBottom: '10px',
-        paddingLeft: '20px',
-        paddingRight: '20px',
-        paddingTop: '20px'
-      },
-      inputStyles: {
-        marginBottom: '10px',
-        paddingLeft: '20px',
-        paddingRight: '20px',
-        marginTop: '15px'
-      }
-    };
-    return _this;
-  }
-
-  _createClass(CreateScratchOrgPage, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
-      var _this2 = this;
-
-      ipcRenderer.send('createScratchOrg.getProjectDetails');
-      ipcRenderer.once('createScratchOrg.projectDetails', function (event, _ref) {
-        var project = _ref.project,
-            features = _ref.features,
-            prefs = _ref.prefs;
-
-        _this2.setState({
-          location: project.directory + '/config/project-scratch-def.json',
-          project: project,
-          listOfFeatures: features,
-          listOfPrefs: prefs
-        });
-      });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this3 = this;
-
-      return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(
-          _header2.default,
-          null,
-          _react2.default.createElement(
-            'button',
-            {
-              className: 'slds-button slds-button_brand',
-              onClick: this.create.bind(this) },
-            'Create'
-          )
-        ),
-        _react2.default.createElement(
-          _electronBody2.default,
-          null,
-          this.state.error ? _react2.default.createElement(
-            _alert2.default,
-            { type: 'error' },
-            this.state.error
-          ) : '',
-          _react2.default.createElement(_inputText2.default, {
-            label: 'Scratch Org Name',
-            placeholder: 'Name of scratch org',
-            required: 'true',
-            onChange: function onChange(alias) {
-              _this3.setState({
-                alias: alias,
-                shape: Object.assign(_this3.state.shape, {
-                  orgName: alias
-                })
-              });
-            },
-            style: this.styles.inputName,
-            value: this.state.alias }),
-          _react2.default.createElement(
-            _tabs2.default,
-            { onTabChange: this.onTabChange.bind(this) },
-            _react2.default.createElement(
-              _tab2.default,
-              { label: 'Existing Shape' },
-              _react2.default.createElement(_inputFile2.default, {
-                label: 'Template File Location',
-                placeholder: 'Enter location of template',
-                required: 'true',
-                type: 'openFile',
-                onChange: function onChange(location) {
-                  _this3.setState({ location: location });
-                },
-                style: this.styles.inputStyles,
-                value: this.state.location })
-            ),
-            _react2.default.createElement(
-              _tab2.default,
-              { label: 'New Shape' },
-              _react2.default.createElement(_newShape2.default, {
-                onShapeDataChange: this.onShapeDataChange.bind(this),
-                shape: this.state.shape,
-                features: this.state.listOfFeatures,
-                prefs: this.state.listOfPrefs })
-            )
-          )
-        )
-      );
-    }
-  }, {
-    key: 'create',
-    value: function create() {
-      var _state = this.state,
-          activeTab = _state.activeTab,
-          alias = _state.alias,
-          location = _state.location,
-          shape = _state.shape;
-
-
-      if (!alias) {
-        this.setState({
-          error: 'Please fill in Scratch Org Name'
-        });
-        return;
-      }
-
-      if (activeTab == 0 && !location) {
-        this.setState({
-          error: 'Please fill in location of definition file'
-        });
-        return;
-      }
-
-      if (activeTab == 0) {
-        if (!fs.existsSync(location)) {
-          this.setState({
-            error: 'Cannot find definition file. Please check location.'
-          });
-          return;
-        }
-      }
-
-      if (activeTab == 1 && !shape.orgName) {
-        this.setState({
-          error: 'Please fill in name of the shape'
-        });
-
-        return;
-      }
-
-      if (activeTab == 1) {
-        var fileName = dialog.showSaveDialog({
-          title: 'Save New Definition File',
-          defaultPath: this.state.project ? this.state.project.directory + '/config/' + shape.orgName + '.json' : shape.orgName + '.json',
-          nameFieldLabel: 'Definition File Name',
-          showsTagField: false
-        });
-
-        if (fileName) {
-          fs.writeFileSync(fileName, JSON.stringify(shape, null, 2));
-          location = fileName;
-        } else {
-          return;
-        }
-      }
-
-      if (alias && location) {
-        ipcRenderer.send('createScratchOrg', {
-          alias: alias,
-          location: location
-        });
-      } else {
-        this.setState({
-          error: 'Please fill in required fields'
-        });
-      }
-    }
-  }, {
-    key: 'onShapeDataChange',
-    value: function onShapeDataChange(shape) {
-      this.setState({
-        shape: shape
-      });
-    }
-  }, {
-    key: 'onTabChange',
-    value: function onTabChange(index) {
-      this.setState({
-        activeTab: index
-      });
-    }
-  }]);
-
-  return CreateScratchOrgPage;
-}(_react2.default.Component);
-
-_reactDom2.default.render(_react2.default.createElement(CreateScratchOrgPage, null), root);
-
-/***/ }),
-/* 41 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _inputSelect = __webpack_require__(35);
+var _inputSelect = __webpack_require__(34);
 
 var _inputSelect2 = _interopRequireDefault(_inputSelect);
 
-var _inputText = __webpack_require__(29);
+var _inputText = __webpack_require__(28);
 
 var _inputText2 = _interopRequireDefault(_inputText);
 
-var _multiSelect = __webpack_require__(42);
+var _multiSelect = __webpack_require__(37);
 
 var _multiSelect2 = _interopRequireDefault(_multiSelect);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var fs = __webpack_require__(32);
+var fs = __webpack_require__(31);
 
 var NewShape = function NewShape(props) {
 
@@ -8552,7 +8259,7 @@ var styles = {
 exports.default = NewShape;
 
 /***/ }),
-/* 42 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8810,6 +8517,299 @@ var styles = {
 };
 
 exports.default = MutiSelect;
+
+/***/ }),
+/* 38 */,
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(18);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _header = __webpack_require__(27);
+
+var _header2 = _interopRequireDefault(_header);
+
+var _electronBody = __webpack_require__(29);
+
+var _electronBody2 = _interopRequireDefault(_electronBody);
+
+var _inputText = __webpack_require__(28);
+
+var _inputText2 = _interopRequireDefault(_inputText);
+
+var _inputFile = __webpack_require__(32);
+
+var _inputFile2 = _interopRequireDefault(_inputFile);
+
+var _alert = __webpack_require__(30);
+
+var _alert2 = _interopRequireDefault(_alert);
+
+var _tabs = __webpack_require__(35);
+
+var _tabs2 = _interopRequireDefault(_tabs);
+
+var _tab = __webpack_require__(33);
+
+var _tab2 = _interopRequireDefault(_tab);
+
+var _newShape = __webpack_require__(36);
+
+var _newShape2 = _interopRequireDefault(_newShape);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _require = __webpack_require__(14),
+    ipcRenderer = _require.ipcRenderer;
+
+var dialog = __webpack_require__(14).remote.dialog;
+
+var fs = __webpack_require__(31);
+
+var root = document.getElementById('root');
+
+var CreateScratchOrgPage = function (_React$Component) {
+  _inherits(CreateScratchOrgPage, _React$Component);
+
+  function CreateScratchOrgPage() {
+    _classCallCheck(this, CreateScratchOrgPage);
+
+    var _this = _possibleConstructorReturn(this, (CreateScratchOrgPage.__proto__ || Object.getPrototypeOf(CreateScratchOrgPage)).call(this));
+
+    _this.state = {
+      alias: '',
+      location: '',
+      error: '',
+      activeTab: 0,
+      project: null,
+      shape: {
+        orgName: '',
+        edition: 'Enterprise',
+        features: [],
+        orgPreferences: {
+          enabled: [],
+          disabled: []
+        }
+      },
+      listOfFeatures: [],
+      listOfPrefs: []
+    };
+
+    _this.styles = {
+      inputName: {
+        marginBottom: '10px',
+        paddingLeft: '20px',
+        paddingRight: '20px',
+        paddingTop: '20px'
+      },
+      inputStyles: {
+        marginBottom: '10px',
+        paddingLeft: '20px',
+        paddingRight: '20px',
+        marginTop: '15px'
+      }
+    };
+    return _this;
+  }
+
+  _createClass(CreateScratchOrgPage, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      var _this2 = this;
+
+      ipcRenderer.send('createScratchOrg.getProjectDetails');
+      ipcRenderer.once('createScratchOrg.projectDetails', function (event, _ref) {
+        var project = _ref.project,
+            features = _ref.features,
+            prefs = _ref.prefs;
+
+        _this2.setState({
+          location: project.directory + '/config/project-scratch-def.json',
+          project: project,
+          listOfFeatures: features,
+          listOfPrefs: prefs
+        });
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this3 = this;
+
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          _header2.default,
+          null,
+          _react2.default.createElement(
+            'button',
+            {
+              className: 'slds-button slds-button_brand',
+              onClick: this.create.bind(this) },
+            'Create'
+          )
+        ),
+        _react2.default.createElement(
+          _electronBody2.default,
+          null,
+          this.state.error ? _react2.default.createElement(
+            _alert2.default,
+            { type: 'error' },
+            this.state.error
+          ) : '',
+          _react2.default.createElement(_inputText2.default, {
+            label: 'Scratch Org Name',
+            placeholder: 'Name of scratch org',
+            required: 'true',
+            onChange: function onChange(alias) {
+              _this3.setState({
+                alias: alias,
+                shape: Object.assign(_this3.state.shape, {
+                  orgName: alias
+                })
+              });
+            },
+            style: this.styles.inputName,
+            value: this.state.alias }),
+          _react2.default.createElement(
+            _tabs2.default,
+            { onTabChange: this.onTabChange.bind(this) },
+            _react2.default.createElement(
+              _tab2.default,
+              { label: 'Existing Shape' },
+              _react2.default.createElement(_inputFile2.default, {
+                label: 'Template File Location',
+                placeholder: 'Enter location of template',
+                required: 'true',
+                type: 'openFile',
+                onChange: function onChange(location) {
+                  _this3.setState({ location: location });
+                },
+                style: this.styles.inputStyles,
+                value: this.state.location })
+            ),
+            _react2.default.createElement(
+              _tab2.default,
+              { label: 'New Shape' },
+              _react2.default.createElement(_newShape2.default, {
+                onShapeDataChange: this.onShapeDataChange.bind(this),
+                shape: this.state.shape,
+                features: this.state.listOfFeatures,
+                prefs: this.state.listOfPrefs })
+            )
+          )
+        )
+      );
+    }
+  }, {
+    key: 'create',
+    value: function create() {
+      var _state = this.state,
+          activeTab = _state.activeTab,
+          alias = _state.alias,
+          location = _state.location,
+          shape = _state.shape;
+
+
+      if (!alias) {
+        this.setState({
+          error: 'Please fill in Scratch Org Name'
+        });
+        return;
+      }
+
+      if (activeTab == 0 && !location) {
+        this.setState({
+          error: 'Please fill in location of definition file'
+        });
+        return;
+      }
+
+      if (activeTab == 0) {
+        if (!fs.existsSync(location)) {
+          this.setState({
+            error: 'Cannot find definition file. Please check location.'
+          });
+          return;
+        }
+      }
+
+      if (activeTab == 1 && !shape.orgName) {
+        this.setState({
+          error: 'Please fill in org name of the shape'
+        });
+
+        return;
+      }
+
+      if (activeTab == 1) {
+        var fileName = dialog.showSaveDialog({
+          title: 'Save New Definition File',
+          defaultPath: this.state.project ? this.state.project.directory + '/config/' + shape.orgName + '.json' : shape.orgName + '.json',
+          nameFieldLabel: 'Definition File Name',
+          showsTagField: false
+        });
+
+        if (fileName) {
+          fs.writeFileSync(fileName, JSON.stringify(shape, null, 2));
+          location = fileName;
+        } else {
+          return;
+        }
+      }
+
+      if (alias && location) {
+        ipcRenderer.send('createScratchOrg', {
+          alias: alias,
+          location: location
+        });
+      } else {
+        this.setState({
+          error: 'Please fill in required fields'
+        });
+      }
+    }
+  }, {
+    key: 'onShapeDataChange',
+    value: function onShapeDataChange(shape) {
+      this.setState({
+        shape: shape
+      });
+    }
+  }, {
+    key: 'onTabChange',
+    value: function onTabChange(index) {
+      this.setState({
+        activeTab: index
+      });
+    }
+  }]);
+
+  return CreateScratchOrgPage;
+}(_react2.default.Component);
+
+_reactDom2.default.render(_react2.default.createElement(CreateScratchOrgPage, null), root);
 
 /***/ })
 /******/ ]);

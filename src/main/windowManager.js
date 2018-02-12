@@ -135,10 +135,10 @@ const createFeature = (project) => new Promise((resolve, reject) => {
     resolve(options)
   })
 
-  ipcMain.once('getScratchOrgs', (event, options) => {
+  ipcMain.once('createFeature.init', (event, options) => {
     SFDX.getOrgList(project)
       .then((orgs) => {
-        event.sender.send('orgs', orgs)
+        event.sender.send('createFeature.initResult', {orgs, project, features, prefs })
       })
   })
 })

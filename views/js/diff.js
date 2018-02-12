@@ -7758,7 +7758,8 @@ exports.default = function (props) {
 };
 
 /***/ }),
-/* 28 */
+/* 28 */,
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7787,7 +7788,6 @@ exports.default = function (props) {
 };
 
 /***/ }),
-/* 29 */,
 /* 30 */,
 /* 31 */,
 /* 32 */,
@@ -7826,7 +7826,7 @@ var _header = __webpack_require__(27);
 
 var _header2 = _interopRequireDefault(_header);
 
-var _electronBody = __webpack_require__(28);
+var _electronBody = __webpack_require__(29);
 
 var _electronBody2 = _interopRequireDefault(_electronBody);
 

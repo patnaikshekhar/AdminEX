@@ -6,9 +6,13 @@ import InputText from './inputText'
 import Tabs from './tabs'
 import Tab from './tab'
 import InputSelect from './inputSelect'
+import InputFile from './inputFile'
+import NewShape from './newShape'
 import Alert from './alert'
 
 const {ipcRenderer, shell} = require('electron')
+const {dialog} = require('electron').remote
+const fs = require('fs')
 
 let root = document.getElementById('root')
 
@@ -21,7 +25,20 @@ class CreateFeaturePage extends React.Component {
       location: '/config/project-scratch-def.json',
       existingOrg: '',
       orgs: [],
-      error: ''
+      error: '',
+      activeTab: 0,
+      project: null,
+      shape: {
+        orgName: '',
+        edition: 'Enterprise',
+        features: [],
+        orgPreferences: {
+          enabled: [],
+          disabled: []
+        }
+      },
+      listOfFeatures: [],
+      listOfPrefs: []
     }
 
     this.inputStyles = {
@@ -32,9 +49,15 @@ class CreateFeaturePage extends React.Component {
   }
 
   componentWillMount() {
-    ipcRenderer.send('getScratchOrgs')
-    ipcRenderer.once('orgs', (event, orgs) => {
-      this.setState({ orgs })
+    ipcRenderer.send('createFeature.init')
+    ipcRenderer.once('createFeature.initResult', (event, {orgs, project, features, prefs }) => {
+      this.setState({ 
+        location: project.directory + '/config/project-scratch-def.json',
+        orgs,
+        project,
+        listOfFeatures: features,
+        listOfPrefs: prefs
+      })
     })
   }
 
@@ -57,16 +80,23 @@ class CreateFeaturePage extends React.Component {
             label="Feature Name" 
             placeholder="Work Item Number" 
             onChange={name => {
-              this.setState({ name })
+              this.setState({ 
+                name, 
+                shape: Object.assign(this.state.shape, {
+                  orgName: name
+                })
+              })
             }}
             required="true"
             style={this.inputStyles}
             value={this.state.name} />
-          <Tabs>
-            <Tab label="Create New Org">
-              <InputText 
+          <Tabs onTabChange={this.onTabChange.bind(this)}>
+            <Tab label="New Org from Existing Template">
+              <InputFile 
                 label="Template File Location" 
                 placeholder="Location of template file" 
+                required="true"
+                type="openFile"
                 onChange={location => {
                   this.setState({ location })
                 }}
@@ -74,7 +104,14 @@ class CreateFeaturePage extends React.Component {
                 style={this.inputStyles}
                 value={this.state.location} />
             </Tab>
-            <Tab label="Existing Org">
+            <Tab label="New Org from New Template">
+              <NewShape 
+                  onShapeDataChange={this.onShapeDataChange.bind(this)} 
+                  shape={this.state.shape} 
+                  features={this.state.listOfFeatures} 
+                  prefs={this.state.listOfPrefs} />
+            </Tab>
+            <Tab label="Use Existing Org">
               <InputSelect 
                 label="Select Scratch Org"
                 onChange={existingOrg => {
@@ -93,19 +130,76 @@ class CreateFeaturePage extends React.Component {
 
   create() {
 
-    const {name, location, existingOrg} = this.state
+    let {name, location, existingOrg, activeTab, shape} = this.state
 
-    if (name && (location || existingOrg)) {
-      ipcRenderer.send('createFeature', {
-        name,
-        location,
-        existingOrg
-      })
-    } else {
+    if (!name) {
       this.setState({
-        error: 'Please fill in required fields'
+        error: 'Feature name is a required field'
       })
+      return;
     }
+
+    if (activeTab == 0 && !location) {
+      this.setState({
+        error: 'Please fill in location of definition file'
+      })
+      return;
+    }
+
+    if (activeTab == 0) {
+      if (!fs.existsSync(location)) {
+        this.setState({
+          error: 'Cannot find definition file. Please check location.'
+        })
+        return;
+      }
+    }
+
+    if (activeTab == 1 && !shape.orgName) {
+      this.setState({
+        error: 'Please fill in org name of the shape'
+      })
+
+      return;
+    }
+
+    if (activeTab == 1) {
+      const fileName = dialog.showSaveDialog({
+        title: 'Save New Definition File',
+        defaultPath: this.state.project ? `${this.state.project.directory}/config/${shape.orgName}.json` : `${shape.orgName}.json`,
+        nameFieldLabel: 'Definition File Name',
+        showsTagField: false
+      })
+
+      if (fileName) {
+        fs.writeFileSync(fileName, JSON.stringify(shape, null, 2))
+        location = fileName
+      } else {
+        return;
+      }
+    }
+
+    let payload = {}
+
+    if (activeTab == 0 || activeTab == 1) {
+      payload = { name, location }
+    } else if (activeTab == 2) {
+      payload = { name, existingOrg }
+    }
+
+    ipcRenderer.send('createFeature', payload)
+  }
+
+  onShapeDataChange(shape) {
+    this.setState({
+      shape
+    })
+  }
+
+  onTabChange(index) {
+    this.setState({
+      activeTab: index
+    })
   }
 }
 

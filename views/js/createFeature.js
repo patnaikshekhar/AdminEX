@@ -7774,35 +7774,6 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var styles = {
-  marginTop: '90px'
-};
-
-exports.default = function (props) {
-  return _react2.default.createElement(
-    'div',
-    { style: styles },
-    props.children
-  );
-};
-
-/***/ }),
-/* 29 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 exports.default = function (props) {
   return _react2.default.createElement(
     "div",
@@ -7829,6 +7800,35 @@ exports.default = function (props) {
           return props.onChange(e.target.value);
         } })
     )
+  );
+};
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var styles = {
+  marginTop: '90px'
+};
+
+exports.default = function (props) {
+  return _react2.default.createElement(
+    'div',
+    { style: styles },
+    props.children
   );
 };
 
@@ -7883,6 +7883,89 @@ exports.default = function (props) {
 
 /***/ }),
 /* 31 */
+/***/ (function(module, exports) {
+
+module.exports = require('fs');
+
+/***/ }),
+/* 32 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var dialog = __webpack_require__(14).remote.dialog;
+
+var inputStyle = {
+  width: '92%',
+  marginLeft: '4px'
+};
+
+exports.default = function (props) {
+  return _react2.default.createElement(
+    'div',
+    { className: 'slds-form-element', style: props.style },
+    _react2.default.createElement(
+      'label',
+      { className: 'slds-form-element__label' },
+      props.label,
+      props.required ? _react2.default.createElement(
+        'abbr',
+        { className: 'slds-required', title: 'required' },
+        '*'
+      ) : ''
+    ),
+    _react2.default.createElement(
+      'div',
+      { className: 'slds-form-element__control' },
+      _react2.default.createElement('input', {
+        type: 'text',
+        className: 'slds-input',
+        onChange: function onChange(e) {
+          return props.onChange(e.target.value);
+        },
+        placeholder: props.placeholder,
+        value: props.value,
+        style: inputStyle }),
+      _react2.default.createElement(
+        'button',
+        { className: 'slds-button slds-button_icon slds-button_icon-border-filled', title: 'Open Folder', onClick: function onClick() {
+            var directory = dialog.showOpenDialog({ properties: [props.type] });
+            if (directory) {
+              if (Array.isArray(directory)) {
+                props.onChange(directory[0]);
+              } else {
+                props.onChange(directory);
+              }
+            }
+          } },
+        _react2.default.createElement(
+          'svg',
+          { className: 'slds-button__icon', 'aria-hidden': 'true' },
+          _react2.default.createElement('use', { xmlnsXlink: 'http://www.w3.org/1999/xlink', xlinkHref: '../lib/salesforce-lightning-design-system-2.4.6/assets/icons/utility-sprite/svg/symbols.svg#opened_folder' })
+        ),
+        _react2.default.createElement(
+          'span',
+          { className: 'slds-assistive-text' },
+          'Open Folder'
+        )
+      )
+    )
+  );
+};
+
+/***/ }),
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7907,9 +7990,61 @@ exports.default = function (props) {
 };
 
 /***/ }),
-/* 32 */,
-/* 33 */,
 /* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (props) {
+  return _react2.default.createElement(
+    "div",
+    { className: "slds-form-element", style: props.style },
+    _react2.default.createElement(
+      "label",
+      { className: "slds-form-element__label" },
+      props.label,
+      props.required ? _react2.default.createElement(
+        "abbr",
+        { className: "slds-required", title: "required" },
+        "*"
+      ) : ''
+    ),
+    _react2.default.createElement(
+      "div",
+      { className: "slds-form-element__control" },
+      _react2.default.createElement(
+        "select",
+        {
+          className: "slds-select",
+          value: props.value,
+          onChange: function onChange(e) {
+            return props.onChange(e.target.value);
+          } },
+        props.options.map(function (option) {
+          return _react2.default.createElement(
+            "option",
+            { key: option },
+            option
+          );
+        })
+      )
+    )
+  );
+};
+
+/***/ }),
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7925,7 +8060,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _tab = __webpack_require__(31);
+var _tab = __webpack_require__(33);
 
 var _tab2 = _interopRequireDefault(_tab);
 
@@ -8010,7 +8145,7 @@ var Tabs = function (_React$Component) {
 exports.default = Tabs;
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8024,48 +8159,366 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _inputSelect = __webpack_require__(34);
+
+var _inputSelect2 = _interopRequireDefault(_inputSelect);
+
+var _inputText = __webpack_require__(28);
+
+var _inputText2 = _interopRequireDefault(_inputText);
+
+var _multiSelect = __webpack_require__(37);
+
+var _multiSelect2 = _interopRequireDefault(_multiSelect);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = function (props) {
+var fs = __webpack_require__(31);
+
+var NewShape = function NewShape(props) {
+
   return _react2.default.createElement(
-    "div",
-    { className: "slds-form-element", style: props.style },
+    'div',
+    { className: 'slds-grid slds-grid_pull-padded-medium', style: styles.main },
     _react2.default.createElement(
-      "label",
-      { className: "slds-form-element__label" },
-      props.label,
-      props.required ? _react2.default.createElement(
-        "abbr",
-        { className: "slds-required", title: "required" },
-        "*"
-      ) : ''
+      'div',
+      { className: 'slds-col slds-size_1-of-2 slds-p-horizontal_medium' },
+      _react2.default.createElement(_inputText2.default, {
+        label: 'Org Name',
+        value: props.shape.orgName,
+        onChange: function onChange(v) {
+          return props.onShapeDataChange(Object.assign(props.shape, {
+            orgName: v
+          }));
+        },
+        style: styles.inputStyles }),
+      _react2.default.createElement(_multiSelect2.default, {
+        label: 'Enabled Preferences',
+        options: props.prefs,
+        onSelectionChanged: function onSelectionChanged(enabledPrefs) {
+          return props.onShapeDataChange(Object.assign(props.shape, {
+            orgPreferences: Object.assign(props.shape.orgPreferences, {
+              enabled: enabledPrefs
+            })
+          }));
+        },
+        selected: props.shape.orgPreferences.enabled,
+        style: styles.inputStyles }),
+      _react2.default.createElement(_multiSelect2.default, {
+        label: 'Features',
+        options: props.features,
+        onSelectionChanged: function onSelectionChanged(features) {
+          return props.onShapeDataChange(Object.assign(props.shape, {
+            features: features
+          }));
+        },
+        selected: props.shape.features,
+        style: styles.inputStyles })
     ),
     _react2.default.createElement(
-      "div",
-      { className: "slds-form-element__control" },
+      'div',
+      { className: 'slds-col slds-size_1-of-2 slds-p-horizontal_medium' },
+      _react2.default.createElement(_inputSelect2.default, {
+        label: 'Edition',
+        value: props.shape.edition,
+        options: ['Developer', 'Enterprise', 'Group', 'Professional'],
+        onChange: function onChange(v) {
+          return props.onShapeDataChange(Object.assign(props.shape, {
+            edition: v
+          }));
+        },
+        style: styles.inputStyles }),
+      _react2.default.createElement(_multiSelect2.default, {
+        label: 'Disabled Preferences',
+        options: props.prefs,
+        onSelectionChanged: function onSelectionChanged(disabledPrefs) {
+          return props.onShapeDataChange(Object.assign(props.shape, {
+            orgPreferences: Object.assign(props.shape.orgPreferences, {
+              disabled: disabledPrefs
+            })
+          }));
+        },
+        selected: props.shape.orgPreferences.disabled,
+        style: styles.inputStyles })
+    )
+  );
+};
+
+var styles = {
+  main: {
+    paddingLeft: 15,
+    paddingRight: 15
+  },
+
+  inputStyles: {
+    marginBottom: '50px',
+    marginTop: '15px'
+  }
+};
+
+exports.default = NewShape;
+
+/***/ }),
+/* 37 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var SearchBox = function SearchBox(props) {
+  return _react2.default.createElement(
+    "div",
+    { className: "slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" },
+    _react2.default.createElement("input", {
+      type: "text",
+      className: "slds-input slds-combobox__input",
+      autoComplete: "off",
+      placeholder: props.placeholder,
+      onChange: props.onChange,
+      onFocus: props.onFocus,
+      onBlur: function onBlur() {
+        return setTimeout(props.onBlur, 200);
+      } }),
+    _react2.default.createElement(
+      "span",
+      { className: "slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right" },
       _react2.default.createElement(
-        "select",
-        {
-          className: "slds-select",
-          value: props.value,
-          onChange: function onChange(e) {
-            return props.onChange(e.target.value);
-          } },
-        props.options.map(function (option) {
-          return _react2.default.createElement(
-            "option",
-            { key: option },
-            option
-          );
-        })
+        "svg",
+        { className: "slds-icon slds-icon slds-icon_x-small slds-icon-text-default" },
+        _react2.default.createElement("use", { xmlnsXlink: "http://www.w3.org/1999/xlink", xlinkHref: "../lib/salesforce-lightning-design-system-2.4.6/assets/icons/utility-sprite/svg/symbols.svg#search" })
       )
     )
   );
 };
 
+var MutiSelect = function (_React$Component) {
+  _inherits(MutiSelect, _React$Component);
+
+  function MutiSelect() {
+    _classCallCheck(this, MutiSelect);
+
+    var _this = _possibleConstructorReturn(this, (MutiSelect.__proto__ || Object.getPrototypeOf(MutiSelect)).call(this));
+
+    _this.state = {
+      searchText: '',
+      showOptions: false
+    };
+    return _this;
+  }
+
+  _createClass(MutiSelect, [{
+    key: "onTextFocus",
+    value: function onTextFocus() {
+      this.setState({
+        showOptions: true
+      });
+    }
+  }, {
+    key: "onTextLoseFocus",
+    value: function onTextLoseFocus() {
+      this.setState({
+        showOptions: false
+      });
+    }
+  }, {
+    key: "searchTextChanged",
+    value: function searchTextChanged(e) {
+      this.setState({
+        searchText: e.target.value
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      var filteredOptions = this.props.options.filter(function (option) {
+        return option.toLowerCase().indexOf(_this2.state.searchText.toLowerCase()) > -1;
+      });
+
+      return _react2.default.createElement(
+        "div",
+        { style: this.props.style },
+        _react2.default.createElement(
+          "div",
+          { className: "slds-form-element" },
+          _react2.default.createElement(
+            "label",
+            { className: "slds-form-element__label", htmlFor: "combobox-unique-id-5" },
+            this.props.label
+          ),
+          _react2.default.createElement(
+            "div",
+            { className: "slds-form-element__control" },
+            _react2.default.createElement(
+              "div",
+              { className: "slds-combobox_container slds-has-object-switcher" },
+              _react2.default.createElement(
+                "div",
+                { className: "slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click " + (this.state.showOptions ? 'slds-is-open' : '') },
+                _react2.default.createElement(SearchBox, {
+                  onChange: this.searchTextChanged.bind(this),
+                  placeholder: this.props.placeholder,
+                  onFocus: this.onTextFocus.bind(this),
+                  onBlur: this.onTextLoseFocus.bind(this) }),
+                _react2.default.createElement(
+                  "div",
+                  null,
+                  _react2.default.createElement(
+                    "ul",
+                    { className: "slds-listbox slds-listbox_vertical slds-dropdown slds-dropdown_fluid", style: styles.dropdownContainer },
+                    filteredOptions.map(function (option) {
+                      return _react2.default.createElement(MutiSelectOption, {
+                        key: option,
+                        name: option,
+                        icon: _this2.props.icon,
+                        selectOption: function selectOption() {
+                          if (_this2.props.selected.indexOf(option) === -1) {
+                            _this2.props.onSelectionChanged([].concat(_toConsumableArray(_this2.props.selected), [option]));
+                          }
+                        } });
+                    })
+                  )
+                )
+              )
+            ),
+            _react2.default.createElement(
+              "ul",
+              { className: "slds-listbox slds-listbox_horizontal slds-listbox_inline slds-p-top_xxx-small" },
+              this.props.selected.map(function (option) {
+                return _react2.default.createElement(SelectedOption, {
+                  key: option,
+                  name: option,
+                  icon: _this2.props.icon,
+                  removeItem: function removeItem() {
+                    _this2.props.onSelectionChanged(_this2.props.selected.filter(function (o) {
+                      return o != option;
+                    }));
+                  } });
+              })
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return MutiSelect;
+}(_react2.default.Component);
+
+var MutiSelectOption = function MutiSelectOption(props) {
+
+  var icon = props.icon ? props.icon : 'account';
+
+  return _react2.default.createElement(
+    "li",
+    { onClick: props.selectOption },
+    _react2.default.createElement(
+      "div",
+      { className: "slds-media slds-listbox__option slds-listbox__option_entity" },
+      _react2.default.createElement(
+        "span",
+        { className: "slds-media__figure" },
+        _react2.default.createElement(
+          "span",
+          { className: "slds-icon_container slds-icon-standard-" + icon, title: "Description of icon when needed" },
+          _react2.default.createElement(
+            "svg",
+            { className: "slds-icon slds-icon_small" },
+            _react2.default.createElement("use", { xmlnsXlink: "http://www.w3.org/1999/xlink", xlinkHref: "../lib/salesforce-lightning-design-system-2.4.6/assets/icons/standard-sprite/svg/symbols.svg#" + icon })
+          ),
+          _react2.default.createElement(
+            "span",
+            { className: "slds-assistive-text" },
+            props.name
+          )
+        )
+      ),
+      _react2.default.createElement(
+        "span",
+        { className: "slds-media__body" },
+        _react2.default.createElement(
+          "span",
+          null,
+          props.name
+        )
+      )
+    )
+  );
+};
+
+var SelectedOption = function SelectedOption(props) {
+
+  var icon = props.icon ? props.icon : 'account';
+
+  return _react2.default.createElement(
+    "li",
+    { className: "slds-listbox-item" },
+    _react2.default.createElement(
+      "span",
+      { className: "slds-pill" },
+      _react2.default.createElement(
+        "span",
+        { className: "slds-icon_container slds-icon-standard-account slds-pill__icon_container", title: "Account" },
+        _react2.default.createElement(
+          "svg",
+          { className: "slds-icon", "aria-hidden": "true" },
+          _react2.default.createElement("use", { xmlnsXlink: "http://www.w3.org/1999/xlink", xlinkHref: "../lib/salesforce-lightning-design-system-2.4.6/assets/icons/standard-sprite/svg/symbols.svg#" + icon })
+        ),
+        _react2.default.createElement(
+          "span",
+          { className: "slds-assistive-text" },
+          props.name
+        )
+      ),
+      _react2.default.createElement(
+        "span",
+        { className: "slds-pill__label", title: "Acme" },
+        props.name
+      ),
+      _react2.default.createElement(
+        "span",
+        { className: "slds-icon_container slds-pill__remove", title: "Remove", onClick: props.removeItem, style: { cursor: 'pointer' } },
+        _react2.default.createElement(
+          "svg",
+          { className: "slds-icon slds-icon_x-small slds-icon-text-default", "aria-hidden": "true" },
+          _react2.default.createElement("use", { xmlnsXlink: "http://www.w3.org/1999/xlink", xlinkHref: "../lib/salesforce-lightning-design-system-2.4.6/assets/icons/utility-sprite/svg/symbols.svg#close" })
+        )
+      )
+    )
+  );
+};
+
+var styles = {
+  dropdownContainer: {
+    overflowY: 'scroll',
+    maxHeight: 200
+  }
+};
+
+exports.default = MutiSelect;
+
 /***/ }),
-/* 36 */,
-/* 37 */,
 /* 38 */,
 /* 39 */,
 /* 40 */,
@@ -8091,31 +8544,41 @@ var _header = __webpack_require__(27);
 
 var _header2 = _interopRequireDefault(_header);
 
-var _electronBody = __webpack_require__(28);
+var _electronBody = __webpack_require__(29);
 
 var _electronBody2 = _interopRequireDefault(_electronBody);
 
-var _inputText = __webpack_require__(29);
+var _inputText = __webpack_require__(28);
 
 var _inputText2 = _interopRequireDefault(_inputText);
 
-var _tabs = __webpack_require__(34);
+var _tabs = __webpack_require__(35);
 
 var _tabs2 = _interopRequireDefault(_tabs);
 
-var _tab = __webpack_require__(31);
+var _tab = __webpack_require__(33);
 
 var _tab2 = _interopRequireDefault(_tab);
 
-var _inputSelect = __webpack_require__(35);
+var _inputSelect = __webpack_require__(34);
 
 var _inputSelect2 = _interopRequireDefault(_inputSelect);
+
+var _inputFile = __webpack_require__(32);
+
+var _inputFile2 = _interopRequireDefault(_inputFile);
+
+var _newShape = __webpack_require__(36);
+
+var _newShape2 = _interopRequireDefault(_newShape);
 
 var _alert = __webpack_require__(30);
 
 var _alert2 = _interopRequireDefault(_alert);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -8126,6 +8589,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var _require = __webpack_require__(14),
     ipcRenderer = _require.ipcRenderer,
     shell = _require.shell;
+
+var dialog = __webpack_require__(14).remote.dialog;
+
+var fs = __webpack_require__(31);
 
 var root = document.getElementById('root');
 
@@ -8142,7 +8609,20 @@ var CreateFeaturePage = function (_React$Component) {
       location: '/config/project-scratch-def.json',
       existingOrg: '',
       orgs: [],
-      error: ''
+      error: '',
+      activeTab: 0,
+      project: null,
+      shape: {
+        orgName: '',
+        edition: 'Enterprise',
+        features: [],
+        orgPreferences: {
+          enabled: [],
+          disabled: []
+        }
+      },
+      listOfFeatures: [],
+      listOfPrefs: []
     };
 
     _this.inputStyles = {
@@ -8158,15 +8638,27 @@ var CreateFeaturePage = function (_React$Component) {
     value: function componentWillMount() {
       var _this2 = this;
 
-      ipcRenderer.send('getScratchOrgs');
-      ipcRenderer.once('orgs', function (event, orgs) {
-        _this2.setState({ orgs: orgs });
+      ipcRenderer.send('createFeature.init');
+      ipcRenderer.once('createFeature.initResult', function (event, _ref) {
+        var orgs = _ref.orgs,
+            project = _ref.project,
+            features = _ref.features,
+            prefs = _ref.prefs;
+
+        _this2.setState({
+          location: project.directory + '/config/project-scratch-def.json',
+          orgs: orgs,
+          project: project,
+          listOfFeatures: features,
+          listOfPrefs: prefs
+        });
       });
     }
   }, {
     key: 'render',
     value: function render() {
-      var _this3 = this;
+      var _this3 = this,
+          _React$createElement;
 
       return _react2.default.createElement(
         'div',
@@ -8194,30 +8686,44 @@ var CreateFeaturePage = function (_React$Component) {
             label: 'Feature Name',
             placeholder: 'Work Item Number',
             onChange: function onChange(name) {
-              _this3.setState({ name: name });
+              _this3.setState({
+                name: name,
+                shape: Object.assign(_this3.state.shape, {
+                  orgName: name
+                })
+              });
             },
             required: 'true',
             style: this.inputStyles,
             value: this.state.name }),
           _react2.default.createElement(
             _tabs2.default,
-            null,
+            { onTabChange: this.onTabChange.bind(this) },
             _react2.default.createElement(
               _tab2.default,
-              { label: 'Create New Org' },
-              _react2.default.createElement(_inputText2.default, {
+              { label: 'New Org from Existing Template' },
+              _react2.default.createElement(_inputFile2.default, (_React$createElement = {
                 label: 'Template File Location',
                 placeholder: 'Location of template file',
+                required: 'true',
+                type: 'openFile',
                 onChange: function onChange(location) {
                   _this3.setState({ location: location });
-                },
-                required: 'true',
-                style: this.inputStyles,
-                value: this.state.location })
+                }
+              }, _defineProperty(_React$createElement, 'required', 'true'), _defineProperty(_React$createElement, 'style', this.inputStyles), _defineProperty(_React$createElement, 'value', this.state.location), _React$createElement))
             ),
             _react2.default.createElement(
               _tab2.default,
-              { label: 'Existing Org' },
+              { label: 'New Org from New Template' },
+              _react2.default.createElement(_newShape2.default, {
+                onShapeDataChange: this.onShapeDataChange.bind(this),
+                shape: this.state.shape,
+                features: this.state.listOfFeatures,
+                prefs: this.state.listOfPrefs })
+            ),
+            _react2.default.createElement(
+              _tab2.default,
+              { label: 'Use Existing Org' },
               _react2.default.createElement(_inputSelect2.default, {
                 label: 'Select Scratch Org',
                 onChange: function onChange(existingOrg) {
@@ -8238,20 +8744,81 @@ var CreateFeaturePage = function (_React$Component) {
       var _state = this.state,
           name = _state.name,
           location = _state.location,
-          existingOrg = _state.existingOrg;
+          existingOrg = _state.existingOrg,
+          activeTab = _state.activeTab,
+          shape = _state.shape;
 
 
-      if (name && (location || existingOrg)) {
-        ipcRenderer.send('createFeature', {
-          name: name,
-          location: location,
-          existingOrg: existingOrg
-        });
-      } else {
+      if (!name) {
         this.setState({
-          error: 'Please fill in required fields'
+          error: 'Feature name is a required field'
         });
+        return;
       }
+
+      if (activeTab == 0 && !location) {
+        this.setState({
+          error: 'Please fill in location of definition file'
+        });
+        return;
+      }
+
+      if (activeTab == 0) {
+        if (!fs.existsSync(location)) {
+          this.setState({
+            error: 'Cannot find definition file. Please check location.'
+          });
+          return;
+        }
+      }
+
+      if (activeTab == 1 && !shape.orgName) {
+        this.setState({
+          error: 'Please fill in org name of the shape'
+        });
+
+        return;
+      }
+
+      if (activeTab == 1) {
+        var fileName = dialog.showSaveDialog({
+          title: 'Save New Definition File',
+          defaultPath: this.state.project ? this.state.project.directory + '/config/' + shape.orgName + '.json' : shape.orgName + '.json',
+          nameFieldLabel: 'Definition File Name',
+          showsTagField: false
+        });
+
+        if (fileName) {
+          fs.writeFileSync(fileName, JSON.stringify(shape, null, 2));
+          location = fileName;
+        } else {
+          return;
+        }
+      }
+
+      var payload = {};
+
+      if (activeTab == 0 || activeTab == 1) {
+        payload = { name: name, location: location };
+      } else if (activeTab == 2) {
+        payload = { name: name, existingOrg: existingOrg };
+      }
+
+      ipcRenderer.send('createFeature', payload);
+    }
+  }, {
+    key: 'onShapeDataChange',
+    value: function onShapeDataChange(shape) {
+      this.setState({
+        shape: shape
+      });
+    }
+  }, {
+    key: 'onTabChange',
+    value: function onTabChange(index) {
+      this.setState({
+        activeTab: index
+      });
     }
   }]);
 

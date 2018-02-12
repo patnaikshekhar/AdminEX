@@ -151,7 +151,7 @@ class CreateScratchOrgPage extends React.Component {
 
     if (activeTab == 1 && !shape.orgName) {
       this.setState({
-        error: 'Please fill in name of the shape'
+        error: 'Please fill in org name of the shape'
       })
 
       return;
