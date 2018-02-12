@@ -21,7 +21,13 @@ export default (props) =>
         style={inputStyle} />
       <button className="slds-button slds-button_icon slds-button_icon-border-filled" title="Open Folder" onClick={() => {
           const directory = dialog.showOpenDialog({properties: [props.type]})
-          props.onChange(directory)
+          if (directory) {
+            if (Array.isArray(directory)) {
+              props.onChange(directory[0])
+            } else {
+              props.onChange(directory)
+            }
+          }
         }}>
         <svg className="slds-button__icon" aria-hidden="true">
           <use xmlnsXlink="http://www.w3.org/1999/xlink" xlinkHref="../lib/salesforce-lightning-design-system-2.4.6/assets/icons/utility-sprite/svg/symbols.svg#opened_folder" />

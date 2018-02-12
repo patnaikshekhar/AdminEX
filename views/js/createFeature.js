@@ -7908,7 +7908,8 @@ exports.default = function (props) {
 
 /***/ }),
 /* 32 */,
-/* 33 */
+/* 33 */,
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8009,7 +8010,7 @@ var Tabs = function (_React$Component) {
 exports.default = Tabs;
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8063,7 +8064,6 @@ exports.default = function (props) {
 };
 
 /***/ }),
-/* 35 */,
 /* 36 */,
 /* 37 */,
 /* 38 */,
@@ -8099,7 +8099,7 @@ var _inputText = __webpack_require__(29);
 
 var _inputText2 = _interopRequireDefault(_inputText);
 
-var _tabs = __webpack_require__(33);
+var _tabs = __webpack_require__(34);
 
 var _tabs2 = _interopRequireDefault(_tabs);
 
@@ -8107,7 +8107,7 @@ var _tab = __webpack_require__(31);
 
 var _tab2 = _interopRequireDefault(_tab);
 
-var _inputSelect = __webpack_require__(34);
+var _inputSelect = __webpack_require__(35);
 
 var _inputSelect2 = _interopRequireDefault(_inputSelect);
 

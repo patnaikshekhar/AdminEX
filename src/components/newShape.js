@@ -7,36 +7,38 @@ const fs = require('fs')
 
 const NewShape = (props) => {
 
-  const features = JSON.parse(fs.readFileSync('./scratch_org_features.json').toString())
-  const prefs = JSON.parse(fs.readFileSync('./scratch_org_preferences.json').toString())
-
   return (
     <div className="slds-grid slds-grid_pull-padded-medium" style={styles.main}>
 
       <div className="slds-col slds-size_1-of-2 slds-p-horizontal_medium">
 
         <InputText 
-          label="Shape Name"
-          value={props.shape.name} 
+          label="Org Name"
+          value={props.shape.orgName} 
           onChange={v => props.onShapeDataChange(Object.assign(props.shape, {
-            name: v 
-          }))} />
+            orgName: v 
+          }))} 
+          style={styles.inputStyles} />
 
         <MultiSelect 
           label="Enabled Preferences"
-          options={prefs}
+          options={props.prefs}
           onSelectionChanged={enabledPrefs => props.onShapeDataChange(Object.assign(props.shape, {
-            enabledPrefs 
+            orgPreferences: Object.assign(props.shape.orgPreferences, {
+              enabled: enabledPrefs
+            }) 
           }))}
-          selected={props.shape.enabledPrefs} />
+          selected={props.shape.orgPreferences.enabled} 
+          style={styles.inputStyles} />
 
         <MultiSelect 
           label="Features"
-          options={features}
+          options={props.features}
           onSelectionChanged={features => props.onShapeDataChange(Object.assign(props.shape, {
             features 
           }))}
-          selected={props.shape.features} />
+          selected={props.shape.features} 
+          style={styles.inputStyles} />
       </div>
       
       <div className="slds-col slds-size_1-of-2 slds-p-horizontal_medium">
@@ -47,15 +49,19 @@ const NewShape = (props) => {
           options={['Developer', 'Enterprise', 'Group', 'Professional']}
           onChange={v => props.onShapeDataChange(Object.assign(props.shape, {
             edition: v 
-          }))} />
+          }))} 
+          style={styles.inputStyles} />
 
         <MultiSelect 
           label="Disabled Preferences"
-          options={prefs}
+          options={props.prefs}
           onSelectionChanged={disabledPrefs => props.onShapeDataChange(Object.assign(props.shape, {
-            disabledPrefs 
+            orgPreferences: Object.assign(props.shape.orgPreferences, {
+              disabled: disabledPrefs
+            }) 
           }))}
-          selected={props.shape.disabledPrefs} />
+          selected={props.shape.orgPreferences.disabled} 
+          style={styles.inputStyles} />
         </div>
     </div>
   )
@@ -65,6 +71,11 @@ const styles = {
   main: {
     paddingLeft: 15,
     paddingRight: 15
+  },
+
+  inputStyles: {
+    marginBottom: '50px',
+    marginTop: '15px'
   }
 }
 

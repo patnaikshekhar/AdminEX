@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 35);
+/******/ 	return __webpack_require__(__webpack_require__.s = 36);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -7889,9 +7889,86 @@ exports.default = function (props) {
 module.exports = require('fs');
 
 /***/ }),
-/* 33 */,
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var dialog = __webpack_require__(14).remote.dialog;
+
+var inputStyle = {
+  width: '92%',
+  marginLeft: '4px'
+};
+
+exports.default = function (props) {
+  return _react2.default.createElement(
+    'div',
+    { className: 'slds-form-element', style: props.style },
+    _react2.default.createElement(
+      'label',
+      { className: 'slds-form-element__label' },
+      props.label,
+      props.required ? _react2.default.createElement(
+        'abbr',
+        { className: 'slds-required', title: 'required' },
+        '*'
+      ) : ''
+    ),
+    _react2.default.createElement(
+      'div',
+      { className: 'slds-form-element__control' },
+      _react2.default.createElement('input', {
+        type: 'text',
+        className: 'slds-input',
+        onChange: function onChange(e) {
+          return props.onChange(e.target.value);
+        },
+        placeholder: props.placeholder,
+        value: props.value,
+        style: inputStyle }),
+      _react2.default.createElement(
+        'button',
+        { className: 'slds-button slds-button_icon slds-button_icon-border-filled', title: 'Open Folder', onClick: function onClick() {
+            var directory = dialog.showOpenDialog({ properties: [props.type] });
+            if (directory) {
+              if (Array.isArray(directory)) {
+                props.onChange(directory[0]);
+              } else {
+                props.onChange(directory);
+              }
+            }
+          } },
+        _react2.default.createElement(
+          'svg',
+          { className: 'slds-button__icon', 'aria-hidden': 'true' },
+          _react2.default.createElement('use', { xmlnsXlink: 'http://www.w3.org/1999/xlink', xlinkHref: '../lib/salesforce-lightning-design-system-2.4.6/assets/icons/utility-sprite/svg/symbols.svg#opened_folder' })
+        ),
+        _react2.default.createElement(
+          'span',
+          { className: 'slds-assistive-text' },
+          'Open Folder'
+        )
+      )
+    )
+  );
+};
+
+/***/ }),
 /* 34 */,
-/* 35 */
+/* 35 */,
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7911,7 +7988,7 @@ var _header = __webpack_require__(27);
 
 var _header2 = _interopRequireDefault(_header);
 
-var _createProject = __webpack_require__(36);
+var _createProject = __webpack_require__(37);
 
 var _createProject2 = _interopRequireDefault(_createProject);
 
@@ -8096,7 +8173,7 @@ var ProjectPage = function (_React$Component) {
 _reactDom2.default.render(_react2.default.createElement(ProjectPage, null), root);
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8116,7 +8193,7 @@ var _inputText = __webpack_require__(29);
 
 var _inputText2 = _interopRequireDefault(_inputText);
 
-var _inputFile = __webpack_require__(37);
+var _inputFile = __webpack_require__(33);
 
 var _inputFile2 = _interopRequireDefault(_inputFile);
 
@@ -8201,77 +8278,6 @@ var CreateProject = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = CreateProject;
-
-/***/ }),
-/* 37 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var dialog = __webpack_require__(14).remote.dialog;
-
-var inputStyle = {
-  width: '92%',
-  marginLeft: '4px'
-};
-
-exports.default = function (props) {
-  return _react2.default.createElement(
-    'div',
-    { className: 'slds-form-element', style: props.style },
-    _react2.default.createElement(
-      'label',
-      { className: 'slds-form-element__label' },
-      props.label,
-      props.required ? _react2.default.createElement(
-        'abbr',
-        { className: 'slds-required', title: 'required' },
-        '*'
-      ) : ''
-    ),
-    _react2.default.createElement(
-      'div',
-      { className: 'slds-form-element__control' },
-      _react2.default.createElement('input', {
-        type: 'text',
-        className: 'slds-input',
-        onChange: function onChange(e) {
-          return props.onChange(e.target.value);
-        },
-        placeholder: props.placeholder,
-        value: props.value,
-        style: inputStyle }),
-      _react2.default.createElement(
-        'button',
-        { className: 'slds-button slds-button_icon slds-button_icon-border-filled', title: 'Open Folder', onClick: function onClick() {
-            var directory = dialog.showOpenDialog({ properties: [props.type] });
-            props.onChange(directory);
-          } },
-        _react2.default.createElement(
-          'svg',
-          { className: 'slds-button__icon', 'aria-hidden': 'true' },
-          _react2.default.createElement('use', { xmlnsXlink: 'http://www.w3.org/1999/xlink', xlinkHref: '../lib/salesforce-lightning-design-system-2.4.6/assets/icons/utility-sprite/svg/symbols.svg#opened_folder' })
-        ),
-        _react2.default.createElement(
-          'span',
-          { className: 'slds-assistive-text' },
-          'Open Folder'
-        )
-      )
-    )
-  );
-};
 
 /***/ }),
 /* 38 */

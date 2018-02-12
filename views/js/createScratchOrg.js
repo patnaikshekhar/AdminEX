@@ -7923,6 +7923,83 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var dialog = __webpack_require__(14).remote.dialog;
+
+var inputStyle = {
+  width: '92%',
+  marginLeft: '4px'
+};
+
+exports.default = function (props) {
+  return _react2.default.createElement(
+    'div',
+    { className: 'slds-form-element', style: props.style },
+    _react2.default.createElement(
+      'label',
+      { className: 'slds-form-element__label' },
+      props.label,
+      props.required ? _react2.default.createElement(
+        'abbr',
+        { className: 'slds-required', title: 'required' },
+        '*'
+      ) : ''
+    ),
+    _react2.default.createElement(
+      'div',
+      { className: 'slds-form-element__control' },
+      _react2.default.createElement('input', {
+        type: 'text',
+        className: 'slds-input',
+        onChange: function onChange(e) {
+          return props.onChange(e.target.value);
+        },
+        placeholder: props.placeholder,
+        value: props.value,
+        style: inputStyle }),
+      _react2.default.createElement(
+        'button',
+        { className: 'slds-button slds-button_icon slds-button_icon-border-filled', title: 'Open Folder', onClick: function onClick() {
+            var directory = dialog.showOpenDialog({ properties: [props.type] });
+            if (directory) {
+              if (Array.isArray(directory)) {
+                props.onChange(directory[0]);
+              } else {
+                props.onChange(directory);
+              }
+            }
+          } },
+        _react2.default.createElement(
+          'svg',
+          { className: 'slds-button__icon', 'aria-hidden': 'true' },
+          _react2.default.createElement('use', { xmlnsXlink: 'http://www.w3.org/1999/xlink', xlinkHref: '../lib/salesforce-lightning-design-system-2.4.6/assets/icons/utility-sprite/svg/symbols.svg#opened_folder' })
+        ),
+        _react2.default.createElement(
+          'span',
+          { className: 'slds-assistive-text' },
+          'Open Folder'
+        )
+      )
+    )
+  );
+};
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(0);
@@ -8014,7 +8091,7 @@ var Tabs = function (_React$Component) {
 exports.default = Tabs;
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8068,7 +8145,6 @@ exports.default = function (props) {
 };
 
 /***/ }),
-/* 35 */,
 /* 36 */,
 /* 37 */,
 /* 38 */,
@@ -8101,11 +8177,15 @@ var _inputText = __webpack_require__(29);
 
 var _inputText2 = _interopRequireDefault(_inputText);
 
+var _inputFile = __webpack_require__(33);
+
+var _inputFile2 = _interopRequireDefault(_inputFile);
+
 var _alert = __webpack_require__(30);
 
 var _alert2 = _interopRequireDefault(_alert);
 
-var _tabs = __webpack_require__(33);
+var _tabs = __webpack_require__(34);
 
 var _tabs2 = _interopRequireDefault(_tabs);
 
@@ -8144,95 +8224,63 @@ var CreateScratchOrgPage = function (_React$Component) {
 
     _this.state = {
       alias: '',
-      location: '/config/project-scratch-def.json',
+      location: '',
       error: '',
       activeTab: 0,
+      project: null,
       shape: {
-        name: '',
-        edition: '',
+        orgName: '',
+        edition: 'Enterprise',
         features: [],
-        enabledPrefs: [],
-        disabledPrefs: []
-      }
+        orgPreferences: {
+          enabled: [],
+          disabled: []
+        }
+      },
+      listOfFeatures: [],
+      listOfPrefs: []
     };
 
-    _this.inputStyles = {
-      marginBottom: '25px',
-      padding: '20px',
-      marginTop: '20px'
+    _this.styles = {
+      inputName: {
+        marginBottom: '10px',
+        paddingLeft: '20px',
+        paddingRight: '20px',
+        paddingTop: '20px'
+      },
+      inputStyles: {
+        marginBottom: '10px',
+        paddingLeft: '20px',
+        paddingRight: '20px',
+        marginTop: '15px'
+      }
     };
     return _this;
   }
 
   _createClass(CreateScratchOrgPage, [{
-    key: 'onTabChange',
-    value: function onTabChange(index) {
-      this.setState({
-        activeTab: index
-      });
-    }
-  }, {
-    key: 'create',
-    value: function create() {
-      var _state = this.state,
-          activeTab = _state.activeTab,
-          alias = _state.alias,
-          location = _state.location,
-          shape = _state.shape;
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      var _this2 = this;
 
+      ipcRenderer.send('createScratchOrg.getProjectDetails');
+      ipcRenderer.once('createScratchOrg.projectDetails', function (event, _ref) {
+        var project = _ref.project,
+            features = _ref.features,
+            prefs = _ref.prefs;
 
-      if (!alias) {
-        this.setState({
-          error: 'Please fill in Scratch Org Name'
+        _this2.setState({
+          location: project.directory + '/config/project-scratch-def.json',
+          project: project,
+          listOfFeatures: features,
+          listOfPrefs: prefs
         });
-
-        return;
-      }
-
-      if (activeTab == 0 && !location) {
-        this.setState({
-          error: 'Please fill in location of definition file'
-        });
-
-        return;
-      }
-
-      if (activeTab == 1 && !shape.name) {
-        this.setState({
-          error: 'Please fill in name of the shape'
-        });
-
-        return;
-      }
-
-      if (activeTab == 1) {
-        var fileName = dialog.showSaveDialog({
-          title: shape.name + '.json'
-        });
-        fs.writeFileSync(fileName, shape);
-      }
-      // if (alias && location) {
-      //   ipcRenderer.send('createScratchOrg', {
-      //     alias,
-      //     location
-      //   })
-      // } else {
-      //   this.setState({
-      //     error: 'Please fill in required fields'
-      //   })
-      // }
-    }
-  }, {
-    key: 'onShapeDataChange',
-    value: function onShapeDataChange(shape) {
-      this.setState({
-        shape: shape
       });
     }
   }, {
     key: 'render',
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
       return _react2.default.createElement(
         'div',
@@ -8261,14 +8309,14 @@ var CreateScratchOrgPage = function (_React$Component) {
             placeholder: 'Name of scratch org',
             required: 'true',
             onChange: function onChange(alias) {
-              _this2.setState({
+              _this3.setState({
                 alias: alias,
-                shape: Object.assign(_this2.state.shape, {
-                  name: alias
+                shape: Object.assign(_this3.state.shape, {
+                  orgName: alias
                 })
               });
             },
-            style: this.inputStyles,
+            style: this.styles.inputName,
             value: this.state.alias }),
           _react2.default.createElement(
             _tabs2.default,
@@ -8276,14 +8324,15 @@ var CreateScratchOrgPage = function (_React$Component) {
             _react2.default.createElement(
               _tab2.default,
               { label: 'Existing Shape' },
-              _react2.default.createElement(_inputText2.default, {
+              _react2.default.createElement(_inputFile2.default, {
                 label: 'Template File Location',
                 placeholder: 'Enter location of template',
                 required: 'true',
+                type: 'openFile',
                 onChange: function onChange(location) {
-                  _this2.setState({ location: location });
+                  _this3.setState({ location: location });
                 },
-                style: this.inputStyles,
+                style: this.styles.inputStyles,
                 value: this.state.location })
             ),
             _react2.default.createElement(
@@ -8291,11 +8340,95 @@ var CreateScratchOrgPage = function (_React$Component) {
               { label: 'New Shape' },
               _react2.default.createElement(_newShape2.default, {
                 onShapeDataChange: this.onShapeDataChange.bind(this),
-                shape: this.state.shape })
+                shape: this.state.shape,
+                features: this.state.listOfFeatures,
+                prefs: this.state.listOfPrefs })
             )
           )
         )
       );
+    }
+  }, {
+    key: 'create',
+    value: function create() {
+      var _state = this.state,
+          activeTab = _state.activeTab,
+          alias = _state.alias,
+          location = _state.location,
+          shape = _state.shape;
+
+
+      if (!alias) {
+        this.setState({
+          error: 'Please fill in Scratch Org Name'
+        });
+        return;
+      }
+
+      if (activeTab == 0 && !location) {
+        this.setState({
+          error: 'Please fill in location of definition file'
+        });
+        return;
+      }
+
+      if (activeTab == 0) {
+        if (!fs.existsSync(location)) {
+          this.setState({
+            error: 'Cannot find definition file. Please check location.'
+          });
+          return;
+        }
+      }
+
+      if (activeTab == 1 && !shape.orgName) {
+        this.setState({
+          error: 'Please fill in name of the shape'
+        });
+
+        return;
+      }
+
+      if (activeTab == 1) {
+        var fileName = dialog.showSaveDialog({
+          title: 'Save New Definition File',
+          defaultPath: this.state.project ? this.state.project.directory + '/config/' + shape.orgName + '.json' : shape.orgName + '.json',
+          nameFieldLabel: 'Definition File Name',
+          showsTagField: false
+        });
+
+        if (fileName) {
+          fs.writeFileSync(fileName, JSON.stringify(shape, null, 2));
+          location = fileName;
+        } else {
+          return;
+        }
+      }
+
+      if (alias && location) {
+        ipcRenderer.send('createScratchOrg', {
+          alias: alias,
+          location: location
+        });
+      } else {
+        this.setState({
+          error: 'Please fill in required fields'
+        });
+      }
+    }
+  }, {
+    key: 'onShapeDataChange',
+    value: function onShapeDataChange(shape) {
+      this.setState({
+        shape: shape
+      });
+    }
+  }, {
+    key: 'onTabChange',
+    value: function onTabChange(index) {
+      this.setState({
+        activeTab: index
+      });
     }
   }]);
 
@@ -8319,7 +8452,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _inputSelect = __webpack_require__(34);
+var _inputSelect = __webpack_require__(35);
 
 var _inputSelect2 = _interopRequireDefault(_inputSelect);
 
@@ -8337,9 +8470,6 @@ var fs = __webpack_require__(32);
 
 var NewShape = function NewShape(props) {
 
-  var features = JSON.parse(fs.readFileSync('./scratch_org_features.json').toString());
-  var prefs = JSON.parse(fs.readFileSync('./scratch_org_preferences.json').toString());
-
   return _react2.default.createElement(
     'div',
     { className: 'slds-grid slds-grid_pull-padded-medium', style: styles.main },
@@ -8347,31 +8477,36 @@ var NewShape = function NewShape(props) {
       'div',
       { className: 'slds-col slds-size_1-of-2 slds-p-horizontal_medium' },
       _react2.default.createElement(_inputText2.default, {
-        label: 'Shape Name',
-        value: props.shape.name,
+        label: 'Org Name',
+        value: props.shape.orgName,
         onChange: function onChange(v) {
           return props.onShapeDataChange(Object.assign(props.shape, {
-            name: v
-          }));
-        } }),
-      _react2.default.createElement(_multiSelect2.default, {
-        label: 'Enabled Preferences',
-        options: prefs,
-        onSelectionChanged: function onSelectionChanged(enabledPrefs) {
-          return props.onShapeDataChange(Object.assign(props.shape, {
-            enabledPrefs: enabledPrefs
+            orgName: v
           }));
         },
-        selected: props.shape.enabledPrefs }),
+        style: styles.inputStyles }),
+      _react2.default.createElement(_multiSelect2.default, {
+        label: 'Enabled Preferences',
+        options: props.prefs,
+        onSelectionChanged: function onSelectionChanged(enabledPrefs) {
+          return props.onShapeDataChange(Object.assign(props.shape, {
+            orgPreferences: Object.assign(props.shape.orgPreferences, {
+              enabled: enabledPrefs
+            })
+          }));
+        },
+        selected: props.shape.orgPreferences.enabled,
+        style: styles.inputStyles }),
       _react2.default.createElement(_multiSelect2.default, {
         label: 'Features',
-        options: features,
+        options: props.features,
         onSelectionChanged: function onSelectionChanged(features) {
           return props.onShapeDataChange(Object.assign(props.shape, {
             features: features
           }));
         },
-        selected: props.shape.features })
+        selected: props.shape.features,
+        style: styles.inputStyles })
     ),
     _react2.default.createElement(
       'div',
@@ -8384,16 +8519,20 @@ var NewShape = function NewShape(props) {
           return props.onShapeDataChange(Object.assign(props.shape, {
             edition: v
           }));
-        } }),
+        },
+        style: styles.inputStyles }),
       _react2.default.createElement(_multiSelect2.default, {
         label: 'Disabled Preferences',
-        options: prefs,
+        options: props.prefs,
         onSelectionChanged: function onSelectionChanged(disabledPrefs) {
           return props.onShapeDataChange(Object.assign(props.shape, {
-            disabledPrefs: disabledPrefs
+            orgPreferences: Object.assign(props.shape.orgPreferences, {
+              disabled: disabledPrefs
+            })
           }));
         },
-        selected: props.shape.disabledPrefs })
+        selected: props.shape.orgPreferences.disabled,
+        style: styles.inputStyles })
     )
   );
 };
@@ -8402,6 +8541,11 @@ var styles = {
   main: {
     paddingLeft: 15,
     paddingRight: 15
+  },
+
+  inputStyles: {
+    marginBottom: '50px',
+    marginTop: '15px'
   }
 };
 
@@ -8507,7 +8651,7 @@ var MutiSelect = function (_React$Component) {
 
       return _react2.default.createElement(
         "div",
-        null,
+        { style: this.props.style },
         _react2.default.createElement(
           "div",
           { className: "slds-form-element" },

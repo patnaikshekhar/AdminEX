@@ -55,7 +55,7 @@ class MutiSelect extends React.Component {
     )
 
     return (
-      <div>
+      <div style={this.props.style}>
         <div className="slds-form-element">
           <label className="slds-form-element__label" htmlFor="combobox-unique-id-5">{ this.props.label }</label>
           <div className="slds-form-element__control">
