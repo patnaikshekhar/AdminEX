@@ -21,9 +21,14 @@ class Tabs extends React.Component {
                 key={index}
                 className={`slds-tabs_default__item ${this.state.active == index ? 'slds-is-active' : ''}`} 
                 title={tab.props.label} role="presentation"
-                onClick={() => this.setState({
-                  active: index
-                })}>
+                onClick={() => {
+                  this.setState({
+                    active: index
+                  })
+                  if (this.props.onTabChange) {
+                    this.props.onTabChange(index)
+                  }
+                }}>
                 <a 
                   className="slds-tabs_default__link" 
                   href="javascript:void(0);" 

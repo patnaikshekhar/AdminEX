@@ -2,6 +2,7 @@ const sfdx = require('sfdx-node')
 const fs = require('fs')
 require('util.promisify').shim()
 const { exec } = require('child_process')
+const { log } = require('./utilities')
 
 const authDevHub = (project) => new Promise((resolve, reject) => {
   const devHubAlias = `${project.name + 'DevHub'}`
@@ -14,17 +15,16 @@ const authDevHub = (project) => new Promise((resolve, reject) => {
 }) 
 
 const createScratchOrg = (project, options) => {
-  console.log('createScratchOrg called with settings = ', {
+  
+  const createScratchOrgOptions = {
     targetdevhubusername: project.devHubAlias,
     setalias: options.alias,
-    definitionfile: `${project.directory}${options.location}`
-  })
+    definitionfile: options.location
+  }
 
-  return sfdx.org.create({
-    targetdevhubusername: project.devHubAlias,
-    setalias: options.alias,
-    definitionfile: `${project.directory}${options.location}`
-  })
+  log(`Create Scratch Org Called with ${JSON.stringify(createScratchOrgOptions, null, 2)}`, 'Info')
+
+  return sfdx.org.create(createScratchOrgOptions)
   .then(result => {
     console.log('createScratchOrg result', result)
     if (!result) {

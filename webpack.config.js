@@ -48,7 +48,7 @@ module.exports = {
         return callback()
       }
     })()
-  ],
+    , "fuzzy-match-utils"],
 
   plugins: [
     new RestartElectronPlugin({

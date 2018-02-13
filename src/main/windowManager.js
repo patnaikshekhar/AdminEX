@@ -5,6 +5,10 @@ const Storage = require('./storage')
 const GitHelper = require('./gitHelper')
 const SFDX = require('./sfdx')
 const { handleError, logp, log } = require('./utilities')
+const fs = require('fs')
+const features = require('../../scratch_org_features.json')
+const prefs = require('../../scratch_org_preferences.json')
+
 
 const url = require('url')
 const path = require('path')
@@ -24,7 +28,7 @@ const createWindow = () =>
     titleBarStyle:'hidden'
   })
 
-const selectScratchOrgDetails = () => new Promise((resolve, reject) => {
+const selectScratchOrgDetails = (project) => new Promise((resolve, reject) => {
 
   const debug = Settings().debugMode
 
@@ -40,6 +44,10 @@ const selectScratchOrgDetails = () => new Promise((resolve, reject) => {
     scratchOrgWindow.webContents.openDevTools()
   
   scratchOrgWindow.on('closed', () => {
+  })
+
+  ipcMain.once('createScratchOrg.getProjectDetails', (event, options) => {
+    event.sender.send('createScratchOrg.projectDetails', {project, features, prefs})
   })
 
   ipcMain.once('createScratchOrg', (event, options) => {
@@ -127,10 +135,10 @@ const createFeature = (project) => new Promise((resolve, reject) => {
     resolve(options)
   })
 
-  ipcMain.once('getScratchOrgs', (event, options) => {
+  ipcMain.once('createFeature.init', (event, options) => {
     SFDX.getOrgList(project)
       .then((orgs) => {
-        event.sender.send('orgs', orgs)
+        event.sender.send('createFeature.initResult', {orgs, project, features, prefs })
       })
   })
 })

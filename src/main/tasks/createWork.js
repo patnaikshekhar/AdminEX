@@ -29,6 +29,7 @@ const createFeature = (project, refreshMenu) => {
           })
           .then(updatedProject => {
             project = updatedProject
+            console.log('Updating project', project)
             return Storage.updateProject(project)
           })
           .then(() => 

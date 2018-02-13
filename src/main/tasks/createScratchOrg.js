@@ -4,7 +4,7 @@ const WindowManager = require('../windowManager')
 
 const createScratchOrg = (project, refreshMenu) => {
   return (
-    WindowManager.selectScratchOrgDetails()
+    WindowManager.selectScratchOrgDetails(project)
       .then(options => sfdx.createScratchOrg(project, options))
       .then(options => logp('Finished createScratchOrg', 'Info', options))
       .then(options => sfdx.pushSource(project, options))
