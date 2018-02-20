@@ -4,6 +4,7 @@ var currentRepo = null
 const Path = require('path')
 const diff2html = require("diff2html").Diff2Html
 const fs = require('fs')
+const shell = require('shelljs')
 
 const createProject = ({directory, repositoryURL}) => {
   const developBranch = Settings().developBranch
@@ -97,7 +98,7 @@ const getDiffHTML = (data) => {
     })
 }
 
-const createDirectoryRecursive = (targetDir) => new Promise((resolve, reject) => {
+/*const createDirectoryRecursive = (targetDir) => new Promise((resolve, reject) => {
   const sep = Path.sep
   const initDir = Path.isAbsolute(targetDir) ? sep : ''
   targetDir.split(sep).reduce((parentDir, childDir) => {
@@ -113,6 +114,15 @@ const createDirectoryRecursive = (targetDir) => new Promise((resolve, reject) =>
   }, initDir)
 
   resolve()
+})*/
+
+const createDirectoryRecursive = (targetDir) => new Promise((resolve, reject) => {
+	try {
+		shell.mkdir('-p', targetDir)
+		resolve()
+	} catch(e) {
+		reject(e)
+	}
 })
 
 const undoFileChanges = (branchName, filename, action) => {
