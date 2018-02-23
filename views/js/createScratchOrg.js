@@ -7775,25 +7775,28 @@ var _react2 = _interopRequireDefault(_react);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (props) {
+
+  var inputType = props.type ? props.type : 'text';
+
   return _react2.default.createElement(
-    "div",
-    { className: "slds-form-element", style: props.style },
+    'div',
+    { className: 'slds-form-element', style: props.style },
     _react2.default.createElement(
-      "label",
-      { className: "slds-form-element__label" },
+      'label',
+      { className: 'slds-form-element__label' },
       props.label,
       props.required ? _react2.default.createElement(
-        "abbr",
-        { className: "slds-required", title: "required" },
-        "*"
+        'abbr',
+        { className: 'slds-required', title: 'required' },
+        '*'
       ) : ''
     ),
     _react2.default.createElement(
-      "div",
-      { className: "slds-form-element__control" },
-      _react2.default.createElement("input", {
-        type: "text",
-        className: "slds-input",
+      'div',
+      { className: 'slds-form-element__control' },
+      _react2.default.createElement('input', {
+        type: inputType,
+        className: 'slds-input',
         value: props.value,
         placeholder: props.placeholder,
         onChange: function onChange(e) {

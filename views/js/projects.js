@@ -7775,25 +7775,28 @@ var _react2 = _interopRequireDefault(_react);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (props) {
+
+  var inputType = props.type ? props.type : 'text';
+
   return _react2.default.createElement(
-    "div",
-    { className: "slds-form-element", style: props.style },
+    'div',
+    { className: 'slds-form-element', style: props.style },
     _react2.default.createElement(
-      "label",
-      { className: "slds-form-element__label" },
+      'label',
+      { className: 'slds-form-element__label' },
       props.label,
       props.required ? _react2.default.createElement(
-        "abbr",
-        { className: "slds-required", title: "required" },
-        "*"
+        'abbr',
+        { className: 'slds-required', title: 'required' },
+        '*'
       ) : ''
     ),
     _react2.default.createElement(
-      "div",
-      { className: "slds-form-element__control" },
-      _react2.default.createElement("input", {
-        type: "text",
-        className: "slds-input",
+      'div',
+      { className: 'slds-form-element__control' },
+      _react2.default.createElement('input', {
+        type: inputType,
+        className: 'slds-input',
         value: props.value,
         placeholder: props.placeholder,
         onChange: function onChange(e) {
@@ -8120,7 +8123,9 @@ var ProjectPage = function (_React$Component) {
       var _state$project = this.state.project,
           name = _state$project.name,
           directory = _state$project.directory,
-          repositoryURL = _state$project.repositoryURL;
+          repositoryURL = _state$project.repositoryURL,
+          repositoryUsername = _state$project.repositoryUsername,
+          repositoryPassword = _state$project.repositoryPassword;
 
 
       if (!this.directoryIsEmpty(directory)) {
@@ -8141,6 +8146,8 @@ var ProjectPage = function (_React$Component) {
             name: name,
             directory: directory,
             repositoryURL: repositoryURL,
+            repositoryUsername: repositoryUsername,
+            repositoryPassword: repositoryPassword,
             devHubAlias: devHubAlias
           });
         }).catch(function (e) {
@@ -8218,13 +8225,21 @@ var CreateProject = function (_React$Component) {
     _this.state = {
       name: '',
       repositoryURL: '',
-      directory: ''
+      directory: '',
+      repositoryUsername: '',
+      repositoryPassword: ''
     };
 
     _this.inputStyles = {
-      marginBottom: '25px',
+      marginBottom: '5px',
       padding: '20px',
-      marginTop: '20px'
+      marginTop: '5px'
+    };
+
+    _this.repoStyle = {
+      paddingLeft: '20px',
+      paddingRight: '20px',
+      marginBottom: '25px'
     };
     return _this;
   }
@@ -8236,42 +8251,91 @@ var CreateProject = function (_React$Component) {
 
       return _react2.default.createElement(
         'div',
-        { className: 'create-project body' },
-        _react2.default.createElement(_inputText2.default, {
-          label: 'Project Name',
-          placeholder: 'Name of project',
-          required: 'true',
-          onChange: function onChange(value) {
-            _this2.setState({ name: value });
-            _this2.props.projectDetailsChanged(_this2.state, function () {
-              _this2.props.projectDetailsChanged(_this2.state);
-            });
-          },
-          style: this.inputStyles,
-          value: this.state.name }),
-        _react2.default.createElement(_inputText2.default, {
-          label: 'Project Repository',
-          placeholder: 'Enter git URL of repository',
-          required: 'true',
-          onChange: function onChange(value) {
-            _this2.setState({ repositoryURL: value }, function () {
-              _this2.props.projectDetailsChanged(_this2.state);
-            });
-          },
-          style: this.inputStyles,
-          value: this.state.repositoryURL }),
-        _react2.default.createElement(_inputFile2.default, {
-          label: 'Project Folder',
-          placeholder: 'Select project folder',
-          required: 'true',
-          type: 'openDirectory',
-          onChange: function onChange(value) {
-            _this2.setState({ directory: value }, function () {
-              _this2.props.projectDetailsChanged(_this2.state);
-            });
-          },
-          style: this.inputStyles,
-          value: this.state.directory })
+        { className: 'create-project body slds-grid slds-wrap' },
+        _react2.default.createElement(
+          'div',
+          { className: 'slds-col slds-size_1-of-1' },
+          _react2.default.createElement(_inputText2.default, {
+            label: 'Project Name',
+            placeholder: 'Name of project',
+            required: 'true',
+            onChange: function onChange(value) {
+              _this2.setState({ name: value });
+              _this2.props.projectDetailsChanged(_this2.state, function () {
+                _this2.props.projectDetailsChanged(_this2.state);
+              });
+            },
+            style: this.inputStyles,
+            value: this.state.name })
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'slds-col slds-size_1-of-1' },
+          _react2.default.createElement(_inputFile2.default, {
+            label: 'Project Folder',
+            placeholder: 'Select project folder',
+            required: 'true',
+            type: 'openDirectory',
+            onChange: function onChange(value) {
+              _this2.setState({ directory: value }, function () {
+                _this2.props.projectDetailsChanged(_this2.state);
+              });
+            },
+            style: this.inputStyles,
+            value: this.state.directory })
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'slds-col slds-size_1-of-1' },
+          _react2.default.createElement(
+            'div',
+            null,
+            _react2.default.createElement(_inputText2.default, {
+              label: 'Project Repository',
+              placeholder: 'Enter git URL of repository',
+              required: 'true',
+              onChange: function onChange(value) {
+                _this2.setState({ repositoryURL: value }, function () {
+                  _this2.props.projectDetailsChanged(_this2.state);
+                });
+              },
+              style: this.inputStyles,
+              value: this.state.repositoryURL })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'slds-grid' },
+            _react2.default.createElement(
+              'div',
+              { className: 'slds-col' },
+              _react2.default.createElement(_inputText2.default, {
+                label: 'Repository Username',
+                placeholder: 'Enter username if any',
+                onChange: function onChange(value) {
+                  _this2.setState({ repositoryUsername: value }, function () {
+                    _this2.props.projectDetailsChanged(_this2.state);
+                  });
+                },
+                style: this.repoStyle,
+                value: this.state.repositoryUsername })
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'slds-col' },
+              _react2.default.createElement(_inputText2.default, {
+                label: 'Repository Password',
+                placeholder: 'Enter password if any',
+                onChange: function onChange(value) {
+                  _this2.setState({ repositoryPassword: value }, function () {
+                    _this2.props.projectDetailsChanged(_this2.state);
+                  });
+                },
+                style: this.repoStyle,
+                type: 'password',
+                value: this.state.repositoryPassword })
+            )
+          )
+        )
       );
     }
   }]);
