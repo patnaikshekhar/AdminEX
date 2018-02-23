@@ -85,7 +85,8 @@ const selectProject = () => new Promise((resolve, reject) => {
       // User url parser
       const {protocol, host, pathname} = new url.URL(project.repositoryURL)
 
-      project.repositoryURL = `${protocol}://${project.repositoryUsername}:${project.repositoryPassword}@${host}${pathname}`
+      project.repositoryURL = `${protocol}//${project.repositoryUsername}:${project.repositoryPassword}@${host}${pathname}`
+      console.log(project.repositoryURL)
     } 
 
     GitHelper.createProject(project)
