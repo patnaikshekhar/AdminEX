@@ -12,6 +12,7 @@ const createWork = require('./tasks/createWork')
 const startWork = require('./tasks/startWork')
 const deleteWork = require('./tasks/deleteWork')
 const pullChanges = require('./tasks/pullChanges')
+const open = require('./tasks/open')
 
 let tray = null
 
@@ -157,11 +158,32 @@ const seperator = () => new Promise((resolve, reject) => resolve([{
   label: undefined
 }]))
 
+const getOpenItems = (project) => new Promise((resolve, reject) => {
+  resolve([
+    {
+      label: 'Open Project Folder',
+      type: undefined,
+      click() { 
+        open.openRepositoryFolder(project)
+          .catch(e => handleError(e))
+      }
+    }, {
+      label: 'Open Repository',
+      type: undefined,
+      click() { 
+        open.openRepositoryURL(project)
+          .catch(e => handleError(e))
+      }
+    }
+  ])
+})
+
 const createContextMenu = (project) => {
   const template = [
     getConnectToDevOrgItem(project), seperator(), 
     getStartFeature(project), getFeatures(project), seperator(),
     getScratchOrgItems(project), seperator(),
+    getOpenItems(project), seperator(),
     getQuitItem()]
 
   return Promise.all(template)
