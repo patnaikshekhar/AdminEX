@@ -95,6 +95,7 @@ class CreateProject extends React.Component {
                   })
                 }} 
                 style={this.repoStyle}
+                type="password"
                 value={this.state.repositoryPassword} />
             </div>
           </div>

@@ -9,7 +9,6 @@ const fs = require('fs')
 const features = require('../../scratch_org_features.json')
 const prefs = require('../../scratch_org_preferences.json')
 
-
 const url = require('url')
 const path = require('path')
 
@@ -80,6 +79,15 @@ const selectProject = () => new Promise((resolve, reject) => {
   })
 
   ipcMain.once('createProject', (event, project) => {
+
+    if (project.repositoryUsername && project.repositoryPassword) {
+      // Seperate out protocol, host, etc
+      // User url parser
+      const {protocol, host, pathname} = new url.URL(project.repositoryURL)
+
+      project.repositoryURL = `${protocol}://${project.repositoryUsername}:${project.repositoryPassword}@${host}${pathname}`
+    } 
+
     GitHelper.createProject(project)
       .then(() => Storage.addProject(project))
       .then(data => {
