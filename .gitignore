@@ -6,3 +6,4 @@ main.log
 test_*.js
 release-builds
 npm-debug.log
+*.dmg
