@@ -1,12 +1,17 @@
+const Constants = require('./src/main/constants')
+const shell = require('shelljs')
+const fs = require('fs')
+
+if (!fs.existsSync(Constants.MAIN_DIRECTORY)) {
+  shell.mkdir('-p', Constants.MAIN_DIRECTORY)
+}
+
 const {app, BrowserWindow, ipcMain, Menu} = require('electron')
 const path = require('path')
 const url = require('url')
 const TrayHelper = require('./src/main/trayHelper')
 const WindowManager = require('./src/main/windowManager')
 const {handleError} = require('./src/main/utilities')
-const Utilities = require('./src/main/utilities')
-
-Utilities.checkAppMainDirectory()
 
 app.on('ready', () => {
   var template = [{

@@ -3,14 +3,6 @@ const Settings = require('./settings')
 const fs = require('fs')
 const Constants = require('./constants')
 
-const shell = require('shelljs')
-
-const checkAppMainDirectory = () => {
-  if (!fs.existsSync(Constants.MAIN_DIRECTORY)) {
-    shell.mkdir('-p', Constants.MAIN_DIRECTORY)
-  }
-}
-
 const handleError = (msg, err) => {
   const error = err ? err.toString() : 'Unknown'
   log(error, 'Error')
@@ -69,6 +61,5 @@ module.exports = {
   handleError,
   alert,
   log,
-  logp,
-  checkAppMainDirectory
+  logp
 }
