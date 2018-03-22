@@ -1,6 +1,9 @@
 const fs = require('fs')
 const uuid = require('uuid')
-const STORAGE_FILENAME = `${__dirname}/../../adminex_data.json`
+const Constants = require('../main/constants')
+//const STORAGE_FILENAME = `${__dirname}/../../adminex_data.json`
+const STORAGE_FILENAME = `${Constants.MAIN_DIRECTORY}/adminex_data.json`
+
 const BASIC_OBJECT = {
   projects: []
 }
@@ -79,5 +82,6 @@ module.exports = {
   addProject,
   getProjects,
   updateProject,
-  getProject
+  getProject,
+  STORAGE_FILENAME
 }

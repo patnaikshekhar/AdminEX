@@ -4,6 +4,9 @@ const url = require('url')
 const TrayHelper = require('./src/main/trayHelper')
 const WindowManager = require('./src/main/windowManager')
 const {handleError} = require('./src/main/utilities')
+const Utilities = require('./src/main/utilities')
+
+Utilities.checkAppMainDirectory()
 
 app.on('ready', () => {
   var template = [{
