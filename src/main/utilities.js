@@ -1,6 +1,7 @@
 const {Notification, dialog} = require('electron')
 const Settings = require('./settings')
 const fs = require('fs')
+const Constants = require('./constants')
 
 const handleError = (msg, err) => {
   const error = err ? err.toString() : 'Unknown'
@@ -36,19 +37,23 @@ const logp = (msg, type, data) => new Promise((resolve, reject) => {
   resolve(data)
 })
 
-const logFilePath = __dirname + '/' + Settings().logFile
+const logging = Settings().logging
+
+const logFilePath = `${Constants.MAIN_DIRECTORY}/${new Date().toISOString()}.log`
 
 const appendToLogFile = (data) => {
-  if (fs.existsSync(logFilePath)) {
-    fs.appendFile(logFilePath, data, (err) => {
-      if (err)
-        console.error(err)
-    })
-  } else {
-    fs.writeFile(logFilePath, data, (err) => {
-      if (err)
-        console.error(err)
-    })
+  if (logging) {
+    if (fs.existsSync(logFilePath)) {
+      fs.appendFile(logFilePath, data, (err) => {
+        if (err)
+          console.error(err)
+      })
+    } else {
+      fs.writeFile(logFilePath, data, (err) => {
+        if (err)
+          console.error(err)
+      })
+    }
   }
 }
 

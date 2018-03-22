@@ -1,3 +1,11 @@
+const Constants = require('./src/main/constants')
+const shell = require('shelljs')
+const fs = require('fs')
+
+if (!fs.existsSync(Constants.MAIN_DIRECTORY)) {
+  shell.mkdir('-p', Constants.MAIN_DIRECTORY)
+}
+
 const {app, BrowserWindow, ipcMain, Menu} = require('electron')
 const path = require('path')
 const url = require('url')

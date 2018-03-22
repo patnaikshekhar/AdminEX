@@ -1,5 +1,5 @@
 {
   "debugMode": false,
-  "logFile": "../../main.log",
-  "developBranch": "master"
+  "developBranch": "master",
+  "logging": false
 }

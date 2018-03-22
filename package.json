@@ -10,7 +10,7 @@
     "test-watch": "jasmine-node --autotest --verbose --captureExceptions --color .",
     "test": "jasmine-node --verbose --color .",
     "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/dxicon.icns --prune=true --out=release-builds --ignore adminex_data.json --app-bundle-id=\"com.sf.adminexperience\" --app-version=\"1.0.0\" --build-version=\"1.0.100\" && electron-osx-sign \"release-builds/Admin\\ Experience-darwin-x64/Admin\\ Experience.app\" --identity=\"Developer ID Application: Shekhar Patnaik (S7GJXAE36M)\" && electron-installer-dmg \"release-builds/Admin\\ Experience-darwin-x64/Admin\\ Experience.app\" AdminExperience",
-    "package-win": "electron-packager . --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets/icons/win/dxicon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Admin Experience\"",
+    "package-win": "electron-packager . --overwrite --asar=true --platform=win32 --arch=ia32 --ignore adminex_data.json --icon=assets/icons/win/dxicon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Admin Experience\"",
     "coverage": "istanbul cover jasmine-node ."
   },
   "author": "",
