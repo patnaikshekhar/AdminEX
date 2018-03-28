@@ -8063,7 +8063,7 @@ var PullDifferencesPage = function (_React$Component) {
                   _react2.default.createElement(
                     'th',
                     { scope: 'col' },
-                    'File Location'
+                    'Type'
                   ),
                   _react2.default.createElement('th', { scope: 'col' })
                 )
@@ -8086,23 +8086,19 @@ var PullDifferencesPage = function (_React$Component) {
                     ),
                     _react2.default.createElement(
                       'td',
-                      null,
-                      row.fullName
-                    ),
-                    _react2.default.createElement(
-                      'td',
                       { onClick: function onClick() {
                           return _this2.openFile(row);
                         } },
                       _react2.default.createElement(
-                        'div',
-                        { className: 'slds-truncate' },
-                        _react2.default.createElement(
-                          'a',
-                          { href: '#' },
-                          _this2.truncate(row.filePath)
-                        )
+                        'a',
+                        { href: '#' },
+                        decodeURI(row.fullName).replace('%3A', ':')
                       )
+                    ),
+                    _react2.default.createElement(
+                      'td',
+                      null,
+                      row.type
                     ),
                     _react2.default.createElement(
                       'td',
@@ -8159,7 +8155,7 @@ var PullDifferencesPage = function (_React$Component) {
   }, {
     key: 'openFile',
     value: function openFile(item) {
-      shell.openItem(path.join(this.state.project.directory, item.filePath));
+      shell.openItem('' + path.join(this.state.project.directory, item.filePath));
     }
   }, {
     key: 'openDiff',
