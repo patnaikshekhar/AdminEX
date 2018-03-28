@@ -174,6 +174,13 @@ const getOpenItems = (project) => new Promise((resolve, reject) => {
         open.openRepositoryURL(project)
           .catch(e => handleError(e))
       }
+    }, {
+      label: 'Reconnect DevHub',
+      type: undefined,
+      click() { 
+        sfdx.authDevHub(project)
+          .catch(e => handleError(e))
+      }
     }
   ])
 })
