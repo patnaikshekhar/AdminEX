@@ -181,6 +181,17 @@ const getOpenItems = (project) => new Promise((resolve, reject) => {
         sfdx.authDevHub(project)
           .catch(e => handleError(e))
       }
+    }, {
+      label: 'Switch Project',
+      type: undefined,
+      click() { 
+        WindowManager.selectProject()
+          .then(project => setupTray(project))
+          .catch(e => {
+            log('Error in switch project', e)
+            app.quit()
+          })
+      }
     }
   ])
 })
