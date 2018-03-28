@@ -80,7 +80,7 @@ class PullDifferencesPage extends React.Component {
                   <tr>
                     <th scope="col">State</th>
                     <th scope="col">Name</th>
-                    <th scope="col">File Location</th>
+                    <th scope="col">Type</th>
                     <th scope="col"></th>
                   </tr>
                 </thead>
@@ -88,12 +88,10 @@ class PullDifferencesPage extends React.Component {
                   { this.state.data.map(row =>  
                     <tr key={row.filePath}>
                       <td><Badge style={this.styles[row.state]}>{row.state}</Badge></td>
-                      <td>{row.fullName}</td>
                       <td onClick={() => this.openFile(row)}>
-                        <div className="slds-truncate">
-                          <a href="#">{this.truncate(row.filePath)}</a>
-                        </div>
+                        <a href="#">{decodeURI(row.fullName).replace('%3A', ':')}</a>
                       </td>
+                      <td>{row.type}</td>
                       <td>
                         <Button icon="utility:copy" onClick={() => this.openDiff(row)} />
                         <Button icon="utility:undo" onClick={() => this.undoFile(row)} />
@@ -135,7 +133,7 @@ class PullDifferencesPage extends React.Component {
   }
 
   openFile(item) {
-    shell.openItem(path.join(this.state.project.directory, item.filePath))
+    shell.openItem(`${path.join(this.state.project.directory, item.filePath)}`)
   }
 
   openDiff(item) {

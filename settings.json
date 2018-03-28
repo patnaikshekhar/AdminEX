@@ -1,5 +1,5 @@
 {
   "debugMode": false,
   "developBranch": "master",
-  "logging": false
+  "logging": true
 }

@@ -12,7 +12,7 @@ const pullChanges = (project, feature) => {
       .then(() => sfdx.pullSource(project, { alias: feature.scratchOrg }))
       .then(data => logp(`Data from pull`, 'Info', data))
       .then(() => GitHelper.add())
-      .then(() => GitHelper.changeSummary())
+      .then(() => GitHelper.changeSummary(project))
       .then(data => logp(`Data from GitHelper.changeSummary`, 'Info', data))
       .then(data => 
         WindowManager.showPullDifferences(project, feature, data)

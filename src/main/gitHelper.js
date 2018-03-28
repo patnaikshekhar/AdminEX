@@ -5,6 +5,7 @@ const Path = require('path')
 const diff2html = require("diff2html").Diff2Html
 const fs = require('fs')
 const shell = require('shelljs')
+const Utilties = require('./utilities')
 
 const createProject = ({directory, repositoryURL}) => {
   const developBranch = Settings().developBranch
@@ -72,14 +73,15 @@ const restoreStash = (branchName) => {
     })
 }
 
-const changeSummary = () => {
+const changeSummary = (project) => {
   return currentRepo.status()
-    .then(data => { console.log(data); return data })
     .then(data => data.files ? data.files.map(({index, path}) => ({
       state: index == 'D' ? 'Deleted' : (index == 'A' ? 'Add' : 'Changed' ),
-      fullName: Path.basename(path),
-      filePath: path
+      fullName: Path.basename(path.replace(/"/g, '')),
+      filePath: path.replace(/"/g, '')
     })): [])
+    .then(data => Promise.all(data.map(fileData => Utilties.getMetadataTypeForFile(project, fileData))))
+    //.then(data => Utilties.logp(`changeSummary result for project ${project.name}`, data))
 }
 
 const stash = (branchName) => {

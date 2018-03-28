@@ -25,7 +25,8 @@
     "shelljs": "^0.8.1",
     "simple-git": "^1.85.0",
     "util.promisify": "^1.0.0",
-    "uuid": "^3.1.0"
+    "uuid": "^3.1.0",
+    "xml2json": "^0.11.2"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
