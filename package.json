@@ -35,7 +35,8 @@
     "babel-preset-env": "^1.6.1",
     "electron": "1.7.11",
     "electron-packager": "^10.1.1",
-    "electron-rebuild": "^1.6.0",
+    "electron-rebuild": "^1.7.3",
+    "jasmine-node": "^1.14.5",
     "restart-electron-webpack-plugin": "0.0.1",
     "webpack": "^3.10.0"
   }

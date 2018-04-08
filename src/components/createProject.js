@@ -1,6 +1,7 @@
 import React from 'react'
 import InputText from './inputText'
 import InputFile from './inputFile'
+import InputToggle from './inputToggle';
 
 class CreateProject extends React.Component {
 
@@ -11,7 +12,8 @@ class CreateProject extends React.Component {
       repositoryURL: '',
       directory: '',
       repositoryUsername: '',
-      repositoryPassword: ''
+      repositoryPassword: '',
+      existingProject: true
     }
 
     this.inputStyles = {
@@ -36,13 +38,25 @@ class CreateProject extends React.Component {
             placeholder="Name of project" 
             required="true"
             onChange={(value) => {
-              this.setState({ name: value })
-              this.props.projectDetailsChanged(this.state, () => {
+              this.setState({ name: value }, () => {
                 this.props.projectDetailsChanged(this.state)
               })
             }} 
             style={this.inputStyles}
             value={this.state.name} />
+          <InputToggle 
+            label="Existing Project"
+            enabledLabel="Yes"
+            disabledLabel="No"
+            onChange={(value) => {
+              console.log(value)
+              this.setState({ existingProject: value }, () => {
+                this.props.projectDetailsChanged(this.state)
+              })
+            }}
+            style={this.inputStyles}
+            value={this.state.existingProject}
+            />
         </div>
         <div className="slds-col slds-size_1-of-1">
           <InputFile 

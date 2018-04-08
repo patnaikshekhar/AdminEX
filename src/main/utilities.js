@@ -2,7 +2,8 @@ const {Notification, dialog} = require('electron')
 const Settings = require('./settings')
 const fs = require('fs')
 const Constants = require('./constants')
-const xml2json = require('xml2json')
+const xml2js = require('xml2js')
+const xml2js_parser = new xml2js.Parser()
 const path = require('path')
 
 const handleError = (msg, err) => {
@@ -61,23 +62,20 @@ const appendToLogFile = (data) => {
 }
 
 const convertMetadataTypeStringToFormattedString = (str) => {
-  console.log('convertMetadataTypeStringToFormattedString str',  Array.from(str).reduce((acc, value, index) => index > 0 && value.toUpperCase() === value ? acc + ' ' + value : acc + value, ''))
   return Array.from(str).reduce((acc, value, index) => index > 0 && value.toUpperCase() === value ? acc + ' ' + value : acc + value, '') 
 }
 
-const getMetadataTypeFromFileData = (data) => {
-  try {
-    const xml = xml2json.toJson(data)
-    if (xml) {
-      const keys = Object.keys(JSON.parse(xml))
+const getMetadataTypeFromFileData = (data, callback) => {
+  xml2js_parser.parseString(data, (err, xml) => {
+    if (err) {
+      callback('Unknown')
+    } else {
+      const keys = Object.keys(xml)
       if (keys.length > 0) {
-        return convertMetadataTypeStringToFormattedString(keys[0])
+        callback(convertMetadataTypeStringToFormattedString(keys[0]))
       }
     }
-  } catch(e) {
-  }
-
-  return 'Unknown'
+  })
 }
 
 const getMetadataTypeForFile = (project, fileData) => new Promise((resolve, reject) => {
@@ -87,9 +85,11 @@ const getMetadataTypeForFile = (project, fileData) => new Promise((resolve, reje
         type: 'Unknown'
       }))
     } else {
-      resolve(Object.assign({}, fileData, {
-        type: getMetadataTypeFromFileData(data.toString())
-      }))
+      getMetadataTypeFromFileData(data.toString(), (type) => {
+        resolve(Object.assign({}, fileData, {
+          type
+        }))
+      })
     }
   })
 })

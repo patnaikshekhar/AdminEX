@@ -7,10 +7,13 @@ const fs = require('fs')
 const shell = require('shelljs')
 const Utilties = require('./utilities')
 
-const createProject = ({directory, repositoryURL}) => {
+const createProject = ({directory, repositoryURL, existingProject}) => {
+
   const developBranch = Settings().developBranch
   return createDirectoryRecursive(directory)
-    .then(() => SimpleGit().clone(repositoryURL, directory))
+    .then(() => {
+      return SimpleGit().clone(repositoryURL, directory)
+    })
     .then(() => {
       currentRepo = SimpleGit(directory)
       return currentRepo.checkout(developBranch)
@@ -31,8 +34,8 @@ const createFeatureBranch = (branchName) => {
   const developBranch = Settings().developBranch
 
   return currentRepo.checkout(developBranch)
-                    .then(() => currentRepo.pull('origin', developBranch))
-                    .then(() => currentRepo.checkoutLocalBranch(branchName))
+    .then(() => currentRepo.pull('origin', developBranch))
+    .then(() => currentRepo.checkoutLocalBranch(branchName))
 }
 
 const switchBranch = (branchName) => currentRepo.checkout(branchName)

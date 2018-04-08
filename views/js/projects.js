@@ -7997,7 +7997,7 @@ var _createProject = __webpack_require__(39);
 
 var _createProject2 = _interopRequireDefault(_createProject);
 
-var _viewProjects = __webpack_require__(40);
+var _viewProjects = __webpack_require__(41);
 
 var _viewProjects2 = _interopRequireDefault(_viewProjects);
 
@@ -8020,7 +8020,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var _require = __webpack_require__(14),
     ipcRenderer = _require.ipcRenderer;
 
-var _require2 = __webpack_require__(41),
+var _require2 = __webpack_require__(42),
     authDevHub = _require2.authDevHub;
 
 var fs = __webpack_require__(31);
@@ -8148,7 +8148,8 @@ var ProjectPage = function (_React$Component) {
             repositoryURL: repositoryURL,
             repositoryUsername: repositoryUsername,
             repositoryPassword: repositoryPassword,
-            devHubAlias: devHubAlias
+            devHubAlias: devHubAlias,
+            existingProject: existingProject
           });
         }).catch(function (e) {
           return _this3.setState({
@@ -8206,6 +8207,10 @@ var _inputFile = __webpack_require__(32);
 
 var _inputFile2 = _interopRequireDefault(_inputFile);
 
+var _inputToggle = __webpack_require__(40);
+
+var _inputToggle2 = _interopRequireDefault(_inputToggle);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -8227,7 +8232,8 @@ var CreateProject = function (_React$Component) {
       repositoryURL: '',
       directory: '',
       repositoryUsername: '',
-      repositoryPassword: ''
+      repositoryPassword: '',
+      existingProject: true
     };
 
     _this.inputStyles = {
@@ -8260,13 +8266,25 @@ var CreateProject = function (_React$Component) {
             placeholder: 'Name of project',
             required: 'true',
             onChange: function onChange(value) {
-              _this2.setState({ name: value });
-              _this2.props.projectDetailsChanged(_this2.state, function () {
+              _this2.setState({ name: value }, function () {
                 _this2.props.projectDetailsChanged(_this2.state);
               });
             },
             style: this.inputStyles,
-            value: this.state.name })
+            value: this.state.name }),
+          _react2.default.createElement(_inputToggle2.default, {
+            label: 'Existing Project',
+            enabledLabel: 'Yes',
+            disabledLabel: 'No',
+            onChange: function onChange(value) {
+              console.log(value);
+              _this2.setState({ existingProject: value }, function () {
+                _this2.props.projectDetailsChanged(_this2.state);
+              });
+            },
+            style: this.inputStyles,
+            value: this.state.existingProject
+          })
         ),
         _react2.default.createElement(
           'div',
@@ -8347,6 +8365,63 @@ exports.default = CreateProject;
 
 /***/ }),
 /* 40 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var InputToggle = function InputToggle(props) {
+  return _react2.default.createElement(
+    "div",
+    { className: "slds-form-element", style: props.style },
+    _react2.default.createElement(
+      "label",
+      { className: "slds-checkbox_toggle slds-grid" },
+      _react2.default.createElement(
+        "span",
+        { className: "slds-form-element__label slds-m-bottom_none" },
+        props.label
+      ),
+      _react2.default.createElement("input", {
+        type: "checkbox",
+        "aria-describedby": "toggle-desc",
+        checked: props.value,
+        onChange: function onChange(e) {
+          return props.onChange(!props.value);
+        } }),
+      _react2.default.createElement(
+        "span",
+        { className: "slds-checkbox_faux_container", "aria-live": "assertive" },
+        _react2.default.createElement("span", { className: "slds-checkbox_faux" }),
+        _react2.default.createElement(
+          "span",
+          { className: "slds-checkbox_on" },
+          props.enabledLabel
+        ),
+        _react2.default.createElement(
+          "span",
+          { className: "slds-checkbox_off" },
+          props.disabledLabel
+        )
+      )
+    )
+  );
+};
+
+exports.default = InputToggle;
+
+/***/ }),
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8470,7 +8545,7 @@ var ViewProjects = function ViewProjects(props) {
 exports.default = ViewProjects;
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports) {
 
 module.exports = require('../src/main/sfdx');

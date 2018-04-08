@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 44);
+/******/ 	return __webpack_require__(__webpack_require__.s = 45);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -7898,7 +7898,8 @@ exports.default = function (props) {
 /* 41 */,
 /* 42 */,
 /* 43 */,
-/* 44 */
+/* 44 */,
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7926,7 +7927,7 @@ var _alert = __webpack_require__(30);
 
 var _alert2 = _interopRequireDefault(_alert);
 
-var _badge = __webpack_require__(45);
+var _badge = __webpack_require__(46);
 
 var _badge2 = _interopRequireDefault(_badge);
 
@@ -7934,7 +7935,7 @@ var _inputText = __webpack_require__(28);
 
 var _inputText2 = _interopRequireDefault(_inputText);
 
-var _button = __webpack_require__(46);
+var _button = __webpack_require__(47);
 
 var _button2 = _interopRequireDefault(_button);
 
@@ -7950,7 +7951,7 @@ var _require = __webpack_require__(14),
     ipcRenderer = _require.ipcRenderer,
     shell = _require.shell;
 
-var path = __webpack_require__(47);
+var path = __webpack_require__(48);
 
 var root = document.getElementById('root');
 
@@ -8185,7 +8186,7 @@ var PullDifferencesPage = function (_React$Component) {
 _reactDom2.default.render(_react2.default.createElement(PullDifferencesPage, null), root);
 
 /***/ }),
-/* 45 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8212,7 +8213,7 @@ var Badge = function Badge(props) {
 exports.default = Badge;
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8256,7 +8257,7 @@ var Button = function Button(props) {
 exports.default = Button;
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, exports) {
 
 module.exports = require('path');

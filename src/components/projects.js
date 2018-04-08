@@ -104,7 +104,8 @@ class ProjectPage extends React.Component {
           repositoryURL,
           repositoryUsername,
           repositoryPassword,
-          devHubAlias
+          devHubAlias,
+          existingProject
         })
       }).catch(e => this.setState({
         error: e.toString()
