@@ -82,7 +82,7 @@ class ProjectPage extends React.Component {
 
   createProject() {
 
-    const {name, directory, repositoryURL, repositoryUsername, repositoryPassword} = this.state.project
+    const {name, directory, repositoryURL, repositoryUsername, repositoryPassword, existingProject} = this.state.project
 
     if (!this.directoryIsEmpty(directory)) {
       this.setState({
@@ -104,7 +104,8 @@ class ProjectPage extends React.Component {
           repositoryURL,
           repositoryUsername,
           repositoryPassword,
-          devHubAlias
+          devHubAlias,
+          existingProject
         })
       }).catch(e => this.setState({
         error: e.toString()

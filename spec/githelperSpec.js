@@ -1,6 +1,12 @@
 const gitHelper = require('../src/main/gitHelper')
 const simpleGit = require('simple-git/promise')
 const fs = require('fs')
+const TEMP_DIR = './tmp'
+const shell = require('shelljs')
+
+if (!fs.existsSync(TEMP_DIR)) {
+  fs.mkdirSync(TEMP_DIR)
+}
 
 const cleanDir = (dir) => {
   if (fs.existsSync(dir)) {
@@ -142,78 +148,30 @@ describe('gitHelper', () => {
     })
   })
 
-  describe('changeSummary', () => {
-    it('should summarise the changes in a dir', done => {
-      const testDir = `/Users/spatnaik/Downloads/testchangesummary1`
-  
-      cleanDir(testDir)
-      fs.mkdirSync(testDir)
-      const git = simpleGit(testDir)
+  describe('createProjectFromScratch', () => {
+    it('should create a new project in the directory specified', (done) => {
 
-      git.init()
-        .then(() => fs.writeFileSync(`${testDir}/test.txt`, 'contents1'))
-        .then(() => git.add('./*'))
-        .then(() => git.commit('First Commit'))
-        .then(() => git.checkoutLocalBranch('develop'))
-        .then(() => fs.writeFileSync(`${testDir}/test.txt`, 'contents2'))
-        .then(() => fs.writeFileSync(`${testDir}/test1.txt`, 'contents'))
-        .then(() => git.add('./*'))
-        .then(() => gitHelper.openProject({ directory: testDir }))
-        .then(() => gitHelper.changeSummary())
-        .then(summary => {
+      const sampleDir = `${TEMP_DIR}/sampleSFDXProject`
+      const repo = 'https://github.com/patnaikshekhar/SampleSFDX'
 
-          expect(summary.length).toBe(2)
-          
-          const modifiedFile = summary.filter(o => o.state == 'Changed')[0]
-          expect(modifiedFile.fullName).toBe('test.txt')
-          expect(modifiedFile.filePath).toBe('test.txt')
+      if (fs.existsSync(sampleDir)) {
+        shell.rm('-rf', sampleDir)
+      }
 
-          const addedFile = summary.filter(o => o.state == 'Add')[0]
-          expect(addedFile.fullName).toBe('test1.txt')
-          expect(addedFile.filePath).toBe('test1.txt')
+      fs.mkdirSync(sampleDir)
 
-          cleanDir(testDir)
-          done()
-        })
-        .catch(e => {
-          expect(e.toString()).toBe(null)
-          cleanDir(testDir)
-          done()
-        })
-    })
-  })
-
-  describe('undoFileChanges', () => {
-
-    it('should undo file changes', (done) => {
-      const testDir = `/Users/spatnaik/Downloads/undoFileChanges`
-  
-      cleanDir(testDir)
-      fs.mkdirSync(testDir)
-      const git = simpleGit(testDir)
-
-      git.init()
-        .then(() => fs.writeFileSync(`${testDir}/test.txt`, 'contents1'))
-        .then(() => git.add('./*'))
-        .then(() => git.commit('First Commit'))
-        .then(() => git.checkoutLocalBranch('develop'))
-        .then(() => fs.writeFileSync(`${testDir}/test.txt`, 'contents2'))
-        .then(() => git.add('./*'))
-        .then(() => git.commit('Second Commit'))
-        .then(() => git.checkoutLocalBranch('feature1'))
-        .then(() => fs.writeFileSync(`${testDir}/test.txt`, 'contents3'))
-        .then(() => git.add('./*'))
-        .then(() => gitHelper.openProject({ directory: testDir }))
-        .then(() => gitHelper.undoFileChanges(`${testDir}/test.txt`))
+      gitHelper.createProjectFromScratch({ directory: sampleDir, repositoryURL: repo }, true)
         .then(() => {
-          const contents = fs.readFileSync(`${testDir}/test.txt`).toString()
-          expect(contents).toBe('contents2')
-          cleanDir(testDir)
+          expect(fs.existsSync(`${sampleDir}/sfdx-project.json`)).toBe(true)
+          return simpleGit(sampleDir).getRemotes(true)
+        })
+        .then(remotes => {
+          expect(remotes.length).toBeGreaterThan(0)
+          expect(remotes[0].refs.fetch).toBe(repo)
           done()
         })
         .catch(e => {
           expect(e.toString()).toBe(null)
-          cleanDir(testDir)
           done()
         })
     })
