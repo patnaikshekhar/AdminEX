@@ -109,11 +109,6 @@ const getOrgList = (project) =>
       }
     })
 
-const createProject = (project) => 
-    sfdx.project.create({
-      outputdir: project.directory
-    })
-
 module.exports = {
   authDevHub,
   createScratchOrg,
@@ -121,6 +116,5 @@ module.exports = {
   pushSource,
   getOrgList,
   deleteScratchOrg,
-  pullSource,
-  createProject
+  pullSource
 }

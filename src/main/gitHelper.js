@@ -6,16 +6,46 @@ const diff2html = require("diff2html").Diff2Html
 const fs = require('fs')
 const shell = require('shelljs')
 const Utilties = require('./utilities')
+const BASE_SFDX_PROJECT_URL = 'https://github.com/patnaikshekhar/Basic-SFDX-Project'
 
 const createProject = ({directory, repositoryURL, existingProject}) => {
+
+  if (existingProject) {
+    const developBranch = Settings().developBranch
+    return createDirectoryRecursive(directory)
+      .then(() => {
+        return SimpleGit().clone(repositoryURL, directory)
+      })
+      .then(() => {
+        currentRepo = SimpleGit(directory)
+        return currentRepo.checkout(developBranch)
+      })
+  } else {
+    return createProjectFromScratch({directory, repositoryURL, existingProject})
+  }
+}
+
+const createProjectFromScratch = ({directory, repositoryURL, existingProject}, isTest) => {
 
   const developBranch = Settings().developBranch
   return createDirectoryRecursive(directory)
     .then(() => {
-      return SimpleGit().clone(repositoryURL, directory)
+      return SimpleGit().clone(BASE_SFDX_PROJECT_URL, directory)
     })
     .then(() => {
       currentRepo = SimpleGit(directory)
+    })
+    .then(() => {
+      return currentRepo.removeRemote('origin')
+    })
+    .then(() => {
+      return currentRepo.addRemote('origin', repositoryURL)
+    })
+    .then(() => {
+      if (!isTest)
+        return currentRepo.push('origin', 'master')
+    })
+    .then(() => {
       return currentRepo.checkout(developBranch)
     })
 }
@@ -158,5 +188,6 @@ module.exports = {
   changeSummary,
   add,
   getDiffHTML,
-  undoFileChanges
+  undoFileChanges,
+  createProjectFromScratch
 }
