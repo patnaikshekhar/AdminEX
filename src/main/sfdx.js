@@ -14,6 +14,16 @@ const authDevHub = (project) => new Promise((resolve, reject) => {
     .catch(e => reject(e))
 }) 
 
+const authDevHubWithStore = (name, storeFile) => {
+
+  const devHubAlias = `${name + 'DevHub'}`
+
+  return sfdx.auth.sfdxurlStore({
+    setalias: devHubAlias,
+    sfdxurlfile: storeFile
+  }).then(() => devHubAlias)
+}
+
 const createScratchOrg = (project, options) => {
   
   const createScratchOrgOptions = {
@@ -111,6 +121,7 @@ const getOrgList = (project) =>
 
 module.exports = {
   authDevHub,
+  authDevHubWithStore,
   createScratchOrg,
   openScratchOrg,
   pushSource,

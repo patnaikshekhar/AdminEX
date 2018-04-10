@@ -8,3 +8,4 @@ release-builds
 npm-debug.log
 *.dmg
 tmp
+keys.json

@@ -7969,6 +7969,31 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+exports.default = function (props) {
+  return _react2.default.createElement(
+    'div',
+    null,
+    'props.children'
+  );
+};
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var iconMapping = {
   warning: 'warning',
   offline: 'offline',
@@ -8002,13 +8027,13 @@ exports.default = function (props) {
 };
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports) {
 
 module.exports = require('fs');
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8085,86 +8110,7 @@ exports.default = function (props) {
 };
 
 /***/ }),
-/* 31 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = function (props) {
-  return _react2.default.createElement(
-    'div',
-    null,
-    'props.children'
-  );
-};
-
-/***/ }),
 /* 32 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = function (props) {
-  return _react2.default.createElement(
-    "div",
-    { className: "slds-form-element", style: props.style },
-    _react2.default.createElement(
-      "label",
-      { className: "slds-form-element__label" },
-      props.label,
-      props.required ? _react2.default.createElement(
-        "abbr",
-        { className: "slds-required", title: "required" },
-        "*"
-      ) : ''
-    ),
-    _react2.default.createElement(
-      "div",
-      { className: "slds-form-element__control" },
-      _react2.default.createElement(
-        "select",
-        {
-          className: "slds-select",
-          value: props.value,
-          onChange: function onChange(e) {
-            return props.onChange(e.target.value);
-          } },
-        props.options.map(function (option) {
-          return _react2.default.createElement(
-            "option",
-            { key: option },
-            option
-          );
-        })
-      )
-    )
-  );
-};
-
-/***/ }),
-/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8180,7 +8126,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _tab = __webpack_require__(31);
+var _tab = __webpack_require__(28);
 
 var _tab2 = _interopRequireDefault(_tab);
 
@@ -8265,6 +8211,60 @@ var Tabs = function (_React$Component) {
 exports.default = Tabs;
 
 /***/ }),
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (props) {
+  return _react2.default.createElement(
+    "div",
+    { className: "slds-form-element", style: props.style },
+    _react2.default.createElement(
+      "label",
+      { className: "slds-form-element__label" },
+      props.label,
+      props.required ? _react2.default.createElement(
+        "abbr",
+        { className: "slds-required", title: "required" },
+        "*"
+      ) : ''
+    ),
+    _react2.default.createElement(
+      "div",
+      { className: "slds-form-element__control" },
+      _react2.default.createElement(
+        "select",
+        {
+          className: "slds-select",
+          value: props.value,
+          onChange: function onChange(e) {
+            return props.onChange(e.target.value);
+          } },
+        props.options.map(function (option) {
+          return _react2.default.createElement(
+            "option",
+            { key: option },
+            option
+          );
+        })
+      )
+    )
+  );
+};
+
+/***/ }),
 /* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8279,7 +8279,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _inputSelect = __webpack_require__(32);
+var _inputSelect = __webpack_require__(33);
 
 var _inputSelect2 = _interopRequireDefault(_inputSelect);
 
@@ -8293,7 +8293,7 @@ var _multiSelect2 = _interopRequireDefault(_multiSelect);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var fs = __webpack_require__(29);
+var fs = __webpack_require__(30);
 
 var NewShape = function NewShape(props) {
 
@@ -8673,19 +8673,19 @@ var _inputText = __webpack_require__(26);
 
 var _inputText2 = _interopRequireDefault(_inputText);
 
-var _tabs = __webpack_require__(33);
+var _tabs = __webpack_require__(32);
 
 var _tabs2 = _interopRequireDefault(_tabs);
 
-var _tab = __webpack_require__(31);
+var _tab = __webpack_require__(28);
 
 var _tab2 = _interopRequireDefault(_tab);
 
-var _inputSelect = __webpack_require__(32);
+var _inputSelect = __webpack_require__(33);
 
 var _inputSelect2 = _interopRequireDefault(_inputSelect);
 
-var _inputFile = __webpack_require__(30);
+var _inputFile = __webpack_require__(31);
 
 var _inputFile2 = _interopRequireDefault(_inputFile);
 
@@ -8693,7 +8693,7 @@ var _newShape = __webpack_require__(34);
 
 var _newShape2 = _interopRequireDefault(_newShape);
 
-var _alert = __webpack_require__(28);
+var _alert = __webpack_require__(29);
 
 var _alert2 = _interopRequireDefault(_alert);
 
@@ -8713,7 +8713,7 @@ var _require = __webpack_require__(12),
 
 var dialog = __webpack_require__(12).remote.dialog;
 
-var fs = __webpack_require__(29);
+var fs = __webpack_require__(30);
 
 var root = document.getElementById('root');
 

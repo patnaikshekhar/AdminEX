@@ -7969,6 +7969,31 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+exports.default = function (props) {
+  return _react2.default.createElement(
+    'div',
+    null,
+    'props.children'
+  );
+};
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var iconMapping = {
   warning: 'warning',
   offline: 'offline',
@@ -8002,13 +8027,13 @@ exports.default = function (props) {
 };
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports) {
 
 module.exports = require('fs');
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8085,33 +8110,7 @@ exports.default = function (props) {
 };
 
 /***/ }),
-/* 31 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = function (props) {
-  return _react2.default.createElement(
-    'div',
-    null,
-    'props.children'
-  );
-};
-
-/***/ }),
-/* 32 */,
-/* 33 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8127,7 +8126,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _tab = __webpack_require__(31);
+var _tab = __webpack_require__(28);
 
 var _tab2 = _interopRequireDefault(_tab);
 
@@ -8212,6 +8211,7 @@ var Tabs = function (_React$Component) {
 exports.default = Tabs;
 
 /***/ }),
+/* 33 */,
 /* 34 */,
 /* 35 */,
 /* 36 */
@@ -8246,7 +8246,7 @@ var _electronBody = __webpack_require__(27);
 
 var _electronBody2 = _interopRequireDefault(_electronBody);
 
-var _alert = __webpack_require__(28);
+var _alert = __webpack_require__(29);
 
 var _alert2 = _interopRequireDefault(_alert);
 
@@ -8264,7 +8264,7 @@ var _require = __webpack_require__(12),
 var _require2 = __webpack_require__(40),
     authDevHub = _require2.authDevHub;
 
-var fs = __webpack_require__(29);
+var fs = __webpack_require__(30);
 
 var root = document.getElementById('root');
 
@@ -8359,8 +8359,6 @@ var ProjectPage = function (_React$Component) {
   }, {
     key: 'createProject',
     value: function createProject() {
-      var _this3 = this;
-
       var _state$project = this.state.project,
           name = _state$project.name,
           directory = _state$project.directory,
@@ -8380,28 +8378,26 @@ var ProjectPage = function (_React$Component) {
         this.setState({
           error: null
         });
-
-        authDevHub({
-          name: name
-        }).then(function (devHubAlias) {
-          ipcRenderer.send('createProject', {
-            name: name,
-            directory: directory,
-            repositoryURL: repositoryURL,
-            repositoryUsername: repositoryUsername,
-            repositoryPassword: repositoryPassword,
-            devHubAlias: devHubAlias,
-            existingProject: existingProject
-          });
-        }).catch(function (e) {
-          return _this3.setState({
-            error: e.toString()
-          });
-        });
-      } else {
-        this.setState({
-          error: 'Please fill in required fields.'
-        });
+        ipcRenderer.send('createProject.authorise', this.state.project);
+        //   authDevHub({
+        //     name
+        //   }).then(devHubAlias => {
+        //     ipcRenderer.send('createProject', {
+        //       name,
+        //       directory,
+        //       repositoryURL,
+        //       repositoryUsername,
+        //       repositoryPassword,
+        //       devHubAlias,
+        //       existingProject
+        //     })
+        //   }).catch(e => this.setState({
+        //     error: e.toString()
+        //   }))
+        // } else {
+        //   this.setState({
+        //     error: 'Please fill in required fields.'
+        //   })
       }
     }
   }, {
@@ -8445,7 +8441,7 @@ var _inputText = __webpack_require__(26);
 
 var _inputText2 = _interopRequireDefault(_inputText);
 
-var _inputFile = __webpack_require__(30);
+var _inputFile = __webpack_require__(31);
 
 var _inputFile2 = _interopRequireDefault(_inputFile);
 
@@ -8453,11 +8449,11 @@ var _inputToggle = __webpack_require__(38);
 
 var _inputToggle2 = _interopRequireDefault(_inputToggle);
 
-var _tabs = __webpack_require__(33);
+var _tabs = __webpack_require__(32);
 
 var _tabs2 = _interopRequireDefault(_tabs);
 
-var _tab = __webpack_require__(31);
+var _tab = __webpack_require__(28);
 
 var _tab2 = _interopRequireDefault(_tab);
 
@@ -8709,7 +8705,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _alert = __webpack_require__(28);
+var _alert = __webpack_require__(29);
 
 var _alert2 = _interopRequireDefault(_alert);
 

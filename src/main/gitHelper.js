@@ -133,24 +133,6 @@ const getDiffHTML = (data) => {
     })
 }
 
-/*const createDirectoryRecursive = (targetDir) => new Promise((resolve, reject) => {
-  const sep = Path.sep
-  const initDir = Path.isAbsolute(targetDir) ? sep : ''
-  targetDir.split(sep).reduce((parentDir, childDir) => {
-    const curDir = Path.resolve(parentDir, childDir);
-    try {
-      fs.mkdirSync(curDir);
-    } catch (err) {
-      if (err.code !== 'EEXIST' && err.code !== 'EISDIR') { 
-        reject(err)
-      }
-    }
-    return curDir;
-  }, initDir)
-
-  resolve()
-})*/
-
 const createDirectoryRecursive = (targetDir) => new Promise((resolve, reject) => {
 	try {
 		shell.mkdir('-p', targetDir)
@@ -177,6 +159,7 @@ const undoFileChanges = (branchName, filename, action) => {
 
 module.exports = {
   createProject,
+  createProjectFromScratch,
   openProject,
   createFeatureBranch,
   switchBranch,
@@ -188,6 +171,5 @@ module.exports = {
   changeSummary,
   add,
   getDiffHTML,
-  undoFileChanges,
-  createProjectFromScratch
+  undoFileChanges
 }

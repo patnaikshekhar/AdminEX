@@ -8,6 +8,7 @@ const { handleError, logp, log } = require('./utilities')
 const fs = require('fs')
 const features = require('../../scratch_org_features.json')
 const prefs = require('../../scratch_org_preferences.json')
+const authoriseTask = require('../main/tasks/authorise')
 
 const url = require('url')
 const path = require('path')
@@ -86,7 +87,6 @@ const selectProject = () => new Promise((resolve, reject) => {
       const {protocol, host, pathname} = new url.URL(project.repositoryURL)
 
       project.repositoryURL = `${protocol}//${project.repositoryUsername}:${project.repositoryPassword}@${host}${pathname}`
-      console.log(project.repositoryURL)
     } 
 
     GitHelper.createProject(project)
@@ -96,7 +96,6 @@ const selectProject = () => new Promise((resolve, reject) => {
         selectProjectWin = null
         app.relaunch()
         app.exit()
-        //resolve(activeProject)
       })
       .catch((e) => console.error(e))
   })
@@ -116,6 +115,38 @@ const selectProject = () => new Promise((resolve, reject) => {
       .then((projects) => {
         event.sender.send('projects', projects)
       })
+  })
+
+  ipcMain.once('createProject.authorise', (event, project) => {
+    selectProjectWin.loadURL(authoriseTask.getAuthURL())
+
+    selectProjectWin.webContents.on('will-navigate', (event, url) => {
+      if (url.indexOf('adminex://main') > -1) {
+        authoriseTask.createAuthorisationFile(project.name, url)
+          .then((devHubAlias) => {
+            project.devHubAlias = devHubAlias
+
+            console.log('project', project)
+
+            if (project.repositoryUsername && project.repositoryPassword) {
+              // Seperate out protocol, host, etc
+              // User url parser
+              const {protocol, host, pathname} = new url.URL(project.repositoryURL)
+        
+              project.repositoryURL = `${protocol}//${project.repositoryUsername}:${project.repositoryPassword}@${host}${pathname}`
+            }
+
+            return GitHelper.createProject(project)
+          })
+          .then(() => Storage.addProject(project)) 
+          .then(() => {
+            activeProject = project
+            selectProjectWin.hide()
+            selectProjectWin = null
+            resolve(project)
+          })
+      }
+    })
   })
 })
 
