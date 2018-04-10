@@ -78,27 +78,6 @@ const selectProject = () => new Promise((resolve, reject) => {
       reject('No details were provided')
     }
   })
-
-  ipcMain.once('createProject', (event, project) => {
-
-    if (project.repositoryUsername && project.repositoryPassword) {
-      // Seperate out protocol, host, etc
-      // User url parser
-      const {protocol, host, pathname} = new url.URL(project.repositoryURL)
-
-      project.repositoryURL = `${protocol}//${project.repositoryUsername}:${project.repositoryPassword}@${host}${pathname}`
-    } 
-
-    GitHelper.createProject(project)
-      .then(() => Storage.addProject(project))
-      .then(data => {
-        selectProjectWin.hide()
-        selectProjectWin = null
-        app.relaunch()
-        app.exit()
-      })
-      .catch((e) => console.error(e))
-  })
   
   ipcMain.once('setProject', (event, project) => {
     activeProject = project
@@ -118,35 +97,27 @@ const selectProject = () => new Promise((resolve, reject) => {
   })
 
   ipcMain.once('createProject.authorise', (event, project) => {
-    selectProjectWin.loadURL(authoriseTask.getAuthURL())
+    
+    const devHubAlias = `${project.name + 'DevHub'}`
+    if (project.repositoryUsername && project.repositoryPassword) {
+      // Seperate out protocol, host, etc
+      // User url parser
+      const {protocol, host, pathname} = new url.URL(project.repositoryURL)
 
-    selectProjectWin.webContents.on('will-navigate', (event, url) => {
-      if (url.indexOf('adminex://main') > -1) {
-        authoriseTask.createAuthorisationFile(project.name, url)
-          .then((devHubAlias) => {
-            project.devHubAlias = devHubAlias
+      project.repositoryURL = `${protocol}//${project.repositoryUsername}:${project.repositoryPassword}@${host}${pathname}`
+    }
 
-            console.log('project', project)
-
-            if (project.repositoryUsername && project.repositoryPassword) {
-              // Seperate out protocol, host, etc
-              // User url parser
-              const {protocol, host, pathname} = new url.URL(project.repositoryURL)
-        
-              project.repositoryURL = `${protocol}//${project.repositoryUsername}:${project.repositoryPassword}@${host}${pathname}`
-            }
-
-            return GitHelper.createProject(project)
-          })
-          .then(() => Storage.addProject(project)) 
-          .then(() => {
-            activeProject = project
-            selectProjectWin.hide()
-            selectProjectWin = null
-            resolve(project)
-          })
-      }
-    })
+    project.devHubAlias = devHubAlias
+    authoriseTask.startAuth(selectProjectWin, devHubAlias)
+      .then(() => GitHelper.createProject(project))
+      .then(() => Storage.addProject(project))
+      .then(() => {
+        activeProject = project
+        selectProjectWin.hide()
+        selectProjectWin = null
+        resolve(project)
+      })
+      .catch(e => reject(e))
   })
 })
 
@@ -261,10 +232,24 @@ const showHTMLDiff = (diff) => {
   })
 }
 
+const createBasicWindow = () => {
+  const debug = Settings().debugMode
+  let win = createWindow()
+
+  if (debug)
+    win.webContents.openDevTools()
+
+  win.on('closed', () => {
+    win = null
+  })
+
+  return win
+}
 
 module.exports = {
   selectScratchOrgDetails,
   selectProject,
   createFeature,
-  showPullDifferences
+  showPullDifferences,
+  createBasicWindow
 }

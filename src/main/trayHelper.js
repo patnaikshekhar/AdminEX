@@ -13,6 +13,7 @@ const startWork = require('./tasks/startWork')
 const deleteWork = require('./tasks/deleteWork')
 const pullChanges = require('./tasks/pullChanges')
 const open = require('./tasks/open')
+const authTask = require('./tasks/authorise')
 
 let tray = null
 
@@ -178,7 +179,13 @@ const getOpenItems = (project) => new Promise((resolve, reject) => {
       label: 'Reconnect DevHub',
       type: undefined,
       click() { 
-        sfdx.authDevHub(project)
+        log(`Reconnect DevHub Task started`, 'Info')
+        let win = WindowManager.createBasicWindow()
+        authTask.startAuth(win, project.devHubAlias)
+          .then(() => {
+            win.hide()
+            win = null
+          })
           .catch(e => handleError(e))
       }
     }, {
