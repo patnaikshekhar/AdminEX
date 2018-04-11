@@ -1,9 +1,9 @@
 const sfdx = require('../sfdx')
 const {logp} = require('../utilities')
 
-const openScratchOrg = (alias) => {
+const openOrg = (alias) => {
   return sfdx.openScratchOrg({ alias })
     .then(options => logp('Finished openScratchOrg', 'Info', options))
 }
 
-module.exports = openScratchOrg
+module.exports = openOrg

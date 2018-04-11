@@ -5,7 +5,7 @@ const {handleError, alert, log, logp} = require('./utilities')
 const WindowManager = require('./windowManager')
 const GitHelper = require('./gitHelper')
 const createScratchOrg = require('./tasks/createScratchOrg')
-const openScratchOrg = require('./tasks/openScratchOrg')
+const openOrg = require('./tasks/openOrg')
 const deleteScratchOrg = require('./tasks/deleteScratchOrg')
 const authDevHub = require('./tasks/authDevHub')
 const createWork = require('./tasks/createWork')
@@ -34,19 +34,33 @@ const refreshMenu = (project, options) =>
     .then(() => options)
     .catch(e => handleError('Could not generate project', e))
 
-const getConnectToDevOrgItem = (project) => new Promise((resolve, reject) => {
-  if (project.devHubAlias) {
-    resolve([])
-  } else {
-    resolve([{
-      label: 'Connect Dev Hub',
+const getDevHubItems = (project) => new Promise((resolve, reject) => {
+  resolve([{
+    label: 'Dev Hub',
+    type: undefined,
+    submenu: [{
+      label: 'Reconnect',
       type: undefined,
       click() { 
-        authDevHub(project)
-          .catch(e => handleError('Could not connect to DevHub', e))
+        log(`Reconnect DevHub Task started`, 'Info')
+        let win = WindowManager.createBasicWindow()
+        authTask.startAuth(win, project.devHubAlias)
+          .then(() => {
+            win.hide()
+            win = null
+          })
+          .catch(e => handleError(e))
       }
-    }])
-  }
+    }, {
+      label: 'Open',
+      type: undefined,
+      click() { 
+        log(`Open Devhub Task started`, 'Info')
+        openOrg(project.devHubAlias)
+          .catch(e => handleError('Error creating scratch org', e))
+      }
+    }]
+  }])
 })
 
 const getScratchOrgItems = (project) => {
@@ -68,7 +82,7 @@ const getScratchOrgItems = (project) => {
             submenu: orgs.map((alias => ({
               label: alias,
               click() {
-                openScratchOrg(alias)
+                openOrg(alias)
                   .catch(e => handleError('Error creating scratch org', e))
               }
             })))
@@ -205,7 +219,7 @@ const getOpenItems = (project) => new Promise((resolve, reject) => {
 
 const createContextMenu = (project) => {
   const template = [
-    getConnectToDevOrgItem(project), seperator(), 
+    getDevHubItems(project), seperator(), 
     getStartFeature(project), getFeatures(project), seperator(),
     getScratchOrgItems(project), seperator(),
     getOpenItems(project), seperator(),

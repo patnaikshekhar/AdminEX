@@ -49,6 +49,11 @@ const openScratchOrg = (options) =>
     targetusername: options.alias
   }).then(() => options)
 
+const openOrg = (alias) => 
+  sfdx.org.open({
+    targetusername: alias
+  })
+
 
 const deleteScratchOrg = (options) => 
   sfdx.org.delete({
@@ -127,5 +132,6 @@ module.exports = {
   pushSource,
   getOrgList,
   deleteScratchOrg,
-  pullSource
+  pullSource,
+  openOrg
 }
