@@ -94,22 +94,9 @@ class ProjectPage extends React.Component {
       this.setState({
         error: null
       })
+
+      ipcRenderer.send('createProject.authorise', this.state.project)
       
-      authDevHub({
-        name
-      }).then(devHubAlias => {
-        ipcRenderer.send('createProject', {
-          name,
-          directory,
-          repositoryURL,
-          repositoryUsername,
-          repositoryPassword,
-          devHubAlias,
-          existingProject
-        })
-      }).catch(e => this.setState({
-        error: e.toString()
-      }))
     } else {
       this.setState({
         error: 'Please fill in required fields.'

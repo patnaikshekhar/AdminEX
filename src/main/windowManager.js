@@ -8,6 +8,7 @@ const { handleError, logp, log } = require('./utilities')
 const fs = require('fs')
 const features = require('../../scratch_org_features.json')
 const prefs = require('../../scratch_org_preferences.json')
+const authoriseTask = require('../main/tasks/authorise')
 
 const url = require('url')
 const path = require('path')
@@ -77,29 +78,6 @@ const selectProject = () => new Promise((resolve, reject) => {
       reject('No details were provided')
     }
   })
-
-  ipcMain.once('createProject', (event, project) => {
-
-    if (project.repositoryUsername && project.repositoryPassword) {
-      // Seperate out protocol, host, etc
-      // User url parser
-      const {protocol, host, pathname} = new url.URL(project.repositoryURL)
-
-      project.repositoryURL = `${protocol}//${project.repositoryUsername}:${project.repositoryPassword}@${host}${pathname}`
-      console.log(project.repositoryURL)
-    } 
-
-    GitHelper.createProject(project)
-      .then(() => Storage.addProject(project))
-      .then(data => {
-        selectProjectWin.hide()
-        selectProjectWin = null
-        app.relaunch()
-        app.exit()
-        //resolve(activeProject)
-      })
-      .catch((e) => console.error(e))
-  })
   
   ipcMain.once('setProject', (event, project) => {
     activeProject = project
@@ -116,6 +94,30 @@ const selectProject = () => new Promise((resolve, reject) => {
       .then((projects) => {
         event.sender.send('projects', projects)
       })
+  })
+
+  ipcMain.once('createProject.authorise', (event, project) => {
+    
+    const devHubAlias = `${project.name + 'DevHub'}`
+    if (project.repositoryUsername && project.repositoryPassword) {
+      // Seperate out protocol, host, etc
+      // User url parser
+      const {protocol, host, pathname} = new url.URL(project.repositoryURL)
+
+      project.repositoryURL = `${protocol}//${project.repositoryUsername}:${project.repositoryPassword}@${host}${pathname}`
+    }
+
+    project.devHubAlias = devHubAlias
+    authoriseTask.startAuth(selectProjectWin, devHubAlias)
+      .then(() => GitHelper.createProject(project))
+      .then(() => Storage.addProject(project))
+      .then(() => {
+        activeProject = project
+        selectProjectWin.hide()
+        selectProjectWin = null
+        resolve(project)
+      })
+      .catch(e => reject(e))
   })
 })
 
@@ -230,10 +232,24 @@ const showHTMLDiff = (diff) => {
   })
 }
 
+const createBasicWindow = () => {
+  const debug = Settings().debugMode
+  let win = createWindow()
+
+  if (debug)
+    win.webContents.openDevTools()
+
+  win.on('closed', () => {
+    win = null
+  })
+
+  return win
+}
 
 module.exports = {
   selectScratchOrgDetails,
   selectProject,
   createFeature,
-  showPullDifferences
+  showPullDifferences,
+  createBasicWindow
 }
