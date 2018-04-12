@@ -124,6 +124,11 @@ const getOrgList = (project) =>
       }
     })
 
+const getLimits = (alias) => 
+  sfdx.limits.apiDisplay({
+    targetusername: alias
+  })
+
 module.exports = {
   authDevHub,
   authWithStore,
@@ -133,5 +138,6 @@ module.exports = {
   getOrgList,
   deleteScratchOrg,
   pullSource,
-  openOrg
+  openOrg,
+  getLimits
 }

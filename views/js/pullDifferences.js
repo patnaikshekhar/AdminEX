@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 43);
+/******/ 	return __webpack_require__(__webpack_require__.s = 44);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -8009,14 +8009,58 @@ exports.default = function (props) {
 /* 33 */,
 /* 34 */,
 /* 35 */,
-/* 36 */,
+/* 36 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Button = function Button(props) {
+
+  var type = 'neutral';
+
+  if (props.type) {
+    type = props.type;
+  }
+
+  var classes = 'slds-button ' + (props.icon ? 'slds-button_icon slds-button_icon-border-filled' : 'slds-button_' + type);
+
+  var iconCategory = props.icon ? props.icon.split(':')[0] : null;
+  var iconName = props.icon ? props.icon.split(':')[1] : null;
+
+  return _react2.default.createElement(
+    'button',
+    { className: classes, onClick: props.onClick },
+    props.icon ? _react2.default.createElement(
+      'svg',
+      { className: 'slds-button__icon', 'aria-hidden': 'true' },
+      _react2.default.createElement('use', { xmlnsXlink: 'http://www.w3.org/1999/xlink', xlinkHref: '../lib/salesforce-lightning-design-system-2.4.6/assets/icons/' + iconCategory + '-sprite/svg/symbols.svg#' + iconName })
+    ) : '',
+    props.children
+  );
+};
+
+exports.default = Button;
+
+/***/ }),
 /* 37 */,
 /* 38 */,
 /* 39 */,
 /* 40 */,
 /* 41 */,
 /* 42 */,
-/* 43 */
+/* 43 */,
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8044,7 +8088,7 @@ var _alert = __webpack_require__(28);
 
 var _alert2 = _interopRequireDefault(_alert);
 
-var _badge = __webpack_require__(44);
+var _badge = __webpack_require__(45);
 
 var _badge2 = _interopRequireDefault(_badge);
 
@@ -8052,7 +8096,7 @@ var _inputText = __webpack_require__(26);
 
 var _inputText2 = _interopRequireDefault(_inputText);
 
-var _button = __webpack_require__(45);
+var _button = __webpack_require__(36);
 
 var _button2 = _interopRequireDefault(_button);
 
@@ -8303,7 +8347,7 @@ var PullDifferencesPage = function (_React$Component) {
 _reactDom2.default.render(_react2.default.createElement(PullDifferencesPage, null), root);
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8328,50 +8372,6 @@ var Badge = function Badge(props) {
 };
 
 exports.default = Badge;
-
-/***/ }),
-/* 45 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Button = function Button(props) {
-
-  var type = 'neutral';
-
-  if (props.type) {
-    type = props.type;
-  }
-
-  var classes = 'slds-button ' + (props.icon ? 'slds-button_icon slds-button_icon-border-filled' : 'slds-button_' + type);
-
-  var iconCategory = props.icon ? props.icon.split(':')[0] : null;
-  var iconName = props.icon ? props.icon.split(':')[1] : null;
-
-  return _react2.default.createElement(
-    'button',
-    { className: classes, onClick: props.onClick },
-    props.icon ? _react2.default.createElement(
-      'svg',
-      { className: 'slds-button__icon', 'aria-hidden': 'true' },
-      _react2.default.createElement('use', { xmlnsXlink: 'http://www.w3.org/1999/xlink', xlinkHref: '../lib/salesforce-lightning-design-system-2.4.6/assets/icons/' + iconCategory + '-sprite/svg/symbols.svg#' + iconName })
-    ) : '',
-    props.children
-  );
-};
-
-exports.default = Button;
 
 /***/ }),
 /* 46 */
