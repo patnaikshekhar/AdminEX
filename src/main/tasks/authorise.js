@@ -65,7 +65,7 @@ const startAuth = (window, alias, instanceURL) => new Promise((resolve, reject) 
   } else if (!instanceURL) {
     window.loadURL(getAuthURL(keys.production_auth_url))
   } else {
-    window.loadURL(getAuthURL(instanceURL))
+    window.loadURL(getAuthURL(`${instanceURL}${keys.generic_auth_url}`))
   }
 
   window.webContents.on('will-navigate', (event, url) => {

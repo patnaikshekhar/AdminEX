@@ -16,7 +16,7 @@ const createFeature = (project, refreshMenu) => {
           feature.scratchOrg = feature.existingOrg
         }
 
-          return feature
+        return feature
       })
       .then(feature => 
         Storage.getProject(project)

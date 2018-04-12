@@ -7953,8 +7953,7 @@ exports.default = function (props) {
 };
 
 /***/ }),
-/* 28 */,
-/* 29 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8003,6 +8002,7 @@ exports.default = function (props) {
 };
 
 /***/ }),
+/* 29 */,
 /* 30 */,
 /* 31 */,
 /* 32 */,
@@ -8040,7 +8040,7 @@ var _electronBody = __webpack_require__(27);
 
 var _electronBody2 = _interopRequireDefault(_electronBody);
 
-var _alert = __webpack_require__(29);
+var _alert = __webpack_require__(28);
 
 var _alert2 = _interopRequireDefault(_alert);
 

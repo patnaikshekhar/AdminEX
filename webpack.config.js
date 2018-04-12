@@ -8,7 +8,8 @@ module.exports = {
     createScratchOrg: './src/components/createScratchOrg.js',
     createFeature: './src/components/createFeature.js',
     pullDifferences: './src/components/pullDifferences.js',
-    diff: './src/components/diff.js'
+    diff: './src/components/diff.js',
+    connectSandbox: './src/components/connectSandbox.js'
   },
   
   output: {
