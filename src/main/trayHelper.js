@@ -86,7 +86,7 @@ const getDevHubItems = (project) => new Promise((resolve, reject) => {
             win.hide()
             win = null
           })
-          .catch(e => handleError(e))
+          .catch(e => handleError(`Error in Reconnect Dev Hub Task started`, e))
       }
     }, {
       label: 'Open',
@@ -95,6 +95,19 @@ const getDevHubItems = (project) => new Promise((resolve, reject) => {
         log(`Open Devhub Task started`, 'Info')
         openOrg(project.devHubAlias)
           .catch(e => handleError('Error in Open Devhub Task', e))
+      }
+    }, {
+      label: 'Limits',
+      type: undefined,
+      click() { 
+        log(`Show Limits Task started`, 'Info')
+        startLoading()
+        WindowManager.showLimits(project.devHubAlias)
+          .then(() => stopLoading())
+          .catch(e => {
+            stopLoading()
+            handleError('Error in Show Limits Task', e) 
+          })
       }
     }]
   }])
@@ -200,6 +213,20 @@ const getFeatures = (project) => new Promise((resolve, reject) => {
             pullChanges(project, feature)
               .then(() => stopLoading())
               .catch(e => { stopLoading(); handleError('Pull Changes from Scratch Org Failed', e) })
+          }
+        },
+        {
+          label: 'Scratch Org Limits',
+          type: undefined,
+          click() { 
+            log(`Show Limits Task started`, 'Info')
+            startLoading()
+            WindowManager.showLimits(feature.scratchOrg)
+              .then(() => stopLoading())
+              .catch(e => {
+                stopLoading()
+                handleError('Error in Show Limits Task', e) 
+              })
           }
         },
         {
@@ -314,6 +341,19 @@ const getAllSandboxes = (project) => new Promise((resolve, reject) => {
               .then(() => refreshMenu(project))
               .then(() => stopLoading())
               .catch(e => { stopLoading(); handleError('Error opening sandbox', e) })
+          }
+        }, {
+          label: 'Limits',
+          type: undefined,
+          click() { 
+            log(`Show Limits Task started`, 'Info')
+            startLoading()
+            WindowManager.showLimits(sandbox.alias)
+              .then(() => stopLoading())
+              .catch(e => {
+                stopLoading()
+                handleError('Error in Show Limits Task', e) 
+              })
           }
         }
       ]

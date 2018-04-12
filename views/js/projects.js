@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 36);
+/******/ 	return __webpack_require__(__webpack_require__.s = 37);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -8214,7 +8214,8 @@ exports.default = Tabs;
 /* 33 */,
 /* 34 */,
 /* 35 */,
-/* 36 */
+/* 36 */,
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8234,11 +8235,11 @@ var _header = __webpack_require__(25);
 
 var _header2 = _interopRequireDefault(_header);
 
-var _createProject = __webpack_require__(37);
+var _createProject = __webpack_require__(38);
 
 var _createProject2 = _interopRequireDefault(_createProject);
 
-var _viewProjects = __webpack_require__(39);
+var _viewProjects = __webpack_require__(40);
 
 var _viewProjects2 = _interopRequireDefault(_viewProjects);
 
@@ -8261,7 +8262,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var _require = __webpack_require__(12),
     ipcRenderer = _require.ipcRenderer;
 
-var _require2 = __webpack_require__(40),
+var _require2 = __webpack_require__(41),
     authDevHub = _require2.authDevHub;
 
 var fs = __webpack_require__(29);
@@ -8407,7 +8408,7 @@ var ProjectPage = function (_React$Component) {
 _reactDom2.default.render(_react2.default.createElement(ProjectPage, null), root);
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8431,7 +8432,7 @@ var _inputFile = __webpack_require__(31);
 
 var _inputFile2 = _interopRequireDefault(_inputFile);
 
-var _inputToggle = __webpack_require__(38);
+var _inputToggle = __webpack_require__(39);
 
 var _inputToggle2 = _interopRequireDefault(_inputToggle);
 
@@ -8620,7 +8621,7 @@ var CreateProject = function (_React$Component) {
 exports.default = CreateProject;
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8677,7 +8678,7 @@ var InputToggle = function InputToggle(props) {
 exports.default = InputToggle;
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8801,7 +8802,7 @@ var ViewProjects = function ViewProjects(props) {
 exports.default = ViewProjects;
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports) {
 
 module.exports = require('../src/main/sfdx');

@@ -61,7 +61,7 @@ const appendToLogFile = (data) => {
   }
 }
 
-const convertMetadataTypeStringToFormattedString = (str) => {
+const convertCamelCaseStringToFormattedString = (str) => {
   return Array.from(str).reduce((acc, value, index) => index > 0 && value.toUpperCase() === value ? acc + ' ' + value : acc + value, '') 
 }
 
@@ -72,7 +72,7 @@ const getMetadataTypeFromFileData = (data, callback) => {
     } else {
       const keys = Object.keys(xml)
       if (keys.length > 0) {
-        callback(convertMetadataTypeStringToFormattedString(keys[0]))
+        callback(convertCamelCaseStringToFormattedString(keys[0]))
       }
     }
   })
@@ -99,5 +99,6 @@ module.exports = {
   alert,
   log,
   logp,
-  getMetadataTypeForFile
+  getMetadataTypeForFile,
+  convertCamelCaseStringToFormattedString
 }

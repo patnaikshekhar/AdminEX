@@ -301,11 +301,48 @@ const connectSandbox = (project) => new Promise((resolve, reject) => {
   })
 })
 
+const showLimits = (alias) => new Promise ((resolve, reject) => {
+  const debug = Settings().debugMode
+  let win = createWindow()
+
+  if (debug)
+    win.webContents.openDevTools()
+
+  win.loadURL(url.format({
+    pathname: path.join(__dirname, '../../views/showLimits.html'),
+    protocol: 'file:',
+    slashes: true
+  }))
+
+  ipcMain.once('showLimits.allLimits', (event) => {
+    SFDX.getLimits(alias)
+      .then((values) => {
+        log(`WindowManager.showLimits result of SFDX.getLimits for ${alias} is ${JSON.stringify(values)}`, 'Info')
+        if (win) {
+          event.sender.send('showLimits.allLimits.response', values)
+        }
+      })
+  })
+
+  ipcMain.once('showLimits.close', (event, options) => {
+    log(`WindowManager.showLimits close event`, 'Info')
+    win.hide()
+    win = null
+    resolve()
+  })
+
+  win.on('closed', () => {
+    win = null
+    resolve()
+  })
+})
+
 module.exports = {
   selectScratchOrgDetails,
   selectProject,
   createFeature,
   showPullDifferences,
   createBasicWindow,
-  connectSandbox
+  connectSandbox,
+  showLimits
 }

@@ -9,7 +9,8 @@ module.exports = {
     createFeature: './src/components/createFeature.js',
     pullDifferences: './src/components/pullDifferences.js',
     diff: './src/components/diff.js',
-    connectSandbox: './src/components/connectSandbox.js'
+    connectSandbox: './src/components/connectSandbox.js',
+    showLimits: './src/components/showLimits.js'
   },
   
   output: {
