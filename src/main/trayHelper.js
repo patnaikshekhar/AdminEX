@@ -276,7 +276,12 @@ const getAllSandboxes = (project) => new Promise((resolve, reject) => {
         WindowManager.connectSandbox(project)
           .then(() => refreshMenu(project))
           .then(() => stopLoading())
-          .catch(e => { stopLoading(); handleError('Error connecting sandbox', e) })
+          .catch(e => { 
+            stopLoading(); 
+            if (e !== 'Closed') {
+              handleError('Error connecting sandbox', e) 
+            }
+          })
       }
     }
   ]

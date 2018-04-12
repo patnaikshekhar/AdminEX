@@ -297,7 +297,7 @@ const connectSandbox = (project) => new Promise((resolve, reject) => {
 
   connectSandboxWindow.on('closed', () => {
     connectSandboxWindow = null
-    resolve()
+    reject('Closed')
   })
 })
 
