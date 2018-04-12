@@ -7969,31 +7969,6 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = function (props) {
-  return _react2.default.createElement(
-    'div',
-    null,
-    'props.children'
-  );
-};
-
-/***/ }),
-/* 29 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 var iconMapping = {
   warning: 'warning',
   offline: 'offline',
@@ -8027,10 +8002,35 @@ exports.default = function (props) {
 };
 
 /***/ }),
-/* 30 */
+/* 29 */
 /***/ (function(module, exports) {
 
 module.exports = require('fs');
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (props) {
+  return _react2.default.createElement(
+    'div',
+    null,
+    'props.children'
+  );
+};
 
 /***/ }),
 /* 31 */
@@ -8126,7 +8126,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _tab = __webpack_require__(28);
+var _tab = __webpack_require__(30);
 
 var _tab2 = _interopRequireDefault(_tab);
 
@@ -8293,7 +8293,7 @@ var _multiSelect2 = _interopRequireDefault(_multiSelect);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var fs = __webpack_require__(30);
+var fs = __webpack_require__(29);
 
 var NewShape = function NewShape(props) {
 
@@ -8676,7 +8676,7 @@ var _inputFile = __webpack_require__(31);
 
 var _inputFile2 = _interopRequireDefault(_inputFile);
 
-var _alert = __webpack_require__(29);
+var _alert = __webpack_require__(28);
 
 var _alert2 = _interopRequireDefault(_alert);
 
@@ -8684,7 +8684,7 @@ var _tabs = __webpack_require__(32);
 
 var _tabs2 = _interopRequireDefault(_tabs);
 
-var _tab = __webpack_require__(28);
+var _tab = __webpack_require__(30);
 
 var _tab2 = _interopRequireDefault(_tab);
 
@@ -8705,7 +8705,7 @@ var _require = __webpack_require__(12),
 
 var dialog = __webpack_require__(12).remote.dialog;
 
-var fs = __webpack_require__(30);
+var fs = __webpack_require__(29);
 
 var root = document.getElementById('root');
 

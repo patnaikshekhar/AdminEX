@@ -44,6 +44,7 @@ const selectScratchOrgDetails = (project) => new Promise((resolve, reject) => {
     scratchOrgWindow.webContents.openDevTools()
   
   scratchOrgWindow.on('closed', () => {
+    reject('Closed')
   })
 
   ipcMain.once('createScratchOrg.getProjectDetails', (event, options) => {
@@ -137,7 +138,11 @@ const createFeature = (project) => new Promise((resolve, reject) => {
     createFeatureWin.webContents.openDevTools()
   
   createFeatureWin.on('closed', () => {
+    createFeatureWin.destroy()
+    ipcMain.removeAllListeners('createFeature')
+    ipcMain.removeAllListeners('createFeature.init')
     createFeatureWin = null
+    reject('Closed')
   })
 
   ipcMain.once('createFeature', (event, options) => {
@@ -149,7 +154,9 @@ const createFeature = (project) => new Promise((resolve, reject) => {
   ipcMain.once('createFeature.init', (event, options) => {
     SFDX.getOrgList(project)
       .then((orgs) => {
-        event.sender.send('createFeature.initResult', {orgs, project, features, prefs })
+        if (createFeatureWin) {
+          event.sender.send('createFeature.initResult', {orgs, project, features, prefs })
+        }
       })
   })
 })
@@ -246,10 +253,59 @@ const createBasicWindow = () => {
   return win
 }
 
+const connectSandbox = (project) => new Promise((resolve, reject) => {
+
+  log('In windowManager.connectSandbox', 'Info')
+
+  const debug = Settings().debugMode
+  let connectSandboxWindow = createWindow()
+
+  if (debug)
+    connectSandboxWindow.webContents.openDevTools()
+
+  connectSandboxWindow.loadURL(url.format({
+    pathname: path.join(__dirname, '../../views/connectSandbox.html'),
+    protocol: 'file:',
+    slashes: true
+  }))
+
+  ipcMain.once('connectSandbox.connectSandbox', (event, sandbox) => {
+    
+    log(`In windowManager.connectSandbox event triggered connectSandbox.connectSandbox with params ${JSON.stringify(sandbox)}`, 'Info')
+
+    sandbox.alias = `${project.name}_${sandbox.name}`
+
+    authoriseTask.startAuth(connectSandboxWindow, sandbox.alias, sandbox.instanceURL)
+      .then(() => Storage.getProject(project))
+      .then(project => {
+        log(`In windowManager.connectSandbox updating storage for project ${project.name}`, 'Info')
+        if (!project.sandboxes) {
+          project.sandboxes = []
+        }
+        
+        project.sandboxes.push(sandbox)
+        return Storage.updateProject(project)
+      })
+      .then(() => {
+        log(`In windowManager.connectSandbox finished updating storage for project ${project.name}`, 'Info')
+        connectSandboxWindow.hide()
+        connectSandboxWindow = null
+        resolve()
+      })
+      .catch(e => reject(e))
+  })
+
+  connectSandboxWindow.on('closed', () => {
+    connectSandboxWindow = null
+    resolve()
+  })
+})
+
 module.exports = {
   selectScratchOrgDetails,
   selectProject,
   createFeature,
   showPullDifferences,
-  createBasicWindow
+  createBasicWindow,
+  connectSandbox
 }

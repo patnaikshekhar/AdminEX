@@ -1,8 +1,9 @@
 const fs = require('fs')
 const uuid = require('uuid')
 const Constants = require('../main/constants')
-//const STORAGE_FILENAME = `${__dirname}/../../adminex_data.json`
 const STORAGE_FILENAME = `${Constants.MAIN_DIRECTORY}/adminex_data.json`
+const { log } = require('./utilities')
+let isWritingFile = false
 
 const BASIC_OBJECT = {
   projects: []
@@ -15,41 +16,80 @@ const createBasicFile = (callback) => {
 }
 
 const writeContents = (data) => new Promise((resolve, reject) => {
-  fs.writeFile(STORAGE_FILENAME, JSON.stringify(data), (err) => {
-    if (err) {
-      reject(err)
-    } else {
-      resolve(data)
-    }
-  })
+  log(`Storage.writeContents writing contents ${JSON.stringify(data)}`, 'Info')
+  
+  // const writeFile = () => {
+
+  //   if (isWritingFile) {
+  //     log(`Storage.writeContents storage file locked waiting`, 'Info')
+  //     setTimeout(() => {
+  //       writeFile()
+  //     }, 200)
+  //   } else {
+  //     isWritingFile = true
+  //     fs.writeFile(STORAGE_FILENAME, JSON.stringify(data), (err) => {
+  //       isWritingFile = false
+  //       if (err) {
+  //         reject(err)
+  //       } else {
+  //         resolve(data)
+  //       }
+  //     })
+  //   }
+  // }
+
+  // writeFile()
+
+  try {
+    fs.writeFileSync(STORAGE_FILENAME, JSON.stringify(data))
+    resolve(data)
+  } catch(e) {
+    reject(e)
+  }
 })
 
 const cleanProjects = (projects) => 
   projects.filter(proj => fs.existsSync(proj.directory))
 
 const getContents = () => new Promise((resolve, reject) => {
-  fs.readFile(STORAGE_FILENAME, (err, data) => {
-    if (err) {
-      createBasicFile((err, data) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(data)
-        }
+  // fs.readFile(STORAGE_FILENAME, (err, data) => {
+  //   if (err) {
+  //     createBasicFile((err, data) => {
+  //       if (err) {
+  //         reject(err)
+  //       } else {
+  //         resolve(data)
+  //       }
+  //     })
+  //   } else {
+  //     const result = JSON.parse(data.toString())
+  //     const projects = cleanProjects(result.projects)
+  //     const store = Object.assign(result, {
+  //       projects
+  //     })
+  //     writeContents(store)
+  //       .then(() => {
+  //         resolve(store)
+  //       })
+  //     resolve(store)
+  //   }
+  // })
+
+  try {
+    const data = fs.readFileSync(STORAGE_FILENAME)
+    const result = JSON.parse(data.toString())
+    const projects = cleanProjects(result.projects)
+    const store = Object.assign(result, {
+      projects
+    })
+    writeContents(store)
+      .then(() => {
+        resolve(store)
       })
-    } else {
-      const result = JSON.parse(data.toString())
-      const projects = cleanProjects(result.projects)
-      const store = Object.assign(result, {
-        projects
-      })
-      writeContents(store)
-        .then(() => {
-          resolve(store)
-        })
-      resolve(store)
-    }
-  })
+      .catch(e => reject(e))
+  } catch(e) {
+    reject(e)
+  }
 })
 
 const addProject = (projectData) =>
@@ -60,11 +100,23 @@ const addProject = (projectData) =>
       return writeContents(contents)
     })
 
-const updateProject = (project) => 
-  getContents()
-    .then(contents => writeContents(Object.assign(contents, {
-      projects: contents.projects.map(p => p.Id == project.Id ? project : p)
-    })))
+const updateProject = (project) => {
+  log(`Storage.updateProject updating project ${JSON.stringify(project)}`, 'Info')
+  return getContents()
+    .then(contents => {
+      log(`Storage.updateProject current contents ${JSON.stringify(contents)}`, 'Info')
+      
+      const updatedContents = Object.assign(contents, {
+        projects: contents.projects.map(p => p.Id == project.Id ? project : p)
+      })
+
+      log(`Storage.updateProject updated contents ${JSON.stringify(updatedContents)}`, 'Info')
+
+      return writeContents(updatedContents)
+    })
+}
+  
+    
 
 const getProject = (project) => {
   return getContents()

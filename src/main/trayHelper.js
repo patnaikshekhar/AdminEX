@@ -1,4 +1,4 @@
-const {app, Tray, Menu} = require('electron')
+const {app, Tray, Menu, dialog} = require('electron')
 const sfdx = require('./sfdx')
 const Storage = require('./storage')
 const {handleError, alert, log, logp} = require('./utilities')
@@ -14,25 +14,62 @@ const deleteWork = require('./tasks/deleteWork')
 const pullChanges = require('./tasks/pullChanges')
 const open = require('./tasks/open')
 const authTask = require('./tasks/authorise')
+const removeSandboxOrg = require('./tasks/removeSandboxOrg')
+const MAIN_ICON = `${__dirname}/../../assets/icons/dxicon_tray.png`
 
 let tray = null
+let loading = false
+let loadingIndicatorNumber = 0
 
 const setupTray = (project) => {
   if (!tray) {
-    tray = new Tray(`${__dirname}/../../assets/icons/dxicon_tray.png`)
+    tray = new Tray(MAIN_ICON)
   }
   
   refreshMenu(project)
     .catch(e => handleError('Could not generate project', e))
 }
 
-const refreshMenu = (project, options) => 
-  Storage.getProject(project)
+const refreshMenu = (project, options) => {
+  log(`trayHelper.refreshMenu started`, 'Info')
+  return Storage.getProject(project)
     .then(project => createContextMenu(project))
     .then(menu => Menu.buildFromTemplate(menu))
     .then(contextMenu => tray.setContextMenu(contextMenu))
     .then(() => options)
+    .then(() => logp(`trayHelper.refreshMenu finished`, 'Info', options))
     .catch(e => handleError('Could not generate project', e))
+}
+  
+const startLoading = () => {
+  loading = true
+
+  const loadingLoop = () => {
+    loadingIndicatorNumber += 1
+    if (loadingIndicatorNumber > 3) {
+      loadingIndicatorNumber = 1
+    }
+
+    tray.setImage(`${__dirname}/../../assets/icons/bubbles${loadingIndicatorNumber}.png`)
+
+    if (loading) {
+      setTimeout(() => {
+        loadingLoop()
+      }, 500)
+    } else {
+      loadingIndicatorNumber = 0
+      tray.setImage(MAIN_ICON)  
+    }
+  }
+  
+  loadingLoop()
+}
+
+const stopLoading = () => {
+  loading = false
+  loadingIndicatorNumber = 0
+  tray.setImage(MAIN_ICON)
+}
 
 const getDevHubItems = (project) => new Promise((resolve, reject) => {
   resolve([{
@@ -57,7 +94,7 @@ const getDevHubItems = (project) => new Promise((resolve, reject) => {
       click() { 
         log(`Open Devhub Task started`, 'Info')
         openOrg(project.devHubAlias)
-          .catch(e => handleError('Error creating scratch org', e))
+          .catch(e => handleError('Error in Open Devhub Task', e))
       }
     }]
   }])
@@ -71,8 +108,14 @@ const getScratchOrgItems = (project) => {
           label: 'Create Scratch Org',
           type: undefined,
           click() { 
+            startLoading()
             createScratchOrg(project, refreshMenu)
-              .catch(e => handleError('Error creating scratch org', e))
+              .then(() => stopLoading())
+              .catch(e => { 
+                stopLoading(); 
+                if (e !== 'Closed')
+                  handleError('Error creating scratch org', e) 
+              })
           }
         }]
 
@@ -82,17 +125,22 @@ const getScratchOrgItems = (project) => {
             submenu: orgs.map((alias => ({
               label: alias,
               click() {
+                startLoading()
                 openOrg(alias)
-                  .catch(e => handleError('Error creating scratch org', e))
+                  .then(() => stopLoading())
+                  .catch(e => { stopLoading(); handleError('Error creating scratch org', e) })
               }
             })))
           }, {
             label: 'Delete Org',
             submenu: orgs.map((alias => ({
               label: alias,
-              click: () => 
+              click: () => {
+                startLoading()
                 deleteScratchOrg(alias, project, refreshMenu)
-                  .catch(e => handleError('Delete Org Failed', e))
+                  .then(() => stopLoading())
+                  .catch(e => { stopLoading(); handleError('Delete Org Failed', e) })
+              }
             })))
           })
         } else {
@@ -110,8 +158,15 @@ const getStartFeature = (project) => new Promise((resolve, reject) => {
       label: 'New Work',
       type: undefined,
       click() {
+        startLoading()
         createWork(project, refreshMenu)
-          .catch(e => handleError('Error creating feature', e))
+          .then(() => stopLoading())
+          .catch(e => { 
+            stopLoading()
+            if (e !== 'Closed') {
+              handleError('Error creating feature', e) 
+            }
+          })
       }
     }])
   } else {
@@ -130,8 +185,10 @@ const getFeatures = (project) => new Promise((resolve, reject) => {
           type: undefined,
           click() {
             log(`Start work for feature ${feature.name}`, 'Info')
+            startLoading()
             startWork(feature)
-              .catch(e => handleError(e))
+              .then(() => stopLoading())
+              .catch(e => { stopLoading(); handleError('Error creating feature', e) })
           }
         },
         {
@@ -139,16 +196,20 @@ const getFeatures = (project) => new Promise((resolve, reject) => {
           type: undefined,
           click() {
             log(`Pull Changes for feature ${feature.name}`, 'Info')
+            startLoading()
             pullChanges(project, feature)
-              .catch(e => handleError('Pull Changes from Scratch Org Failed', e))
+              .then(() => stopLoading())
+              .catch(e => { stopLoading(); handleError('Pull Changes from Scratch Org Failed', e) })
           }
         },
         {
           label: 'Delete',
           type: undefined,
           click() {
+            startLoading()
             deleteWork(project, feature, refreshMenu)
-              .catch(e => handleError('Delete Org Failed', e))
+              .then(() => stopLoading())
+              .catch(e => { stopLoading(); handleError('Delete Org Failed', e) })
           }
         }
       ]
@@ -190,19 +251,6 @@ const getOpenItems = (project) => new Promise((resolve, reject) => {
           .catch(e => handleError(e))
       }
     }, {
-      label: 'Reconnect DevHub',
-      type: undefined,
-      click() { 
-        log(`Reconnect DevHub Task started`, 'Info')
-        let win = WindowManager.createBasicWindow()
-        authTask.startAuth(win, project.devHubAlias)
-          .then(() => {
-            win.hide()
-            win = null
-          })
-          .catch(e => handleError(e))
-      }
-    }, {
       label: 'Switch Project',
       type: undefined,
       click() { 
@@ -217,13 +265,69 @@ const getOpenItems = (project) => new Promise((resolve, reject) => {
   ])
 })
 
+const getAllSandboxes = (project) => new Promise((resolve, reject) => {
+  let connectItem = [
+    {
+      label: 'Connect Sandbox',
+      type: undefined,
+      click() { 
+        log(`Connect Sandbox Task started`, 'Info')
+        startLoading()
+        WindowManager.connectSandbox(project)
+          .then(() => refreshMenu(project))
+          .then(() => stopLoading())
+          .catch(e => { stopLoading(); handleError('Error connecting sandbox', e) })
+      }
+    }
+  ]
+
+  let sandboxItems = []
+
+  if (project.sandboxes) {
+    sandboxItems = project.sandboxes.map(sandbox => ({
+      label: sandbox.name,
+      type: undefined,
+      submenu: [
+        {
+          label: 'Open',
+          type: undefined,
+          click() {
+            log(`Open Sandbox Org started`, 'Info')
+            startLoading()
+            openOrg(sandbox.alias)
+              .then(() => stopLoading())
+              .catch(e => { stopLoading(); handleError('Error opening sandbox', e) })
+          }
+        },
+        {
+          label: 'Remove from Project',
+          type: undefined,
+          click() {
+            log(`Remove Sandbox Org started`, 'Info')
+            startLoading()
+            removeSandboxOrg(project, sandbox.alias)
+              .then(() => refreshMenu(project))
+              .then(() => stopLoading())
+              .catch(e => { stopLoading(); handleError('Error opening sandbox', e) })
+          }
+        }
+      ]
+    }))
+  }
+
+  resolve(connectItem.concat(sandboxItems))
+})
+
 const createContextMenu = (project) => {
   const template = [
     getDevHubItems(project), seperator(), 
     getStartFeature(project), getFeatures(project), seperator(),
     getScratchOrgItems(project), seperator(),
+    getAllSandboxes(project), seperator(),
     getOpenItems(project), seperator(),
     getQuitItem()]
+  
+  startLoading()
 
   return Promise.all(template)
           .then(items => items.reduce((acc, item) => {
@@ -235,6 +339,10 @@ const createContextMenu = (project) => {
             
             return item ? acc.concat(item) : acc
           }, []))
+          .then((data) => { 
+            stopLoading() 
+            return data
+          })
 }
 
 module.exports = {

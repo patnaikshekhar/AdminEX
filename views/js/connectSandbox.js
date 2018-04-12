@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 36);
+/******/ 	return __webpack_require__(__webpack_require__.s = 48);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -8008,213 +8008,25 @@ exports.default = function (props) {
 module.exports = require('fs');
 
 /***/ }),
-/* 30 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = function (props) {
-  return _react2.default.createElement(
-    'div',
-    null,
-    'props.children'
-  );
-};
-
-/***/ }),
-/* 31 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var dialog = __webpack_require__(12).remote.dialog;
-
-var inputStyle = {
-  width: '92%',
-  marginLeft: '4px'
-};
-
-exports.default = function (props) {
-  return _react2.default.createElement(
-    'div',
-    { className: 'slds-form-element', style: props.style },
-    _react2.default.createElement(
-      'label',
-      { className: 'slds-form-element__label' },
-      props.label,
-      props.required ? _react2.default.createElement(
-        'abbr',
-        { className: 'slds-required', title: 'required' },
-        '*'
-      ) : ''
-    ),
-    _react2.default.createElement(
-      'div',
-      { className: 'slds-form-element__control' },
-      _react2.default.createElement('input', {
-        type: 'text',
-        className: 'slds-input',
-        onChange: function onChange(e) {
-          return props.onChange(e.target.value);
-        },
-        placeholder: props.placeholder,
-        value: props.value,
-        style: inputStyle }),
-      _react2.default.createElement(
-        'button',
-        { className: 'slds-button slds-button_icon slds-button_icon-border-filled', title: 'Open Folder', onClick: function onClick() {
-            var directory = dialog.showOpenDialog({ properties: [props.type] });
-            if (directory) {
-              if (Array.isArray(directory)) {
-                props.onChange(directory[0]);
-              } else {
-                props.onChange(directory);
-              }
-            }
-          } },
-        _react2.default.createElement(
-          'svg',
-          { className: 'slds-button__icon', 'aria-hidden': 'true' },
-          _react2.default.createElement('use', { xmlnsXlink: 'http://www.w3.org/1999/xlink', xlinkHref: '../lib/salesforce-lightning-design-system-2.4.6/assets/icons/utility-sprite/svg/symbols.svg#opened_folder' })
-        ),
-        _react2.default.createElement(
-          'span',
-          { className: 'slds-assistive-text' },
-          'Open Folder'
-        )
-      )
-    )
-  );
-};
-
-/***/ }),
-/* 32 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _tab = __webpack_require__(30);
-
-var _tab2 = _interopRequireDefault(_tab);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Tabs = function (_React$Component) {
-  _inherits(Tabs, _React$Component);
-
-  function Tabs() {
-    _classCallCheck(this, Tabs);
-
-    var _this = _possibleConstructorReturn(this, (Tabs.__proto__ || Object.getPrototypeOf(Tabs)).call(this));
-
-    _this.state = {
-      active: 0
-    };
-    return _this;
-  }
-
-  _createClass(Tabs, [{
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
-
-      var tabs = this.props.children.filter(function (e) {
-        return e.type == _tab2.default;
-      });
-
-      return _react2.default.createElement(
-        'div',
-        { className: 'slds-tabs_default' },
-        _react2.default.createElement(
-          'ul',
-          { className: 'slds-tabs_default__nav', role: 'tablist' },
-          tabs.map(function (tab, index) {
-            return _react2.default.createElement(
-              'li',
-              {
-                key: index,
-                className: 'slds-tabs_default__item ' + (_this2.state.active == index ? 'slds-is-active' : ''),
-                title: tab.props.label, role: 'presentation',
-                onClick: function onClick() {
-                  _this2.setState({
-                    active: index
-                  });
-                  if (_this2.props.onTabChange) {
-                    _this2.props.onTabChange(index);
-                  }
-                } },
-              _react2.default.createElement(
-                'a',
-                {
-                  className: 'slds-tabs_default__link',
-                  href: 'javascript:void(0);',
-                  role: 'tab',
-                  tabIndex: index },
-                tab.props.label
-              )
-            );
-          })
-        ),
-        _react2.default.createElement(
-          'div',
-          {
-            className: 'slds-tabs_default__content slds-show',
-            role: 'tabpanel' },
-          tabs.length > 0 ? tabs[this.state.active].props.children : ''
-        )
-      );
-    }
-  }]);
-
-  return Tabs;
-}(_react2.default.Component);
-
-exports.default = Tabs;
-
-/***/ }),
+/* 30 */,
+/* 31 */,
+/* 32 */,
 /* 33 */,
 /* 34 */,
 /* 35 */,
-/* 36 */
+/* 36 */,
+/* 37 */,
+/* 38 */,
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */,
+/* 44 */,
+/* 45 */,
+/* 46 */,
+/* 47 */,
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8234,17 +8046,13 @@ var _header = __webpack_require__(25);
 
 var _header2 = _interopRequireDefault(_header);
 
-var _createProject = __webpack_require__(37);
-
-var _createProject2 = _interopRequireDefault(_createProject);
-
-var _viewProjects = __webpack_require__(39);
-
-var _viewProjects2 = _interopRequireDefault(_viewProjects);
-
 var _electronBody = __webpack_require__(27);
 
 var _electronBody2 = _interopRequireDefault(_electronBody);
+
+var _inputText = __webpack_require__(26);
+
+var _inputText2 = _interopRequireDefault(_inputText);
 
 var _alert = __webpack_require__(28);
 
@@ -8261,66 +8069,60 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var _require = __webpack_require__(12),
     ipcRenderer = _require.ipcRenderer;
 
-var _require2 = __webpack_require__(40),
-    authDevHub = _require2.authDevHub;
+var dialog = __webpack_require__(12).remote.dialog;
 
 var fs = __webpack_require__(29);
 
 var root = document.getElementById('root');
 
-var ProjectPage = function (_React$Component) {
-  _inherits(ProjectPage, _React$Component);
+var ConnectSandbox = function (_React$Component) {
+  _inherits(ConnectSandbox, _React$Component);
 
-  function ProjectPage() {
-    _classCallCheck(this, ProjectPage);
+  function ConnectSandbox() {
+    _classCallCheck(this, ConnectSandbox);
 
-    var _this = _possibleConstructorReturn(this, (ProjectPage.__proto__ || Object.getPrototypeOf(ProjectPage)).call(this));
+    var _this = _possibleConstructorReturn(this, (ConnectSandbox.__proto__ || Object.getPrototypeOf(ConnectSandbox)).call(this));
 
     _this.state = {
-      createProject: false,
-      project: {},
-      projects: [],
-      error: ''
+      name: '',
+      instanceURL: 'https://test.salesforce.com',
+      error: null
+    };
+
+    _this.styles = {
+      inputName: {
+        marginBottom: '10px',
+        paddingLeft: '20px',
+        paddingRight: '20px',
+        paddingTop: '20px'
+      },
+      inputStyles: {
+        marginBottom: '10px',
+        paddingLeft: '20px',
+        paddingRight: '20px',
+        marginTop: '15px'
+      }
     };
     return _this;
   }
 
-  _createClass(ProjectPage, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
-      var _this2 = this;
-
-      ipcRenderer.send('projects');
-      ipcRenderer.on('projects', function (event, _ref) {
-        var projects = _ref.projects;
-
-        _this2.setState({
-          projects: projects
-        });
-      });
-    }
-  }, {
+  _createClass(ConnectSandbox, [{
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       return _react2.default.createElement(
         'div',
         null,
         _react2.default.createElement(
           _header2.default,
           null,
-          !this.state.createProject ? _react2.default.createElement(
+          _react2.default.createElement(
             'button',
             {
               className: 'slds-button slds-button_brand',
-              onClick: this.navCreateProject.bind(this) },
-            'New Project'
-          ) : _react2.default.createElement(
-            'button',
-            {
-              className: 'slds-button slds-button_brand',
-              onClick: this.createProject.bind(this)
-            },
-            'Authorise DevHub'
+              onClick: this.connect.bind(this) },
+            'Connect'
           )
         ),
         _react2.default.createElement(
@@ -8331,480 +8133,50 @@ var ProjectPage = function (_React$Component) {
             { type: 'error' },
             this.state.error
           ) : '',
-          this.state.createProject ? _react2.default.createElement(_createProject2.default, {
-            projectDetailsChanged: this.projectDetailsChanged.bind(this) }) : _react2.default.createElement(_viewProjects2.default, {
-            projects: this.state.projects,
-            openProject: this.openProject.bind(this),
-            createProject: this.navCreateProject.bind(this) })
+          _react2.default.createElement(_inputText2.default, {
+            label: 'Sandbox Name',
+            required: 'true',
+            onChange: function onChange(name) {
+              return _this2.setState({ name: name });
+            },
+            style: this.styles.inputName,
+            value: this.state.name }),
+          _react2.default.createElement(_inputText2.default, {
+            label: 'Instance URL',
+            required: 'true',
+            onChange: function onChange(instanceURL) {
+              return _this2.setState({ instanceURL: instanceURL });
+            },
+            style: this.styles.inputName,
+            value: this.state.instanceURL })
         )
       );
     }
   }, {
-    key: 'openProject',
-    value: function openProject(project) {
-      ipcRenderer.send('setProject', project);
-    }
-  }, {
-    key: 'projectDetailsChanged',
-    value: function projectDetailsChanged(project) {
-      this.setState({ project: project });
-    }
-  }, {
-    key: 'navCreateProject',
-    value: function navCreateProject() {
-      this.setState({
-        createProject: true
-      });
-    }
-  }, {
-    key: 'createProject',
-    value: function createProject() {
-      var _state$project = this.state.project,
-          name = _state$project.name,
-          directory = _state$project.directory,
-          repositoryURL = _state$project.repositoryURL,
-          repositoryUsername = _state$project.repositoryUsername,
-          repositoryPassword = _state$project.repositoryPassword,
-          existingProject = _state$project.existingProject;
+    key: 'connect',
+    value: function connect() {
+      var _state = this.state,
+          name = _state.name,
+          instanceURL = _state.instanceURL;
 
 
-      if (!this.directoryIsEmpty(directory)) {
-        this.setState({
-          error: 'The directory selected is not empty'
+      if (name && instanceURL) {
+        ipcRenderer.send('connectSandbox.connectSandbox', {
+          name: name,
+          instanceURL: instanceURL
         });
-      } else if (name && directory && repositoryURL) {
-
-        // Remove any existing error
-        this.setState({
-          error: null
-        });
-
-        ipcRenderer.send('createProject.authorise', this.state.project);
       } else {
         this.setState({
-          error: 'Please fill in required fields.'
+          error: 'Please fill in required fields'
         });
-      }
-    }
-  }, {
-    key: 'directoryIsEmpty',
-    value: function directoryIsEmpty(directory) {
-      if (fs.existsSync(directory)) {
-        if (fs.readdirSync(directory).length == 0) {
-          return true;
-        } else {
-          return false;
-        }
-      } else {
-        return true;
       }
     }
   }]);
 
-  return ProjectPage;
+  return ConnectSandbox;
 }(_react2.default.Component);
 
-_reactDom2.default.render(_react2.default.createElement(ProjectPage, null), root);
-
-/***/ }),
-/* 37 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _inputText = __webpack_require__(26);
-
-var _inputText2 = _interopRequireDefault(_inputText);
-
-var _inputFile = __webpack_require__(31);
-
-var _inputFile2 = _interopRequireDefault(_inputFile);
-
-var _inputToggle = __webpack_require__(38);
-
-var _inputToggle2 = _interopRequireDefault(_inputToggle);
-
-var _tabs = __webpack_require__(32);
-
-var _tabs2 = _interopRequireDefault(_tabs);
-
-var _tab = __webpack_require__(30);
-
-var _tab2 = _interopRequireDefault(_tab);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var CreateProject = function (_React$Component) {
-  _inherits(CreateProject, _React$Component);
-
-  function CreateProject() {
-    _classCallCheck(this, CreateProject);
-
-    var _this = _possibleConstructorReturn(this, (CreateProject.__proto__ || Object.getPrototypeOf(CreateProject)).call(this));
-
-    _this.state = {
-      name: '',
-      repositoryURL: '',
-      directory: '',
-      repositoryUsername: '',
-      repositoryPassword: '',
-      existingProject: true
-    };
-
-    _this.inputStyles = {
-      marginBottom: '5px',
-      padding: '20px',
-      marginTop: '5px'
-    };
-
-    _this.repoStyle = {
-      paddingLeft: '20px',
-      paddingRight: '20px',
-      marginBottom: '25px'
-    };
-    return _this;
-  }
-
-  _createClass(CreateProject, [{
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
-
-      return _react2.default.createElement(
-        _tabs2.default,
-        null,
-        _react2.default.createElement(
-          _tab2.default,
-          { label: 'Basic' },
-          _react2.default.createElement(
-            'div',
-            { className: ' slds-grid slds-wrap' },
-            _react2.default.createElement(
-              'div',
-              { className: 'slds-col slds-size_1-of-1' },
-              _react2.default.createElement(_inputText2.default, {
-                label: 'Project Name',
-                placeholder: 'Name of project',
-                required: 'true',
-                onChange: function onChange(value) {
-                  _this2.setState({ name: value }, function () {
-                    _this2.props.projectDetailsChanged(_this2.state);
-                  });
-                },
-                style: this.inputStyles,
-                value: this.state.name })
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'slds-col slds-size_1-of-1' },
-              _react2.default.createElement(_inputFile2.default, {
-                label: 'Project Folder',
-                placeholder: 'Select project folder',
-                required: 'true',
-                type: 'openDirectory',
-                onChange: function onChange(value) {
-                  _this2.setState({ directory: value }, function () {
-                    _this2.props.projectDetailsChanged(_this2.state);
-                  });
-                },
-                style: this.inputStyles,
-                value: this.state.directory })
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'slds-col slds-size_1-of-1' },
-              _react2.default.createElement(
-                'div',
-                null,
-                _react2.default.createElement(_inputText2.default, {
-                  label: 'Project Repository',
-                  placeholder: 'Enter git URL of repository',
-                  required: 'true',
-                  onChange: function onChange(value) {
-                    _this2.setState({ repositoryURL: value }, function () {
-                      _this2.props.projectDetailsChanged(_this2.state);
-                    });
-                  },
-                  style: this.inputStyles,
-                  value: this.state.repositoryURL })
-              )
-            )
-          )
-        ),
-        _react2.default.createElement(
-          _tab2.default,
-          { label: 'Advanced' },
-          _react2.default.createElement(
-            'div',
-            { className: ' slds-grid slds-wrap' },
-            _react2.default.createElement(
-              'div',
-              { className: 'slds-col slds-size_1-of-1' },
-              _react2.default.createElement(_inputToggle2.default, {
-                label: 'Existing Project',
-                enabledLabel: 'Yes',
-                disabledLabel: 'No',
-                onChange: function onChange(value) {
-                  console.log(value);
-                  _this2.setState({ existingProject: value }, function () {
-                    _this2.props.projectDetailsChanged(_this2.state);
-                  });
-                },
-                style: this.inputStyles,
-                value: this.state.existingProject
-              })
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'slds-col slds-size_1-of-1' },
-              _react2.default.createElement(
-                'div',
-                { className: 'slds-grid' },
-                _react2.default.createElement(
-                  'div',
-                  { className: 'slds-col' },
-                  _react2.default.createElement(_inputText2.default, {
-                    label: 'Repository Username',
-                    placeholder: 'Enter username if any',
-                    onChange: function onChange(value) {
-                      _this2.setState({ repositoryUsername: value }, function () {
-                        _this2.props.projectDetailsChanged(_this2.state);
-                      });
-                    },
-                    style: this.repoStyle,
-                    value: this.state.repositoryUsername })
-                ),
-                _react2.default.createElement(
-                  'div',
-                  { className: 'slds-col' },
-                  _react2.default.createElement(_inputText2.default, {
-                    label: 'Repository Password',
-                    placeholder: 'Enter password if any',
-                    onChange: function onChange(value) {
-                      _this2.setState({ repositoryPassword: value }, function () {
-                        _this2.props.projectDetailsChanged(_this2.state);
-                      });
-                    },
-                    style: this.repoStyle,
-                    type: 'password',
-                    value: this.state.repositoryPassword })
-                )
-              )
-            )
-          )
-        )
-      );
-    }
-  }]);
-
-  return CreateProject;
-}(_react2.default.Component);
-
-exports.default = CreateProject;
-
-/***/ }),
-/* 38 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var InputToggle = function InputToggle(props) {
-  return _react2.default.createElement(
-    "div",
-    { className: "slds-form-element", style: props.style },
-    _react2.default.createElement(
-      "label",
-      { className: "slds-checkbox_toggle slds-grid" },
-      _react2.default.createElement(
-        "span",
-        { className: "slds-form-element__label slds-m-bottom_none" },
-        props.label
-      ),
-      _react2.default.createElement("input", {
-        type: "checkbox",
-        "aria-describedby": "toggle-desc",
-        checked: props.value,
-        onChange: function onChange(e) {
-          return props.onChange(!props.value);
-        } }),
-      _react2.default.createElement(
-        "span",
-        { className: "slds-checkbox_faux_container", "aria-live": "assertive" },
-        _react2.default.createElement("span", { className: "slds-checkbox_faux" }),
-        _react2.default.createElement(
-          "span",
-          { className: "slds-checkbox_on" },
-          props.enabledLabel
-        ),
-        _react2.default.createElement(
-          "span",
-          { className: "slds-checkbox_off" },
-          props.disabledLabel
-        )
-      )
-    )
-  );
-};
-
-exports.default = InputToggle;
-
-/***/ }),
-/* 39 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _alert = __webpack_require__(28);
-
-var _alert2 = _interopRequireDefault(_alert);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var NoProjects = function NoProjects(props) {
-  return _react2.default.createElement(
-    'div',
-    null,
-    _react2.default.createElement(
-      _alert2.default,
-      { type: 'warning' },
-      _react2.default.createElement(
-        'h2',
-        null,
-        'You don\'t seem to have any projects at the moment.',
-        _react2.default.createElement(
-          'a',
-          { href: 'javascript:void(0);', onClick: props.createProject },
-          'Click here'
-        ),
-        ' to create one.'
-      )
-    )
-  );
-};
-
-var SelectProject = function SelectProject(props) {
-  return _react2.default.createElement(
-    'table',
-    { className: 'slds-table slds-table_bordered slds-table_cell-buffer', id: 'projectsTable' },
-    _react2.default.createElement(
-      'thead',
-      { className: 'thead-dark' },
-      _react2.default.createElement(
-        'tr',
-        null,
-        _react2.default.createElement(
-          'th',
-          { scope: 'col' },
-          '#'
-        ),
-        _react2.default.createElement('th', { scope: 'col' }),
-        _react2.default.createElement(
-          'th',
-          { scope: 'col' },
-          'Name'
-        ),
-        _react2.default.createElement(
-          'th',
-          { scope: 'col' },
-          'Location'
-        )
-      )
-    ),
-    _react2.default.createElement(
-      'tbody',
-      { id: 'projectList' },
-      props.projects.map(function (proj, index) {
-        return _react2.default.createElement(
-          'tr',
-          { key: proj.Id },
-          _react2.default.createElement(
-            'td',
-            null,
-            index + 1
-          ),
-          _react2.default.createElement(
-            'td',
-            null,
-            _react2.default.createElement(
-              'button',
-              {
-                className: 'slds-button',
-                onClick: function onClick() {
-                  return props.openProject(proj);
-                } },
-              'Open'
-            )
-          ),
-          _react2.default.createElement(
-            'td',
-            null,
-            proj.name
-          ),
-          _react2.default.createElement(
-            'td',
-            null,
-            proj.directory
-          )
-        );
-      })
-    )
-  );
-};
-
-var ViewProjects = function ViewProjects(props) {
-  return _react2.default.createElement(
-    'div',
-    { className: 'project-select' },
-    props.projects.length == 0 ? _react2.default.createElement(NoProjects, { createProject: props.createProject }) : _react2.default.createElement(SelectProject, {
-      projects: props.projects,
-      openProject: props.openProject })
-  );
-};
-
-exports.default = ViewProjects;
-
-/***/ }),
-/* 40 */
-/***/ (function(module, exports) {
-
-module.exports = require('../src/main/sfdx');
+_reactDom2.default.render(_react2.default.createElement(ConnectSandbox, null), root);
 
 /***/ })
 /******/ ]);
