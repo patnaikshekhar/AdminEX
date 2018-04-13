@@ -8808,12 +8808,14 @@ var CreateFeaturePage = function (_React$Component) {
             label: 'Feature Name',
             placeholder: 'Work Item Number',
             onChange: function onChange(name) {
-              _this3.setState({
-                name: name,
-                shape: Object.assign(_this3.state.shape, {
-                  orgName: name
-                })
-              });
+              if (_this3.isValidName(name)) {
+                _this3.setState({
+                  name: name,
+                  shape: Object.assign(_this3.state.shape, {
+                    orgName: name
+                  })
+                });
+              }
             },
             required: 'true',
             style: this.inputStyles,
@@ -8941,6 +8943,15 @@ var CreateFeaturePage = function (_React$Component) {
       this.setState({
         activeTab: index
       });
+    }
+  }, {
+    key: 'isValidName',
+    value: function isValidName(value) {
+      if (value.indexOf(" ") > -1 || value.indexOf('.') > -1 || value.indexOf('~') > -1 || value.indexOf('^') > -1 || value.indexOf(':') > -1 || value.indexOf('\\') > -1 || value.indexOf('/') > -1) {
+        return false;
+      } else {
+        return true;
+      }
     }
   }]);
 

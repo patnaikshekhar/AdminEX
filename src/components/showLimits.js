@@ -6,7 +6,7 @@ import Alert from './alert'
 import InputText from './inputText'
 import Button from './button'
 import Spinner from './spinner'
-
+import { convertCamelCaseStringToFormattedString } from './client_utilities'
 
 const {ipcRenderer} = require('electron')
 
@@ -16,10 +16,6 @@ const styles = {
   input: {
     padding: '10px'
   }
-}
-
-const convertCamelCaseStringToFormattedString = (str) => {
-  return str.replace(/([A-Z]+)/g, " $1").replace(/([A-Z][a-z])/g, " $1")
 }
 
 class ShowLimitsPage extends React.Component {
