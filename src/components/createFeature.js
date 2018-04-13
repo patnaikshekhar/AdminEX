@@ -80,12 +80,14 @@ class CreateFeaturePage extends React.Component {
             label="Feature Name" 
             placeholder="Work Item Number" 
             onChange={name => {
-              this.setState({ 
-                name, 
-                shape: Object.assign(this.state.shape, {
-                  orgName: name
+              if (this.isValidName(name)) {
+                this.setState({ 
+                  name, 
+                  shape: Object.assign(this.state.shape, {
+                    orgName: name
+                  })
                 })
-              })
+              }
             }}
             required="true"
             style={this.inputStyles}
@@ -200,6 +202,20 @@ class CreateFeaturePage extends React.Component {
     this.setState({
       activeTab: index
     })
+  }
+
+  isValidName(value) {
+    if (value.indexOf(" ") > -1 || 
+      value.indexOf('.') > -1 || 
+      value.indexOf('~') > -1 ||
+      value.indexOf('^') > -1 ||
+      value.indexOf(':') > -1 ||
+      value.indexOf('\\') > -1 ||
+      value.indexOf('/') > -1) {
+      return false
+    } else {
+      return true 
+    }
   }
 }
 

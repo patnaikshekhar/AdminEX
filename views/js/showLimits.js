@@ -8105,6 +8105,8 @@ var _spinner = __webpack_require__(50);
 
 var _spinner2 = _interopRequireDefault(_spinner);
 
+var _client_utilities = __webpack_require__(51);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -8122,10 +8124,6 @@ var styles = {
   input: {
     padding: '10px'
   }
-};
-
-var convertCamelCaseStringToFormattedString = function convertCamelCaseStringToFormattedString(str) {
-  return str.replace(/([A-Z]+)/g, " $1").replace(/([A-Z][a-z])/g, " $1");
 };
 
 var ShowLimitsPage = function (_React$Component) {
@@ -8213,7 +8211,7 @@ var ShowLimitsPage = function (_React$Component) {
                     _react2.default.createElement(
                       'td',
                       null,
-                      convertCamelCaseStringToFormattedString(limit.name)
+                      (0, _client_utilities.convertCamelCaseStringToFormattedString)(limit.name)
                     ),
                     _react2.default.createElement(
                       'td',
@@ -8289,6 +8287,32 @@ var Spinner = function Spinner(props) {
 };
 
 exports.default = Spinner;
+
+/***/ }),
+/* 51 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var isValidName = function isValidName(value) {
+  if (value.indexOf(" ") > -1 || value.indexOf('.') > -1 || value.indexOf('~') > -1 || value.indexOf('^') > -1 || value.indexOf(':') > -1 || value.indexOf('\\') > -1 || value.indexOf('/') > -1) {
+    return false;
+  } else {
+    return true;
+  }
+};
+
+var convertCamelCaseStringToFormattedString = function convertCamelCaseStringToFormattedString(str) {
+  return str.replace(/([A-Z]+)/g, " $1").replace(/([A-Z][a-z])/g, " $1");
+};
+
+exports.isValidName = isValidName;
+exports.convertCamelCaseStringToFormattedString = convertCamelCaseStringToFormattedString;
 
 /***/ })
 /******/ ]);
