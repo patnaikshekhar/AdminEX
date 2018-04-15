@@ -10,7 +10,8 @@ module.exports = {
     pullDifferences: './src/components/pullDifferences.js',
     diff: './src/components/diff.js',
     connectSandbox: './src/components/connectSandbox.js',
-    showLimits: './src/components/showLimits.js'
+    showLimits: './src/components/showLimits.js',
+    deployToSandbox: './src/components/deployToSandbox.js'
   },
   
   output: {

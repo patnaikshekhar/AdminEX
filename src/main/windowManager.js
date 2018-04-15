@@ -10,6 +10,8 @@ const features = require('../../scratch_org_features.json')
 const prefs = require('../../scratch_org_preferences.json')
 const authoriseTask = require('../main/tasks/authorise')
 
+const uuid = require('uuid/v4')
+const shell = require('shelljs')
 const url = require('url')
 const path = require('path')
 
@@ -337,6 +339,106 @@ const showLimits = (alias) => new Promise ((resolve, reject) => {
   })
 })
 
+const deployToSandbox = (project, sandbox) => new Promise ((resolve, reject) => {
+  const debug = Settings().debugMode
+  let win = createWindow()
+
+  if (debug)
+    win.webContents.openDevTools()
+
+  win.loadURL(url.format({
+    pathname: path.join(__dirname, '../../views/deployToSandbox.html'),
+    protocol: 'file:',
+    slashes: true
+  }))
+
+  const deployDirectoryName =`${project.directory}/mdapi_${uuid()}`
+
+  const deleteDeployDir = () => {
+    log(`WindowManager.deployToSandbox Deploy Directory ${deployDirectoryName} starting delete`, 'Info')
+    if (fs.existsSync(deployDirectoryName)) {
+      shell.rm('-rf', deployDirectoryName)
+      log(`WindowManager.deployToSandbox Deploy Directory ${deployDirectoryName} deleted`, 'Info')
+    }
+  }
+
+  ipcMain.once('deployToSandbox.getInitData', (event) => {
+    log(`WindowManager.deployToSandbox init data method called`, 'Info')
+    GitHelper.getRemoteBranches()
+      .then(branches => {
+        log(`WindowManager.deployToSandbox deployToSandbox.getInitData complete branches ${branches}`, 'Info')
+        if (win) {
+          event.sender.send('deployToSandbox.getInitData.response', { sandbox, branches })
+        }
+      })
+  })
+
+  ipcMain.on('deployToSandbox.deploy', (event, branch) => {
+
+    const logSend = (type, text) => {
+      log(`WindowManager.deployToSandbox deployToSandbox.deploy - Deploy to ${sandbox.alias} - ${text}`, type)
+      if (win) {
+        event.sender.send('deployToSandbox.deploy.log', {
+          type,
+          text
+        })
+      }
+    }
+
+    const resultSend = (result) => {
+      log(`WindowManager.deployToSandbox deployToSandbox.deploy - Deploy to ${sandbox.alias} RESULT - ${JSON.stringify(result)}`, 'Info')
+      if (win) {
+        event.sender.send('deployToSandbox.deploy.result', result)
+      }
+    }
+
+    log(`WindowManager.deployToSandbox deployToSandbox.deploy event invoked for ${sandbox.alias}`, 'Info')
+    GitHelper.switchBranch(branch)
+      .then(() => {
+        logSend('success', `Got remote branch ${branch}`)
+
+        deleteDeployDir()
+        fs.mkdirSync(deployDirectoryName)
+
+        return SFDX.convertToMDAPI(project.directory, deployDirectoryName)
+      })
+      .then(() => {
+        logSend('success', `Finished converting source`)
+
+        return SFDX.deployToSandbox(sandbox.alias, deployDirectoryName, false, false, (type, logType, status, data) => {
+          if (type === 'status') {
+            logSend(logType, data)
+          } else {
+            resultSend(data)
+          }
+        })
+      })
+      .then(data => {
+        deleteDeployDir()
+        if (data.details) {
+          if (data.details.componentFailures) {
+            logSend('error', `Deploy Completed with Errors`)    
+          } else {
+            logSend('success', `Deploy Completed successfully`)    
+          }
+        } else {
+          logSend('neutral', `Deploy Completed [Unknown Status]`)
+        }
+      })
+      .catch(e => {
+        deleteDeployDir()
+        logSend('error', `Deploy Failed with the error - ${e.toString()}`)
+      })
+  })
+
+  win.on('closed', () => {
+    win = null
+    resolve()
+  })
+})
+
+
+
 module.exports = {
   selectScratchOrgDetails,
   selectProject,
@@ -344,5 +446,6 @@ module.exports = {
   showPullDifferences,
   createBasicWindow,
   connectSandbox,
-  showLimits
+  showLimits,
+  deployToSandbox
 }

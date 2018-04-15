@@ -355,6 +355,19 @@ const getAllSandboxes = (project) => new Promise((resolve, reject) => {
                 handleError('Error in Show Limits Task', e) 
               })
           }
+        }, {
+          label: 'Deploy',
+          type: undefined,
+          click() {
+            log(`Deploy to Sandbox Task started for sandbox - ${sandbox.alias}`, 'Info')
+            startLoading()
+            WindowManager.deployToSandbox(project, sandbox)
+              .then(() => stopLoading())
+              .catch(e => {
+                stopLoading()
+                handleError('Error in Deploy to Sandbox Task', e) 
+              })
+          }
         }
       ]
     }))

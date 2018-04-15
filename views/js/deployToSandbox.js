@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 48);
+/******/ 	return __webpack_require__(__webpack_require__.s = 54);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -7836,7 +7836,8 @@ exports.default = function (props) {
 };
 
 /***/ }),
-/* 30 */
+/* 30 */,
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7853,42 +7854,170 @@ var _react2 = _interopRequireDefault(_react);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (props) {
-
-  var inputType = props.type ? props.type : 'text';
-
   return _react2.default.createElement(
     'div',
-    { className: 'slds-form-element', style: props.style },
+    null,
+    'props.children'
+  );
+};
+
+/***/ }),
+/* 32 */,
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _tab = __webpack_require__(31);
+
+var _tab2 = _interopRequireDefault(_tab);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Tabs = function (_React$Component) {
+  _inherits(Tabs, _React$Component);
+
+  function Tabs() {
+    _classCallCheck(this, Tabs);
+
+    var _this = _possibleConstructorReturn(this, (Tabs.__proto__ || Object.getPrototypeOf(Tabs)).call(this));
+
+    _this.state = {
+      active: 0
+    };
+    return _this;
+  }
+
+  _createClass(Tabs, [{
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      var tabs = this.props.children.filter(function (e) {
+        return e.type == _tab2.default;
+      });
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'slds-tabs_default' },
+        _react2.default.createElement(
+          'ul',
+          { className: 'slds-tabs_default__nav', role: 'tablist' },
+          tabs.map(function (tab, index) {
+            return _react2.default.createElement(
+              'li',
+              {
+                key: index,
+                className: 'slds-tabs_default__item ' + (_this2.state.active == index ? 'slds-is-active' : ''),
+                title: tab.props.label, role: 'presentation',
+                onClick: function onClick() {
+                  _this2.setState({
+                    active: index
+                  });
+                  if (_this2.props.onTabChange) {
+                    _this2.props.onTabChange(index);
+                  }
+                } },
+              _react2.default.createElement(
+                'a',
+                {
+                  className: 'slds-tabs_default__link',
+                  href: 'javascript:void(0);',
+                  role: 'tab',
+                  tabIndex: index },
+                tab.props.label
+              )
+            );
+          })
+        ),
+        _react2.default.createElement(
+          'div',
+          {
+            className: 'slds-tabs_default__content slds-show',
+            role: 'tabpanel' },
+          tabs.length > 0 ? tabs[this.state.active].props.children : ''
+        )
+      );
+    }
+  }]);
+
+  return Tabs;
+}(_react2.default.Component);
+
+exports.default = Tabs;
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (props) {
+  return _react2.default.createElement(
+    "div",
+    { className: "slds-form-element", style: props.style },
     _react2.default.createElement(
-      'label',
-      { className: 'slds-form-element__label' },
+      "label",
+      { className: "slds-form-element__label" },
       props.label,
       props.required ? _react2.default.createElement(
-        'abbr',
-        { className: 'slds-required', title: 'required' },
-        '*'
+        "abbr",
+        { className: "slds-required", title: "required" },
+        "*"
       ) : ''
     ),
     _react2.default.createElement(
-      'div',
-      { className: 'slds-form-element__control' },
-      _react2.default.createElement('input', {
-        type: inputType,
-        className: 'slds-input',
-        value: props.value,
-        placeholder: props.placeholder,
-        onChange: function onChange(e) {
-          return props.onChange(e.target.value);
-        } })
+      "div",
+      { className: "slds-form-element__control" },
+      _react2.default.createElement(
+        "select",
+        {
+          className: "slds-select",
+          value: props.value,
+          onChange: function onChange(e) {
+            return props.onChange(e.target.value);
+          } },
+        props.options.map(function (option) {
+          return _react2.default.createElement(
+            "option",
+            { key: option },
+            option
+          );
+        })
+      )
     )
   );
 };
 
 /***/ }),
-/* 31 */,
-/* 32 */,
-/* 33 */,
-/* 34 */,
 /* 35 */,
 /* 36 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -7936,8 +8065,65 @@ exports.default = Button;
 /***/ }),
 /* 37 */,
 /* 38 */,
-/* 39 */,
-/* 40 */,
+/* 39 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Spinner = function Spinner(props) {
+  return _react2.default.createElement(
+    "div",
+    { role: "status", className: "slds-spinner slds-spinner_brand slds-spinner_large" },
+    _react2.default.createElement(
+      "span",
+      { className: "slds-assistive-text" },
+      "Loading"
+    ),
+    _react2.default.createElement("div", { className: "slds-spinner__dot-a" }),
+    _react2.default.createElement("div", { className: "slds-spinner__dot-b" })
+  );
+};
+
+exports.default = Spinner;
+
+/***/ }),
+/* 40 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var isValidName = function isValidName(value) {
+  if (value.indexOf(" ") > -1 || value.indexOf('.') > -1 || value.indexOf('~') > -1 || value.indexOf('^') > -1 || value.indexOf(':') > -1 || value.indexOf('\\') > -1 || value.indexOf('/') > -1) {
+    return false;
+  } else {
+    return true;
+  }
+};
+
+var convertCamelCaseStringToFormattedString = function convertCamelCaseStringToFormattedString(str) {
+  return str.replace(/([A-Z]+)/g, " $1").replace(/([A-Z][a-z])/g, " $1");
+};
+
+exports.isValidName = isValidName;
+exports.convertCamelCaseStringToFormattedString = convertCamelCaseStringToFormattedString;
+
+/***/ }),
 /* 41 */,
 /* 42 */,
 /* 43 */,
@@ -7945,7 +8131,13 @@ exports.default = Button;
 /* 45 */,
 /* 46 */,
 /* 47 */,
-/* 48 */
+/* 48 */,
+/* 49 */,
+/* 50 */,
+/* 51 */,
+/* 52 */,
+/* 53 */,
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7973,17 +8165,31 @@ var _alert = __webpack_require__(29);
 
 var _alert2 = _interopRequireDefault(_alert);
 
-var _badge = __webpack_require__(49);
+var _inputSelect = __webpack_require__(34);
 
-var _badge2 = _interopRequireDefault(_badge);
-
-var _inputText = __webpack_require__(30);
-
-var _inputText2 = _interopRequireDefault(_inputText);
+var _inputSelect2 = _interopRequireDefault(_inputSelect);
 
 var _button = __webpack_require__(36);
 
 var _button2 = _interopRequireDefault(_button);
+
+var _spinner = __webpack_require__(39);
+
+var _spinner2 = _interopRequireDefault(_spinner);
+
+var _section = __webpack_require__(55);
+
+var _section2 = _interopRequireDefault(_section);
+
+var _tabs = __webpack_require__(33);
+
+var _tabs2 = _interopRequireDefault(_tabs);
+
+var _tab = __webpack_require__(31);
+
+var _tab2 = _interopRequireDefault(_tab);
+
+var _client_utilities = __webpack_require__(40);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7994,51 +8200,73 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _require = __webpack_require__(14),
-    ipcRenderer = _require.ipcRenderer,
-    shell = _require.shell;
-
-var path = __webpack_require__(50);
+    ipcRenderer = _require.ipcRenderer;
 
 var root = document.getElementById('root');
 
-var PullDifferencesPage = function (_React$Component) {
-  _inherits(PullDifferencesPage, _React$Component);
+var styles = {
+  input: {
+    padding: '10px'
+  },
+  success: {
+    color: 'rgb(75, 202, 129)'
+  },
+  error: {
+    color: '#c23934'
+  },
+  summaryStatName: {
+    fontWeight: 'bold'
+  },
+  summaryStatus: {
+    InProgress: {
+      color: '#d35400'
+    },
+    Pending: {
+      color: '#2c3e50'
+    },
+    Failed: {
+      color: '#c23934',
+      fontWeight: 'bold'
+    },
+    Completed: {
+      color: 'rgb(75, 202, 129)',
+      fontWeight: 'bold'
+    }
+  },
+  log: {
+    padding: '20px'
+  }
+};
 
-  function PullDifferencesPage() {
-    _classCallCheck(this, PullDifferencesPage);
+var defaultResult = {
+  status: 'Not Started',
+  numberComponentsTotal: 0,
+  numberComponentsDeployed: 0,
+  numberComponentErrors: 0,
+  numberTestsTotal: 0,
+  numberTestsCompleted: 0,
+  numberTestErrors: 0
+};
 
-    var _this = _possibleConstructorReturn(this, (PullDifferencesPage.__proto__ || Object.getPrototypeOf(PullDifferencesPage)).call(this));
+var DeployToSandboxPage = function (_React$Component) {
+  _inherits(DeployToSandboxPage, _React$Component);
+
+  function DeployToSandboxPage() {
+    _classCallCheck(this, DeployToSandboxPage);
+
+    var _this = _possibleConstructorReturn(this, (DeployToSandboxPage.__proto__ || Object.getPrototypeOf(DeployToSandboxPage)).call(this));
 
     _this.state = {
-      message: '',
-      project: {},
-      data: []
-    };
-
-    _this.styles = {
-      Add: {
-        backgroundColor: 'rgb(75, 202, 129)',
-        textAlign: 'center'
-      },
-
-      Changed: {
-        backgroundColor: '#ffb75d',
-        textAlign: 'center'
-      },
-
-      Deleted: {
-        backgroundColor: '#c23934',
-        textAlign: 'center'
-      },
-
-      input: {
-        padding: '10px'
-      }
+      sandbox: null,
+      branches: [],
+      branchToDeploy: 'master',
+      messages: [],
+      result: defaultResult
     };
     return _this;
   }
 
-  _createClass(PullDifferencesPage, [{
+  _createClass(DeployToSandboxPage, [{
     key: 'render',
     value: function render() {
       var _this2 = this;
@@ -8052,113 +8280,381 @@ var PullDifferencesPage = function (_React$Component) {
           _react2.default.createElement(
             'button',
             {
-              className: 'slds-button slds-button_neutral',
-              onClick: this.cancel.bind(this) },
-            'Cancel'
-          ),
-          _react2.default.createElement(
-            'button',
-            {
               className: 'slds-button slds-button_brand',
-              onClick: this.commit.bind(this) },
-            'Create'
+              onClick: this.deploy.bind(this) },
+            'Deploy'
           )
         ),
         _react2.default.createElement(
           _electronBody2.default,
           null,
-          this.state.data.length == 0 ? _react2.default.createElement(
-            _alert2.default,
-            { type: 'warning' },
-            _react2.default.createElement(
-              'h2',
-              null,
-              'There are no changes in the scratch org.'
-            )
-          ) : _react2.default.createElement(
+          this.state.branches.length === 0 ? _react2.default.createElement(_spinner2.default, null) : _react2.default.createElement(
             'div',
             null,
-            _react2.default.createElement(_inputText2.default, {
-              label: 'Commit Message',
-              placeholder: 'Enter Message here....',
-              value: this.state.message,
-              style: this.styles.input,
-              onChange: function onChange(e) {
-                _this2.setState({
-                  message: e.target.value
-                });
-              } }),
             _react2.default.createElement(
-              'table',
-              { className: 'slds-table slds-table_bordered slds-table_cell-buffer' },
+              'div',
+              null,
+              _react2.default.createElement(_inputSelect2.default, {
+                label: 'Select Branch to Deploy',
+                onChange: function onChange(branchToDeploy) {
+                  _this2.setState({ branchToDeploy: branchToDeploy });
+                },
+                required: 'true',
+                style: styles.input,
+                value: this.state.branchToDeploy,
+                options: this.state.branches })
+            ),
+            _react2.default.createElement(
+              _tabs2.default,
+              null,
               _react2.default.createElement(
-                'thead',
-                { className: 'thead-dark' },
+                _tab2.default,
+                { label: 'Summary' },
                 _react2.default.createElement(
-                  'tr',
-                  null,
+                  'table',
+                  { className: 'slds-table slds-table_bordered slds-table_cell-buffer' },
                   _react2.default.createElement(
-                    'th',
-                    { scope: 'col' },
-                    'State'
-                  ),
-                  _react2.default.createElement(
-                    'th',
-                    { scope: 'col' },
-                    'Name'
-                  ),
-                  _react2.default.createElement(
-                    'th',
-                    { scope: 'col' },
-                    'Type'
-                  ),
-                  _react2.default.createElement('th', { scope: 'col' })
+                    'tbody',
+                    null,
+                    _react2.default.createElement(
+                      'tr',
+                      null,
+                      _react2.default.createElement(
+                        'td',
+                        { style: styles.summaryStatName },
+                        'Status'
+                      ),
+                      _react2.default.createElement(
+                        'td',
+                        null,
+                        _react2.default.createElement(
+                          'span',
+                          { style: styles.summaryStatus[this.state.result.status] },
+                          (0, _client_utilities.convertCamelCaseStringToFormattedString)(this.state.result.status)
+                        )
+                      )
+                    ),
+                    _react2.default.createElement(
+                      'tr',
+                      null,
+                      _react2.default.createElement(
+                        'td',
+                        { style: styles.summaryStatName },
+                        'Total Components'
+                      ),
+                      _react2.default.createElement(
+                        'td',
+                        null,
+                        this.state.result.numberComponentsTotal
+                      )
+                    ),
+                    _react2.default.createElement(
+                      'tr',
+                      null,
+                      _react2.default.createElement(
+                        'td',
+                        { style: styles.summaryStatName },
+                        'Components Deployed'
+                      ),
+                      _react2.default.createElement(
+                        'td',
+                        null,
+                        this.state.result.numberComponentsDeployed
+                      )
+                    ),
+                    _react2.default.createElement(
+                      'tr',
+                      null,
+                      _react2.default.createElement(
+                        'td',
+                        { style: styles.summaryStatName },
+                        'Components with Errors'
+                      ),
+                      _react2.default.createElement(
+                        'td',
+                        null,
+                        this.state.result.numberComponentErrors
+                      )
+                    ),
+                    _react2.default.createElement(
+                      'tr',
+                      null,
+                      _react2.default.createElement(
+                        'td',
+                        { style: styles.summaryStatName },
+                        'Total Number of Tests'
+                      ),
+                      _react2.default.createElement(
+                        'td',
+                        null,
+                        this.state.result.numberTestsTotal
+                      )
+                    ),
+                    _react2.default.createElement(
+                      'tr',
+                      null,
+                      _react2.default.createElement(
+                        'td',
+                        { style: styles.summaryStatName },
+                        'Number of Successful Tests'
+                      ),
+                      _react2.default.createElement(
+                        'td',
+                        null,
+                        this.state.result.numberTestsCompleted
+                      )
+                    ),
+                    _react2.default.createElement(
+                      'tr',
+                      null,
+                      _react2.default.createElement(
+                        'td',
+                        { style: styles.summaryStatName },
+                        'Number of Failed Tests'
+                      ),
+                      _react2.default.createElement(
+                        'td',
+                        null,
+                        this.state.result.numberTestErrors
+                      )
+                    )
+                  )
                 )
               ),
               _react2.default.createElement(
-                'tbody',
-                null,
-                this.state.data.map(function (row) {
-                  return _react2.default.createElement(
-                    'tr',
-                    { key: row.filePath },
+                _tab2.default,
+                { label: 'Log' },
+                _react2.default.createElement(
+                  'div',
+                  { style: styles.log },
+                  this.state.messages.map(function (m, i) {
+                    return _react2.default.createElement(
+                      'div',
+                      { style: styles[m.type], key: i },
+                      m.text
+                    );
+                  })
+                )
+              ),
+              _react2.default.createElement(
+                _tab2.default,
+                { label: 'Successes' },
+                _react2.default.createElement(
+                  'table',
+                  { className: 'slds-table slds-table_bordered slds-table_cell-buffer' },
+                  _react2.default.createElement(
+                    'thead',
+                    null,
                     _react2.default.createElement(
-                      'td',
-                      null,
+                      'tr',
+                      { className: 'slds-text-title_caps' },
                       _react2.default.createElement(
-                        _badge2.default,
-                        { style: _this2.styles[row.state] },
-                        row.state
-                      )
-                    ),
-                    _react2.default.createElement(
-                      'td',
-                      { onClick: function onClick() {
-                          return _this2.openFile(row);
-                        } },
+                        'th',
+                        { scope: 'col' },
+                        _react2.default.createElement(
+                          'div',
+                          { className: 'slds-truncate', title: 'Name' },
+                          'Name'
+                        )
+                      ),
                       _react2.default.createElement(
-                        'a',
-                        { href: '#' },
-                        decodeURI(row.fullName).replace('%3A', ':')
+                        'th',
+                        { scope: 'col' },
+                        _react2.default.createElement(
+                          'div',
+                          { className: 'slds-truncate', title: 'Type' },
+                          'Type'
+                        )
+                      ),
+                      _react2.default.createElement(
+                        'th',
+                        { scope: 'col' },
+                        _react2.default.createElement(
+                          'div',
+                          { className: 'slds-truncate', title: 'Changed' },
+                          'Changed'
+                        )
                       )
-                    ),
-                    _react2.default.createElement(
-                      'td',
-                      null,
-                      row.type
-                    ),
-                    _react2.default.createElement(
-                      'td',
-                      null,
-                      _react2.default.createElement(_button2.default, { icon: 'utility:copy', onClick: function onClick() {
-                          return _this2.openDiff(row);
-                        } }),
-                      _react2.default.createElement(_button2.default, { icon: 'utility:undo', onClick: function onClick() {
-                          return _this2.undoFile(row);
-                        } })
                     )
-                  );
-                })
+                  ),
+                  _react2.default.createElement(
+                    'tbody',
+                    null,
+                    this.state.result.details ? this.state.result.details.componentSuccesses ? Array.isArray(this.state.result.details.componentSuccesses) ? this.state.result.details.componentSuccesses.map(function (comp) {
+                      return _react2.default.createElement(
+                        'tr',
+                        { key: comp.fullName },
+                        _react2.default.createElement(
+                          'td',
+                          null,
+                          _react2.default.createElement(
+                            'div',
+                            { className: 'slds-truncate', title: comp.fullName },
+                            decodeURIComponent(comp.fullName)
+                          )
+                        ),
+                        _react2.default.createElement(
+                          'td',
+                          null,
+                          _react2.default.createElement(
+                            'div',
+                            { className: 'slds-truncate', title: comp.componentType },
+                            comp.componentType
+                          )
+                        ),
+                        _react2.default.createElement(
+                          'td',
+                          null,
+                          _react2.default.createElement(
+                            'div',
+                            { className: 'slds-truncate', title: comp.changed },
+                            comp.changed
+                          )
+                        )
+                      );
+                    }) : _react2.default.createElement(
+                      'tr',
+                      { key: this.state.result.details.componentSuccesses.fullName },
+                      _react2.default.createElement(
+                        'td',
+                        null,
+                        _react2.default.createElement(
+                          'div',
+                          { className: 'slds-truncate', title: this.state.result.details.componentSuccesses.fullName },
+                          this.state.result.details.componentSuccesses.fullName
+                        )
+                      ),
+                      _react2.default.createElement(
+                        'td',
+                        null,
+                        _react2.default.createElement(
+                          'div',
+                          { className: 'slds-truncate', title: this.state.result.details.componentSuccesses.componentType },
+                          this.state.result.details.componentSuccesses.componentType
+                        )
+                      ),
+                      _react2.default.createElement(
+                        'td',
+                        null,
+                        _react2.default.createElement(
+                          'div',
+                          { className: 'slds-truncate', title: this.state.result.details.componentSuccesses.changed },
+                          this.state.result.details.componentSuccesses.changed
+                        )
+                      )
+                    ) : null : null
+                  )
+                )
+              ),
+              _react2.default.createElement(
+                _tab2.default,
+                { label: 'Failures' },
+                _react2.default.createElement(
+                  'table',
+                  { className: 'slds-table slds-table_bordered slds-table_cell-buffer' },
+                  _react2.default.createElement(
+                    'thead',
+                    null,
+                    _react2.default.createElement(
+                      'tr',
+                      { className: 'slds-text-title_caps' },
+                      _react2.default.createElement(
+                        'th',
+                        { scope: 'col' },
+                        _react2.default.createElement(
+                          'div',
+                          { className: 'slds-truncate', title: 'Name' },
+                          'Name'
+                        )
+                      ),
+                      _react2.default.createElement(
+                        'th',
+                        { scope: 'col' },
+                        _react2.default.createElement(
+                          'div',
+                          { className: 'slds-truncate', title: 'Type' },
+                          'Type'
+                        )
+                      ),
+                      _react2.default.createElement(
+                        'th',
+                        { scope: 'col' },
+                        _react2.default.createElement(
+                          'div',
+                          { className: 'slds-truncate', title: 'Changed' },
+                          'Problem'
+                        )
+                      )
+                    )
+                  ),
+                  _react2.default.createElement(
+                    'tbody',
+                    null,
+                    this.state.result.details ? this.state.result.details.componentFailures ? Array.isArray(this.state.result.details.componentFailures) ? this.state.result.details.componentFailures.map(function (comp) {
+                      return _react2.default.createElement(
+                        'tr',
+                        { key: comp.fullName },
+                        _react2.default.createElement(
+                          'td',
+                          null,
+                          _react2.default.createElement(
+                            'div',
+                            { className: 'slds-truncate', title: comp.fullName },
+                            decodeURIComponent(comp.fullName)
+                          )
+                        ),
+                        _react2.default.createElement(
+                          'td',
+                          null,
+                          _react2.default.createElement(
+                            'div',
+                            { className: 'slds-truncate', title: comp.componentType },
+                            comp.componentType
+                          )
+                        ),
+                        _react2.default.createElement(
+                          'td',
+                          null,
+                          _react2.default.createElement(
+                            'div',
+                            { className: 'slds-truncate', title: comp.problem },
+                            comp.problem
+                          )
+                        )
+                      );
+                    }) : _react2.default.createElement(
+                      'tr',
+                      { key: this.state.result.details.componentFailures.fullName },
+                      _react2.default.createElement(
+                        'td',
+                        null,
+                        _react2.default.createElement(
+                          'div',
+                          { className: 'slds-truncate', title: this.state.result.details.componentFailures.fullName },
+                          this.state.result.details.componentFailures.fullName
+                        )
+                      ),
+                      _react2.default.createElement(
+                        'td',
+                        null,
+                        _react2.default.createElement(
+                          'div',
+                          { className: 'slds-truncate', title: this.state.result.details.componentFailures.componentType },
+                          this.state.result.details.componentFailures.componentType
+                        )
+                      ),
+                      _react2.default.createElement(
+                        'td',
+                        null,
+                        _react2.default.createElement(
+                          'div',
+                          { className: 'slds-truncate', title: this.state.result.details.componentFailures.problem },
+                          this.state.result.details.componentFailures.problem
+                        )
+                      )
+                    ) : null : null
+                  )
+                )
               )
             )
           )
@@ -8170,69 +8666,53 @@ var PullDifferencesPage = function (_React$Component) {
     value: function componentWillMount() {
       var _this3 = this;
 
-      ipcRenderer.send('diffs');
-      ipcRenderer.on('diffs', function (event, _ref) {
-        var project = _ref.project,
-            feature = _ref.feature,
-            data = _ref.data;
+      ipcRenderer.send('deployToSandbox.getInitData');
+      ipcRenderer.on('deployToSandbox.getInitData.response', function (event, _ref) {
+        var sandbox = _ref.sandbox,
+            branches = _ref.branches;
 
         _this3.setState({
-          message: feature.name + ' - Updated',
-          project: project,
-          data: data,
-          feature: feature
+          sandbox: sandbox,
+          branches: branches
+        });
+      });
+
+      ipcRenderer.on('deployToSandbox.deploy.log', function (event, message) {
+
+        console.log('New message', message);
+
+        _this3.setState({
+          messages: _this3.state.messages.concat(message)
+        });
+      });
+
+      ipcRenderer.on('deployToSandbox.deploy.result', function (event, result) {
+
+        console.log('New result', result);
+
+        _this3.setState({
+          result: result
         });
       });
     }
   }, {
-    key: 'commit',
-    value: function commit() {
-      ipcRenderer.send('diffResult', {
-        status: 'commit',
-        message: this.state.message
-      });
-    }
-  }, {
-    key: 'cancel',
-    value: function cancel() {
-      ipcRenderer.send('diffResult', {
-        status: 'cancel'
-      });
-    }
-  }, {
-    key: 'openFile',
-    value: function openFile(item) {
-      shell.openItem('' + path.join(this.state.project.directory, item.filePath));
-    }
-  }, {
-    key: 'openDiff',
-    value: function openDiff(item) {
-      ipcRenderer.send('getHTMLDiff', item);
-    }
-  }, {
-    key: 'truncate',
-    value: function truncate(value) {
-      return value.length > 50 ? '...' + value.substring(value.length - 50) : value;
-    }
-  }, {
-    key: 'undoFile',
-    value: function undoFile(item) {
+    key: 'deploy',
+    value: function deploy() {
       this.setState({
-        data: this.state.data.filter(function (change) {
-          return change != item;
-        })
+        result: defaultResult
       });
-      ipcRenderer.send('undoFileChanges', item, this.state.project, this.state.feature);
+
+      ipcRenderer.send('deployToSandbox.deploy', this.state.branchToDeploy);
     }
   }]);
 
-  return PullDifferencesPage;
+  return DeployToSandboxPage;
 }(_react2.default.Component);
 
-_reactDom2.default.render(_react2.default.createElement(PullDifferencesPage, null), root);
+_reactDom2.default.render(_react2.default.createElement(DeployToSandboxPage, null), root);
 
 /***/ }),
-/* 49 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8248,21 +8728,32 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Badge = function Badge(props) {
+var Section = function Section(props) {
   return _react2.default.createElement(
     "div",
-    { className: "slds-badge", style: props.style },
-    props.children
+    { className: "slds-section slds-is-open" },
+    _react2.default.createElement(
+      "h3",
+      { className: "slds-section__title" },
+      _react2.default.createElement(
+        "button",
+        { "aria-controls": "expando-unique-id", "aria-expanded": "true", className: "slds-button slds-section__title-action" },
+        _react2.default.createElement(
+          "span",
+          { className: "slds-truncate", title: "Section Title" },
+          props.title
+        )
+      )
+    ),
+    _react2.default.createElement(
+      "div",
+      { "aria-hidden": "false", className: "slds-section__content", id: "expando-unique-id" },
+      props.children
+    )
   );
 };
 
-exports.default = Badge;
-
-/***/ }),
-/* 50 */
-/***/ (function(module, exports) {
-
-module.exports = require('path');
+exports.default = Section;
 
 /***/ })
 /******/ ]);
