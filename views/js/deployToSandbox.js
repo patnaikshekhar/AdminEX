@@ -8063,9 +8063,66 @@ var Button = function Button(props) {
 exports.default = Button;
 
 /***/ }),
-/* 37 */,
+/* 37 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var InputToggle = function InputToggle(props) {
+  return _react2.default.createElement(
+    "div",
+    { className: "slds-form-element", style: props.style },
+    _react2.default.createElement(
+      "label",
+      { className: "slds-checkbox_toggle slds-grid" },
+      _react2.default.createElement(
+        "span",
+        { className: "slds-form-element__label slds-m-bottom_none" },
+        props.label
+      ),
+      _react2.default.createElement("input", {
+        type: "checkbox",
+        "aria-describedby": "toggle-desc",
+        checked: props.value,
+        onChange: function onChange(e) {
+          return props.onChange(!props.value);
+        } }),
+      _react2.default.createElement(
+        "span",
+        { className: "slds-checkbox_faux_container", "aria-live": "assertive" },
+        _react2.default.createElement("span", { className: "slds-checkbox_faux" }),
+        _react2.default.createElement(
+          "span",
+          { className: "slds-checkbox_on" },
+          props.enabledLabel
+        ),
+        _react2.default.createElement(
+          "span",
+          { className: "slds-checkbox_off" },
+          props.disabledLabel
+        )
+      )
+    )
+  );
+};
+
+exports.default = InputToggle;
+
+/***/ }),
 /* 38 */,
-/* 39 */
+/* 39 */,
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8098,7 +8155,7 @@ var Spinner = function Spinner(props) {
 exports.default = Spinner;
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8124,7 +8181,6 @@ exports.isValidName = isValidName;
 exports.convertCamelCaseStringToFormattedString = convertCamelCaseStringToFormattedString;
 
 /***/ }),
-/* 41 */,
 /* 42 */,
 /* 43 */,
 /* 44 */,
@@ -8173,13 +8229,9 @@ var _button = __webpack_require__(36);
 
 var _button2 = _interopRequireDefault(_button);
 
-var _spinner = __webpack_require__(39);
+var _spinner = __webpack_require__(40);
 
 var _spinner2 = _interopRequireDefault(_spinner);
-
-var _section = __webpack_require__(55);
-
-var _section2 = _interopRequireDefault(_section);
 
 var _tabs = __webpack_require__(33);
 
@@ -8189,7 +8241,11 @@ var _tab = __webpack_require__(31);
 
 var _tab2 = _interopRequireDefault(_tab);
 
-var _client_utilities = __webpack_require__(40);
+var _inputToggle = __webpack_require__(37);
+
+var _inputToggle2 = _interopRequireDefault(_inputToggle);
+
+var _client_utilities = __webpack_require__(41);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -8261,7 +8317,9 @@ var DeployToSandboxPage = function (_React$Component) {
       branches: [],
       branchToDeploy: 'master',
       messages: [],
-      result: defaultResult
+      result: defaultResult,
+      checkOnly: false,
+      runTests: true
     };
     return _this;
   }
@@ -8294,15 +8352,51 @@ var DeployToSandboxPage = function (_React$Component) {
             _react2.default.createElement(
               'div',
               null,
-              _react2.default.createElement(_inputSelect2.default, {
-                label: 'Select Branch to Deploy',
-                onChange: function onChange(branchToDeploy) {
-                  _this2.setState({ branchToDeploy: branchToDeploy });
-                },
-                required: 'true',
-                style: styles.input,
-                value: this.state.branchToDeploy,
-                options: this.state.branches })
+              _react2.default.createElement(
+                'div',
+                { className: 'row' },
+                _react2.default.createElement(
+                  'div',
+                  { className: 'slds-col' },
+                  _react2.default.createElement(_inputSelect2.default, {
+                    label: 'Select Branch to Deploy',
+                    onChange: function onChange(branchToDeploy) {
+                      _this2.setState({ branchToDeploy: branchToDeploy });
+                    },
+                    required: 'true',
+                    style: styles.input,
+                    value: this.state.branchToDeploy,
+                    options: this.state.branches })
+                )
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'slds-grid slds-wrap', style: styles.input },
+                _react2.default.createElement(
+                  'div',
+                  { className: 'slds-col slds-size_1-of-4' },
+                  _react2.default.createElement(_inputToggle2.default, {
+                    label: 'Validate Only',
+                    onChange: function onChange(checkOnly) {
+                      _this2.setState({ checkOnly: checkOnly });
+                    },
+                    enabledLabel: 'Yes',
+                    disabledLabel: 'No',
+                    value: this.state.checkOnly })
+                ),
+                _react2.default.createElement(
+                  'div',
+                  { className: 'slds-col slds-size_1-of-4' },
+                  _react2.default.createElement(_inputToggle2.default, {
+                    label: 'Run Tests',
+                    onChange: function onChange(runTests) {
+                      _this2.setState({ runTests: runTests });
+                    },
+                    enabledLabel: 'Yes',
+                    disabledLabel: 'No',
+                    value: this.state.runTests })
+                )
+              )
             ),
             _react2.default.createElement(
               _tabs2.default,
@@ -8702,7 +8796,11 @@ var DeployToSandboxPage = function (_React$Component) {
         result: defaultResult
       });
 
-      ipcRenderer.send('deployToSandbox.deploy', this.state.branchToDeploy);
+      ipcRenderer.send('deployToSandbox.deploy', {
+        branch: this.state.branchToDeploy,
+        checkOnly: this.state.checkOnly,
+        runTests: this.state.runTests
+      });
     }
   }]);
 
@@ -8710,50 +8808,6 @@ var DeployToSandboxPage = function (_React$Component) {
 }(_react2.default.Component);
 
 _reactDom2.default.render(_react2.default.createElement(DeployToSandboxPage, null), root);
-
-/***/ }),
-/* 55 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Section = function Section(props) {
-  return _react2.default.createElement(
-    "div",
-    { className: "slds-section slds-is-open" },
-    _react2.default.createElement(
-      "h3",
-      { className: "slds-section__title" },
-      _react2.default.createElement(
-        "button",
-        { "aria-controls": "expando-unique-id", "aria-expanded": "true", className: "slds-button slds-section__title-action" },
-        _react2.default.createElement(
-          "span",
-          { className: "slds-truncate", title: "Section Title" },
-          props.title
-        )
-      )
-    ),
-    _react2.default.createElement(
-      "div",
-      { "aria-hidden": "false", className: "slds-section__content", id: "expando-unique-id" },
-      props.children
-    )
-  );
-};
-
-exports.default = Section;
 
 /***/ })
 /******/ ]);

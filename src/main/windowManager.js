@@ -373,7 +373,7 @@ const deployToSandbox = (project, sandbox) => new Promise ((resolve, reject) => 
       })
   })
 
-  ipcMain.on('deployToSandbox.deploy', (event, branch) => {
+  ipcMain.on('deployToSandbox.deploy', (event, {branch, checkOnly, runTests}) => {
 
     const logSend = (type, text) => {
       log(`WindowManager.deployToSandbox deployToSandbox.deploy - Deploy to ${sandbox.alias} - ${text}`, type)
@@ -405,7 +405,7 @@ const deployToSandbox = (project, sandbox) => new Promise ((resolve, reject) => 
       .then(() => {
         logSend('success', `Finished converting source`)
 
-        return SFDX.deployToSandbox(sandbox.alias, deployDirectoryName, false, false, (type, logType, status, data) => {
+        return SFDX.deployToSandbox(sandbox.alias, deployDirectoryName, checkOnly, runTests, (type, logType, status, data) => {
           if (type === 'status') {
             logSend(logType, data)
           } else {

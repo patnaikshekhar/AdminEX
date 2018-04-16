@@ -6,10 +6,11 @@ import Alert from './alert'
 import InputSelect from './inputSelect'
 import Button from './button'
 import Spinner from './spinner'
-import Section from './section'
 import Tabs from './tabs'
 import Tab from './tab'
+import InputToggle from './inputToggle'
 import { convertCamelCaseStringToFormattedString } from './client_utilities'
+
 
 const {ipcRenderer} = require('electron')
 
@@ -68,7 +69,9 @@ class DeployToSandboxPage extends React.Component {
       branches: [],
       branchToDeploy: 'master',
       messages: [],
-      result: defaultResult
+      result: defaultResult,
+      checkOnly: false,
+      runTests: true
     }
   }
 
@@ -87,15 +90,41 @@ class DeployToSandboxPage extends React.Component {
             <Spinner /> : 
             <div>
               <div>
-                <InputSelect 
-                  label="Select Branch to Deploy"
-                  onChange={branchToDeploy => {
-                    this.setState({ branchToDeploy })
-                  }}
-                  required="true"
-                  style={styles.input}
-                  value={this.state.branchToDeploy} 
-                  options={ this.state.branches } />
+                <div className="row">
+                  <div className="slds-col">
+                      <InputSelect 
+                        label="Select Branch to Deploy"
+                        onChange={branchToDeploy => {
+                          this.setState({ branchToDeploy })
+                        }}
+                        required="true"
+                        style={styles.input}
+                        value={this.state.branchToDeploy} 
+                        options={ this.state.branches } />
+                  </div>
+                </div>
+                <div className="slds-grid slds-wrap" style={styles.input}>
+                  <div className="slds-col slds-size_1-of-4">
+                    <InputToggle 
+                      label="Validate Only"
+                      onChange={checkOnly => {
+                        this.setState({ checkOnly })
+                      }}
+                      enabledLabel="Yes"
+                      disabledLabel="No"
+                      value={this.state.checkOnly} />
+                  </div>
+                  <div className="slds-col slds-size_1-of-4">
+                    <InputToggle 
+                      label="Run Tests"
+                      onChange={runTests => {
+                        this.setState({ runTests })
+                      }}
+                      enabledLabel="Yes"
+                      disabledLabel="No"
+                      value={this.state.runTests} />
+                  </div>
+                </div>
               </div>
               
               <Tabs>
@@ -282,8 +311,12 @@ class DeployToSandboxPage extends React.Component {
     this.setState({
       result: defaultResult
     })
-    
-    ipcRenderer.send('deployToSandbox.deploy', this.state.branchToDeploy)
+
+    ipcRenderer.send('deployToSandbox.deploy', {
+      branch: this.state.branchToDeploy,
+      checkOnly: this.state.checkOnly,
+      runTests: this.state.runTests
+    })
   }
 }
 

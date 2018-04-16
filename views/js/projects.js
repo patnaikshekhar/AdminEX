@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 41);
+/******/ 	return __webpack_require__(__webpack_require__.s = 42);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -8096,11 +8096,68 @@ exports.default = function (props) {
 
 /***/ }),
 /* 36 */,
-/* 37 */,
+/* 37 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var InputToggle = function InputToggle(props) {
+  return _react2.default.createElement(
+    "div",
+    { className: "slds-form-element", style: props.style },
+    _react2.default.createElement(
+      "label",
+      { className: "slds-checkbox_toggle slds-grid" },
+      _react2.default.createElement(
+        "span",
+        { className: "slds-form-element__label slds-m-bottom_none" },
+        props.label
+      ),
+      _react2.default.createElement("input", {
+        type: "checkbox",
+        "aria-describedby": "toggle-desc",
+        checked: props.value,
+        onChange: function onChange(e) {
+          return props.onChange(!props.value);
+        } }),
+      _react2.default.createElement(
+        "span",
+        { className: "slds-checkbox_faux_container", "aria-live": "assertive" },
+        _react2.default.createElement("span", { className: "slds-checkbox_faux" }),
+        _react2.default.createElement(
+          "span",
+          { className: "slds-checkbox_on" },
+          props.enabledLabel
+        ),
+        _react2.default.createElement(
+          "span",
+          { className: "slds-checkbox_off" },
+          props.disabledLabel
+        )
+      )
+    )
+  );
+};
+
+exports.default = InputToggle;
+
+/***/ }),
 /* 38 */,
 /* 39 */,
 /* 40 */,
-/* 41 */
+/* 41 */,
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8120,7 +8177,7 @@ var _header = __webpack_require__(27);
 
 var _header2 = _interopRequireDefault(_header);
 
-var _createProject = __webpack_require__(42);
+var _createProject = __webpack_require__(43);
 
 var _createProject2 = _interopRequireDefault(_createProject);
 
@@ -8293,7 +8350,7 @@ var ProjectPage = function (_React$Component) {
 _reactDom2.default.render(_react2.default.createElement(ProjectPage, null), root);
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8317,7 +8374,7 @@ var _inputFile = __webpack_require__(35);
 
 var _inputFile2 = _interopRequireDefault(_inputFile);
 
-var _inputToggle = __webpack_require__(43);
+var _inputToggle = __webpack_require__(37);
 
 var _inputToggle2 = _interopRequireDefault(_inputToggle);
 
@@ -8504,63 +8561,6 @@ var CreateProject = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = CreateProject;
-
-/***/ }),
-/* 43 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(0);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var InputToggle = function InputToggle(props) {
-  return _react2.default.createElement(
-    "div",
-    { className: "slds-form-element", style: props.style },
-    _react2.default.createElement(
-      "label",
-      { className: "slds-checkbox_toggle slds-grid" },
-      _react2.default.createElement(
-        "span",
-        { className: "slds-form-element__label slds-m-bottom_none" },
-        props.label
-      ),
-      _react2.default.createElement("input", {
-        type: "checkbox",
-        "aria-describedby": "toggle-desc",
-        checked: props.value,
-        onChange: function onChange(e) {
-          return props.onChange(!props.value);
-        } }),
-      _react2.default.createElement(
-        "span",
-        { className: "slds-checkbox_faux_container", "aria-live": "assertive" },
-        _react2.default.createElement("span", { className: "slds-checkbox_faux" }),
-        _react2.default.createElement(
-          "span",
-          { className: "slds-checkbox_on" },
-          props.enabledLabel
-        ),
-        _react2.default.createElement(
-          "span",
-          { className: "slds-checkbox_off" },
-          props.disabledLabel
-        )
-      )
-    )
-  );
-};
-
-exports.default = InputToggle;
 
 /***/ }),
 /* 44 */
