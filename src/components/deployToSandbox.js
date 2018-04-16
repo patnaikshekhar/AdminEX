@@ -40,7 +40,7 @@ const styles = {
       color: '#c23934',
       fontWeight: 'bold'
     },
-    Completed: {
+    Succeeded: {
       color: 'rgb(75, 202, 129)',
       fontWeight: 'bold'
     }

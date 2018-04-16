@@ -199,11 +199,12 @@ const deployToSandbox = (target, directory, checkOnly, runTests, callback) => ne
 
   return sfdx.mdapi.deploy({
     checkonly: checkOnly,
-    runtests: runTests,
+    testlevel: runTests ? 'RunLocalTests' : 'NoTestRun',
     targetusername: target,
     deploydir: directory,
     verbose: true
   }).then(data => {
+    console.log('Data is', data, 'Target was', target, 'Directtory is', directory)
     callback('status', 'success', 'InProgress', `Metadata uploaded with Job Id ${data.id}`)
     startPoll(data.id)
   }).catch(e => reject(e))
