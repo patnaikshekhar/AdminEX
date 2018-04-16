@@ -3,6 +3,13 @@ const fs = require('fs')
 require('util.promisify').shim()
 const { exec } = require('child_process')
 const { log } = require('./utilities')
+const jsforce = require('jsforce')
+const keys = require('../../keys.json')
+const request = require('request-promise')
+const Constants = require('./constants')
+const MAIN_DIRECTORY = Constants.MAIN_DIRECTORY
+
+const DEPLOY_POLL_INTERVAL = 2000
 
 const authDevHub = (project) => new Promise((resolve, reject) => {
   const devHubAlias = `${project.name + 'DevHub'}`
@@ -129,6 +136,80 @@ const getLimits = (alias) =>
     targetusername: alias
   })
 
+const convertToMDAPI = (projectDirectory, directory) => {
+  process.chdir(projectDirectory)
+  return sfdx.source.convert({
+    outputdir: directory
+  })
+}
+
+const getAccessToken = (instance_url, refresh_token) => {
+  return request.post(`${instance_url}/services/oauth2/token`, {
+    form: {
+      client_id: keys.client_id,
+      client_secret: keys.client_secret,
+      grant_type: 'refresh_token',
+      refresh_token: refresh_token
+    }
+  }).then(res => {
+    return JSON.parse(res).access_token
+  })
+}
+
+const deployToSandbox = (target, directory, checkOnly, runTests, callback) => new Promise((resolve, reject) => {
+
+  const poll = (jobId, conn) => {
+    callback('status', 'success', 'InProgress', 'Polling...')
+    setTimeout(() => {
+      conn.metadata.checkDeployStatus(jobId, true, (err, result) => {
+          if (err) {
+            reject(err)
+          } else {
+            callback('result', null, result.status, result)
+            if (result.done) {
+              resolve(result)
+            } else {
+              poll(jobId, conn)
+            }
+          }
+        })
+    }, DEPLOY_POLL_INTERVAL)
+    
+  }
+
+  const startPoll = (jobId) => {
+    fs.readFile(`${MAIN_DIRECTORY}/${target}.json`, (err, contents) => {
+      if (err) {
+        reject(err)
+      } else {
+        const { refresh_token, instance_url } = JSON.parse(contents.toString())
+        getAccessToken(instance_url, refresh_token)
+          .then((accessToken) => {
+            const conn = new jsforce.Connection({
+              instanceUrl: instance_url,
+              accessToken,
+            })
+
+            poll(jobId, conn)
+          })
+          .catch(e => reject(e))
+      }
+    })
+  }
+
+  return sfdx.mdapi.deploy({
+    checkonly: checkOnly,
+    testlevel: runTests ? 'RunLocalTests' : 'NoTestRun',
+    targetusername: target,
+    deploydir: directory,
+    verbose: true
+  }).then(data => {
+    console.log('Data is', data, 'Target was', target, 'Directtory is', directory)
+    callback('status', 'success', 'InProgress', `Metadata uploaded with Job Id ${data.id}`)
+    startPoll(data.id)
+  }).catch(e => reject(e))
+})
+
 module.exports = {
   authDevHub,
   authWithStore,
@@ -139,5 +220,38 @@ module.exports = {
   deleteScratchOrg,
   pullSource,
   openOrg,
-  getLimits
+  getLimits,
+  convertToMDAPI,
+  deployToSandbox
 }
+
+// reportCommand.run({
+//   flags: {
+//     jobid: jobId,
+//     targetusername: target,
+//     json: true
+//   }
+// }).then(data => {
+//   console.log('Data output is', data)
+//   if (data) {
+//     if (data.result) {
+//       console.log('Data result is', data.result)
+//       if (data.result.done) {
+//         console.log('Data done is', data.result.done)
+//         if (data.result.status == 'Failed') {
+//           reject(data.result.details.componentFailures)
+//         } else {
+//           resolve()
+//         }
+//       } else {
+//         poll(jobId)
+//       }
+//     } else {
+//       poll(jobId)
+//     }
+//   } else {
+//     poll(jobId)
+//   }
+// }).catch(e => {
+//   reject(e)
+// })

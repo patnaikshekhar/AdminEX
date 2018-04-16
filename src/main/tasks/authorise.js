@@ -45,7 +45,16 @@ const createAuthorisationFile = (name, url, isTest) => new Promise((resolve, rej
             if (err) {
               reject(err)
             } else {
-              resolve(name)
+              fs.writeFile(`${MAIN_DIRECTORY}/${name}.json`, JSON.stringify({
+                refresh_token: refreshToken,
+                instance_url: instanceURL
+              }), (err) => {
+                if (err) {
+                  reject(err)
+                } else {
+                  resolve(name)
+                }
+              })
             }
           })
         })

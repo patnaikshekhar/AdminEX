@@ -157,6 +157,15 @@ const undoFileChanges = (branchName, filename, action) => {
     )
 }
 
+const getRemoteBranches = () => {
+  return currentRepo.fetch()
+    .then(() => currentRepo.branch())
+    .then(branches => branches.all
+      .filter(name => name.indexOf('remotes/origin') > -1)
+      .map(name => name.replace('remotes/origin/', ''))
+    )
+}
+
 module.exports = {
   createProject,
   createProjectFromScratch,
@@ -171,5 +180,6 @@ module.exports = {
   changeSummary,
   add,
   getDiffHTML,
-  undoFileChanges
+  undoFileChanges,
+  getRemoteBranches
 }

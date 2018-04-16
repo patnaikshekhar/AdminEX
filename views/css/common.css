@@ -1,0 +1,8 @@
+body {
+  -webkit-app-region: drag;
+  -ms-overflow-style: scrollbar;
+}
+
+.slds-checkbox_toggle [type="checkbox"] + .slds-checkbox_faux_container, .slds-checkbox_toggle [type="checkbox"] + .slds-checkbox--faux_container, .slds-checkbox--toggle [type="checkbox"] + .slds-checkbox_faux_container, .slds-checkbox--toggle [type="checkbox"] + .slds-checkbox--faux_container {
+  text-align: center;
+}

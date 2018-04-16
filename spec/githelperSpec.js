@@ -176,4 +176,29 @@ describe('gitHelper', () => {
         })
     })
   })
+
+  describe('getRemoteBranches', () => {
+    it('should fetch all remote branches', (done) => {
+      const sampleDir = `${TEMP_DIR}/sampleSFDXProject_getRemoteBranches`
+      const repo = 'https://github.com/patnaikshekhar/SampleSFDX'
+
+      if (fs.existsSync(sampleDir)) {
+        shell.rm('-rf', sampleDir)
+      }
+
+      fs.mkdirSync(sampleDir)
+
+      simpleGit().clone(repo, sampleDir)
+        .then(() => gitHelper.openProject({ directory: sampleDir }))
+        .then(() => gitHelper.getRemoteBranches())
+        .then(branches => {
+          expect(branches).toContain('master')
+          done()
+        })
+        .catch(e => {
+          expect(e.toString()).toBe(null)
+          done()
+        })
+    })
+  })
 })
