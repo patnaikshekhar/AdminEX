@@ -376,12 +376,35 @@ const getAllSandboxes = (project) => new Promise((resolve, reject) => {
   resolve(connectItem.concat(sandboxItems))
 })
 
+const createHerokuPipeline = (project) => new Promise((resolve, reject) => {
+  return resolve([
+    {
+      label: 'Create Heroku Pipeline',
+      type: undefined,
+      click() { 
+        log(`Create Heroku Pipeline Task started`, 'Info')
+        startLoading()
+        WindowManager.createHerokuPipeline(project)
+          .then(() => refreshMenu(project))
+          .then(() => stopLoading())
+          .catch(e => { 
+            stopLoading(); 
+            if (e !== 'Closed') {
+              handleError('Error creating pipeline', e) 
+            }
+          })
+      }
+    }
+  ])
+})
+
 const createContextMenu = (project) => {
   const template = [
     getDevHubItems(project), seperator(), 
     getStartFeature(project), getFeatures(project), seperator(),
     getScratchOrgItems(project), seperator(),
     getAllSandboxes(project), seperator(),
+    createHerokuPipeline(project), seperator(),
     getOpenItems(project), seperator(),
     getQuitItem()]
   

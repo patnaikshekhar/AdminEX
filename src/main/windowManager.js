@@ -9,6 +9,7 @@ const fs = require('fs')
 const features = require('../../scratch_org_features.json')
 const prefs = require('../../scratch_org_preferences.json')
 const authoriseTask = require('../main/tasks/authorise')
+const Heroku = require('./heroku')
 
 const uuid = require('uuid/v4')
 const shell = require('shelljs')
@@ -437,6 +438,39 @@ const deployToSandbox = (project, sandbox) => new Promise ((resolve, reject) => 
   })
 })
 
+const createHerokuPipeline = (project) => new Promise((resolve, reject) => {
+
+  const debug = Settings().debugMode
+  let win = createWindow()
+
+  if (debug)
+    win.webContents.openDevTools()
+
+    Heroku.startAuth(win, project)
+      .then(authResponse => {
+        project['heroku_refresh_token'] = authResponse.refresh_token
+        Storage.updateProject(project)
+          .then(() => {
+            return Heroku.getRegions(authResponse.access_token)
+          })
+      })
+      .then(regions => {
+        console.log('Regions', regions)
+        resolve()
+      })
+      .catch(e => reject(e))
+  // win.loadURL(url.format({
+  //   pathname: path.join(__dirname, '../../views/createHerokuPipeline.html'),
+  //   protocol: 'file:',
+  //   slashes: true
+  // }))
+
+  win.on('closed', () => {
+    win = null
+    resolve()
+  })
+})
+
 
 
 module.exports = {
@@ -447,5 +481,6 @@ module.exports = {
   createBasicWindow,
   connectSandbox,
   showLimits,
-  deployToSandbox
+  deployToSandbox,
+  createHerokuPipeline
 }
