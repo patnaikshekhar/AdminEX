@@ -10,9 +10,8 @@ const BASIC_OBJECT = {
 }
 
 const createBasicFile = (callback) => {
-  fs.writeFile(STORAGE_FILENAME, JSON.stringify(BASIC_OBJECT), (err) => {
-    callback(err, BASIC_OBJECT)
-  })
+  fs.writeFileSync(STORAGE_FILENAME, JSON.stringify(BASIC_OBJECT))
+  return BASIC_OBJECT
 }
 
 const writeContents = (data) => new Promise((resolve, reject) => {
@@ -75,21 +74,26 @@ const getContents = () => new Promise((resolve, reject) => {
   //   }
   // })
 
+  let result
+
   try {
     const data = fs.readFileSync(STORAGE_FILENAME)
-    const result = JSON.parse(data.toString())
-    const projects = cleanProjects(result.projects)
-    const store = Object.assign(result, {
-      projects
-    })
-    writeContents(store)
+    result = JSON.parse(data.toString())
+
+  } catch(e) {
+    result = createBasicFile()
+  }
+
+  const projects = cleanProjects(result.projects)
+  const store = Object.assign(result, {
+    projects
+  })
+
+  writeContents(store)
       .then(() => {
         resolve(store)
       })
       .catch(e => reject(e))
-  } catch(e) {
-    reject(e)
-  }
 })
 
 const addProject = (projectData) =>
