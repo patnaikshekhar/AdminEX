@@ -2,10 +2,9 @@
 node_modules
 .DS_Store
 adminex_data.json
-main.log
+*.log
 test_*.js
 release-builds
-npm-debug.log
 *.dmg
 tmp
 keys.json
