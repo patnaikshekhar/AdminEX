@@ -1,4 +1,10 @@
-# Admin Experience (WIP Name)
+# Admin Experience
+
+SFDX for everyone!
+LAUNCHING AN EXPERIENCE THAT BRINGS SFDX TO YOUR FINGER TIPS, EVEN IF YOU ARE SOMEONE WHO DOES NOT ENJOY STARING INTO BLACK, COMMAND-LINE SCREENS. DOWNLOAD NOW!
+
+[Website](https://admin-experience.herokuapp.com)
+[Demo](https://youtu.be/_fhyRzZu-Dw)
 
 
 ## Installation
