@@ -70,9 +70,13 @@ const getMetadataTypeFromFileData = (data, callback) => {
     if (err) {
       callback('Unknown')
     } else {
-      const keys = Object.keys(xml)
-      if (keys.length > 0) {
-        callback(convertCamelCaseStringToFormattedString(keys[0]))
+      try {
+        const keys = Object.keys(xml)
+        if (keys.length > 0) {
+          callback(convertCamelCaseStringToFormattedString(keys[0]))
+        }
+      } catch(e) {
+        callback('Unknown')
       }
     }
   })
